@@ -1,14 +1,13 @@
 package com.ighe3.api.service;
 
-import com.ighe3.api.dal.dto.input.*;
-import com.ighe3.api.management.*;
-import com.ighe3.api.model.paymanResponseBodies.*;
+import com.ighe3.api.dal.dto.payman.input.*;
+import com.ighe3.api.management.payman.*;
+import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.payman.responseBody.*;
 import com.ighe3.api.util.GeneralUtils;
-import okhttp3.Response;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -59,84 +58,84 @@ public class PaymanService implements BaseService {
         this.paymanTransactionsReportStatisticsManager = paymanTransactionsReportStatisticsManager;
     }
 
-    public String getAccessToken() throws IOException {
-        Response response = paymanGetAccessTokenManager.getAccessToken();
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public String getAccessToken() throws Exception {
+        ResponseObject response = paymanGetAccessTokenManager.getAccessToken();
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return (String) body.get("access_token");
     }
 
-    public void createPayman(PaymanCreateInputDTO inputDto) throws IOException {
-        Response response = paymanCreateManager.create(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public void createPayman(PaymanCreateInputDTO inputDto) throws Exception {
+        ResponseObject response = paymanCreateManager.create(inputDto);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
     }
 
-    public String getPaymanId(String paymanCode) throws IOException {
-        Response response = paymanGetPaymanIdManager.getPaymanId(paymanCode);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public String getPaymanId(String paymanCode) throws Exception {
+        ResponseObject response = paymanGetPaymanIdManager.getPaymanId(paymanCode);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return (String) body.get("payman_id");
     }
 
-    public PaymanTraceCreateResponseBodyObject traceCreatePayman(String traceId) throws IOException {
-        Response response = paymanTraceCreateManager.trace(traceId);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanTraceCreateResponseBodyObject traceCreatePayman(String traceId) throws Exception {
+        ResponseObject response = paymanTraceCreateManager.trace(traceId);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public void pay(PaymanPayInputDTO inputDto) throws IOException {
-        Response response = paymanPayManager.pay(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public void pay(PaymanPayInputDTO inputDto) throws Exception {
+        ResponseObject response = paymanPayManager.pay(inputDto);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
     }
 
-    public PaymanTracePayResponseBodyObject tracePay(String traceId, String date) throws IOException {
-        Response response = paymanTracePayManager.trace(traceId, date);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanTracePayResponseBodyObject tracePay(String traceId, String date) throws Exception {
+        ResponseObject response = paymanTracePayManager.trace(traceId, date);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public void updatePayman(PaymanUpdateInputDTO inputDto) throws IOException {
-        Response response = paymanUpdateManager.update(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public void updatePayman(PaymanUpdateInputDTO inputDto) throws Exception {
+        ResponseObject response = paymanUpdateManager.update(inputDto);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
     }
 
-    public PaymanChangeStatusResponseBodyObject changePaymanStatus(PaymanChangeStatusInputDTO inputDTO) throws IOException {
-        Response response = paymanChangeStatusManager.changeStatus(inputDTO);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanChangeStatusResponseBodyObject changePaymanStatus(PaymanChangeStatusInputDTO inputDTO) throws Exception {
+        ResponseObject response = paymanChangeStatusManager.changeStatus(inputDTO);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public PaymanReportResponseBodyObject getReport(String paymanId) throws IOException {
-        Response response = paymanReportManager.getReport(paymanId);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanReportResponseBodyObject getReport(String paymanId) throws Exception {
+        ResponseObject response = paymanReportManager.getReport(paymanId);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public PaymanTransactionsResponseBodyObject getTransactions(PaymanTransactionsInputDTO inputDTO) throws IOException {
-        Response response = paymanTransactionsManager.getTransactions(inputDTO);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanTransactionsResponseBodyObject getTransactions(PaymanTransactionsInputDTO inputDTO) throws Exception {
+        ResponseObject response = paymanTransactionsManager.getTransactions(inputDTO);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public PaymanListResponseBodyObject getList(PaymanListInputDTO inputDTO) throws IOException {
-        Response response = paymanListManager.getList(inputDTO);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanListResponseBodyObject getList(PaymanListInputDTO inputDTO) throws Exception {
+        ResponseObject response = paymanListManager.getList(inputDTO);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public List<PaymanMerchantPermissionResponseBodyObject> getMerchantPermissions() throws IOException {
-        Response response = paymanMerchantPermissionsManager.getList();
-//        List<Map<String, Object>> body = GeneralUtils.getResponseBodyAsMap(response);
+    public List<PaymanMerchantPermissionResponseBodyObject> getMerchantPermissions() throws Exception {
+        ResponseObject response = paymanMerchantPermissionsManager.getList();
+//        List<Map<String, Object>> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public PaymanTransactionsReportResponseBodyObject getTransactionsReport(PaymanTransactionsReportInputDTO inputDTO) throws IOException {
-        Response response = paymanTransactionsReportManager.getReport(inputDTO);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanTransactionsReportResponseBodyObject getTransactionsReport(PaymanTransactionsReportInputDTO inputDTO) throws Exception {
+        ResponseObject response = paymanTransactionsReportManager.getReport(inputDTO);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    public PaymanTransactionsReportStatisticsResponseBodyObject getTransactionsReportStatistics(PaymanTransactionsReportStatisticsInputDTO inputDTO) throws IOException {
-        Response response = paymanTransactionsReportStatisticsManager.getStatistics(inputDTO);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response);
+    public PaymanTransactionsReportStatisticsResponseBodyObject getTransactionsReportStatistics(PaymanTransactionsReportStatisticsInputDTO inputDTO) throws Exception {
+        ResponseObject response = paymanTransactionsReportStatisticsManager.getStatistics(inputDTO);
+        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 }

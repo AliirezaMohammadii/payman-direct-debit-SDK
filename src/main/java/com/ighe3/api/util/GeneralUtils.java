@@ -1,20 +1,15 @@
 package com.ighe3.api.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.ighe3.api.management.PaymanGetAccessTokenManager;
-import com.ighe3.api.service.PaymanService;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class GeneralUtils {
 
@@ -33,29 +28,15 @@ public class GeneralUtils {
         return client;
     }
 
-    public static String getBeautifiedJson(String json) {
+    public static String getBeautifiedJson(String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        String beautifiedJson = null;
-
-        try {
-            beautifiedJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readTree(json));
-        } catch (Exception e) {
-            System.err.println("Exception occurred while beautifying input json");
-        }
-
+        String beautifiedJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readTree(json));
         return beautifiedJson;
     }
 
-    public static String convertJavaObjectToJson(Object object) {
+    public static String convertJavaObjectToJson(Object object) throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer();
-        String json = "";
-
-        try {
-            json = ow.writeValueAsString(object);
-        } catch (Exception e) {
-            System.err.println("error occurred while converting java object to json");
-        }
-
+        String json = ow.writeValueAsString(object);
         return json;
     }
 
@@ -73,19 +54,12 @@ public class GeneralUtils {
         return headers;
     }
 
-    public static Map<String, Object> convertJsonToMap(String json) {
-        Map<String, Object> result = null;
-        try {
-            result = new ObjectMapper().readValue(json, HashMap.class);
-        } catch (Exception e) {
-            System.err.println("error occurred while converting json to map.");
-        }
-        return result;
+    public static Map<String, Object> getResponseBodyAsMap(String body) throws Exception {
+        return convertJsonToMap(body);
     }
 
-    public static Map<String, Object> getResponseBodyAsMap(Response response) throws IOException {
-        ResponseBody responseBody = response.body();
-        String json = Optional.ofNullable(responseBody).orElseThrow(NullPointerException::new).string();
-        return convertJsonToMap(json);
+    private static Map<String, Object> convertJsonToMap(String json) throws Exception {
+        Map<String, Object> result = new ObjectMapper().readValue(json, HashMap.class);
+        return result;
     }
 }
