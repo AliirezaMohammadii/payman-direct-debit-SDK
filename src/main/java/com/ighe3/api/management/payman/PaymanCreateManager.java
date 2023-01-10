@@ -17,20 +17,23 @@ import java.util.Collections;
 @Component
 public class PaymanCreateManager extends PaymanBaseManager {
 
-    private PaymanService paymanService;
+    private final PaymanService paymanService;
+
+    public PaymanCreateManager(PaymanService paymanService) {
+        this.paymanService = paymanService;
+    }
 
     public ResponseObject create(PaymanCreateInputDTO inputDto) throws Exception {
-        RequestBody body = createRequestBody();
+        RequestBody body = createRequestBody(inputDto);
         Request request = createRequest(body, Urls.CREATE_PAYMAN.getValue(), createHeaders());
         ResponseObject response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody() throws Exception {
-
-        ContractObject contractObject = getContractObject();
-        PaymanObject paymanObject = getPaymanObject(contractObject);
-        PaymanCreateRequestBodyObject requestBodyObject = getRequestBodyObject(paymanObject);
+    private RequestBody createRequestBody(PaymanCreateInputDTO inputDto) throws Exception {
+        ContractObject contractObject = getContractObject(inputDto);
+        PaymanObject paymanObject = getPaymanObject(contractObject, inputDto);
+        PaymanCreateRequestBodyObject requestBodyObject = getRequestBodyObject(paymanObject, inputDto);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
 
@@ -38,44 +41,48 @@ public class PaymanCreateManager extends PaymanBaseManager {
         return body;
     }
 
-    private PaymanCreateRequestBodyObject getRequestBodyObject(PaymanObject paymanObject) {
+    private PaymanCreateRequestBodyObject getRequestBodyObject(PaymanObject paymanObject, PaymanCreateInputDTO inputDto) {
         PaymanCreateRequestBodyObject requestBodyObject = new PaymanCreateRequestBodyObject();
-        requestBodyObject.setTraceId("7777");
-        requestBodyObject.setRedirectUrl("http://localhost");
+        requestBodyObject.setTraceId(inputDto.getTraceId());
+        requestBodyObject.setRedirectUrl(inputDto.getRedirectUrl());
         requestBodyObject.setPaymanObject(paymanObject);
         return requestBodyObject;
     }
 
-    private PaymanObject getPaymanObject(ContractObject contractObject) {
+    private PaymanObject getPaymanObject(ContractObject contractObject, PaymanCreateInputDTO inputDto) {
         PaymanObject paymanObject = new PaymanObject();
-        paymanObject.setUserId("1");
-        paymanObject.setBankCode("BOOMIR");
-        paymanObject.setPermissionIds(Collections.singletonList(1));
+        paymanObject.setUserId(inputDto.getUserId());
+        paymanObject.setBankCode(inputDto.getBankCode());
+        paymanObject.setPermissionIds(inputDto.getPermissionIds());
         paymanObject.setContractObject(contractObject);
         return paymanObject;
     }
 
-    private ContractObject getContractObject() {
+    private ContractObject getContractObject(PaymanCreateInputDTO inputDto) {
         ContractObject contractObject = new ContractObject();
-        contractObject.setStartDate("2022-12-20T08:28:09.5662061+04:30");
-        contractObject.setExpirationDate("2022-12-30T08:28:09.5662061+04:30");
-        contractObject.setMaxDailyTransactionCount(10);
-        contractObject.setMaxMonthlyTransactionCount(30);
-        contractObject.setMaxTransactionAmount(200_000D);
-        contractObject.setDailyMaxTransactionAmount(2_000_000D);
+        contractObject.setStartDate(inputDto.getStartDate());
+        contractObject.setExpirationDate(inputDto.getExpirationDate());
+        contractObject.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
+        contractObject.setMaxMonthlyTransactionCount(inputDto.getMaxMonthlyTransactionCount());
+        contractObject.setDailyMaxTransactionAmount(inputDto.getDailyMaxTransactionAmount());
+        contractObject.setMaxTransactionAmount(inputDto.getMaxTransactionAmount());
         return contractObject;
     }
 
-    @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders(PaymanCreateInputDTO inputDto) throws Exception {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)
                 .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX +
                         paymanService.getAccessToken())
-                .add(RequestHeaderKeys.MOBILE_NO.getValue(), "09120000000")
-                .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), "0123456789")
+                .add(RequestHeaderKeys.MOBILE_NO.getValue(), inputDto.getMobileNumber())
+                .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), inputDto.getNationalCode())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Headers createHeaders() throws Exception {
+        return null;
     }
 }
