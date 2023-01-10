@@ -62,7 +62,8 @@ public class PaymanService implements BaseService {
     public String getAccessToken() throws Exception {
         ResponseObject response = paymanGetAccessTokenManager.getAccessToken();
         Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
-        return (String) body.get("access_token");
+        String accessToken = (String) body.get("access_token");
+        return accessToken;
     }
 
     public String createPayman(PaymanCreateInputDTO inputDto) throws Exception {
