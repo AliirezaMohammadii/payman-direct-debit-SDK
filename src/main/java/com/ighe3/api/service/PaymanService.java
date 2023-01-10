@@ -5,6 +5,7 @@ import com.ighe3.api.management.payman.*;
 import com.ighe3.api.model.ResponseObject;
 import com.ighe3.api.model.payman.responseBody.*;
 import com.ighe3.api.util.GeneralUtils;
+import okhttp3.Headers;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -64,9 +65,11 @@ public class PaymanService implements BaseService {
         return (String) body.get("access_token");
     }
 
-    public void createPayman(PaymanCreateInputDTO inputDto) throws Exception {
+    public String createPayman(PaymanCreateInputDTO inputDto) throws Exception {
         ResponseObject response = paymanCreateManager.create(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        Headers headers = response.getHeaders();
+        String redirectUrl = headers.get("Location");
+        return redirectUrl;
     }
 
     public String getPaymanId(String paymanCode) throws Exception {
