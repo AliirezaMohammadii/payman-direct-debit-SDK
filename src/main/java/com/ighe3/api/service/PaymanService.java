@@ -76,7 +76,8 @@ public class PaymanService implements BaseService {
     public String getPaymanId(String paymanCode) throws Exception {
         ResponseObject response = paymanGetPaymanIdManager.getPaymanId(paymanCode);
         Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
-        return (String) body.get("payman_id");
+        String paymanId = (String) body.get("payman_id");
+        return paymanId;
     }
 
     public PaymanTraceCreateResponseBodyObject traceCreatePayman(String traceId) throws Exception {
