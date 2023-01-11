@@ -25,7 +25,7 @@ public class PaymanCreateManager extends PaymanBaseManager {
 
     public ResponseObject create(PaymanCreateInputDTO inputDto) throws Exception {
         RequestBody body = createRequestBody(inputDto);
-        Request request = createRequest(body, Urls.CREATE_PAYMAN.getValue(), createHeaders());
+        Request request = createRequest(body, Urls.CREATE_PAYMAN.getValue(), createHeaders(inputDto));
         ResponseObject response = sendRequest(request);
         return response;
     }
