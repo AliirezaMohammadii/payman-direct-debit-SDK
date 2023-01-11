@@ -51,6 +51,6 @@ public abstract class BaseManager {
 
     private ResponseObject createResponseObject(Response response) throws Exception {
         String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
-        return new ResponseObject(responseBody, response.code());
+        return new ResponseObject(response.headers(), responseBody, response.code());
     }
 }
