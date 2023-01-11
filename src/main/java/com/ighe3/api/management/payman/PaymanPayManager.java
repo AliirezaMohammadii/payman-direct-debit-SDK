@@ -13,29 +13,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymanPayManager extends PaymanBaseManager {
 
-    private PaymanService paymanService;
+    private final PaymanService paymanService;
+
+    public PaymanPayManager(PaymanService paymanService) {
+        this.paymanService = paymanService;
+    }
 
     public ResponseObject pay(PaymanPayInputDTO inputDto) throws Exception {
-        RequestBody body = createRequestBody();
+        RequestBody body = createRequestBody(inputDto);
         Request request = createRequest(body, Urls.PAYMAN_PAY.getValue(), createHeaders());
         ResponseObject response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody() throws Exception {
-        PaymanPayRequestBodyObject requestBodyObject = getRequestBodyObject();
+    private RequestBody createRequestBody(PaymanPayInputDTO inputDto) throws Exception {
+        PaymanPayRequestBodyObject requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanPayRequestBodyObject getRequestBodyObject() {
+    private PaymanPayRequestBodyObject getRequestBodyObject(PaymanPayInputDTO inputDto) {
         PaymanPayRequestBodyObject requestBodyObject = new PaymanPayRequestBodyObject();
-        requestBodyObject.setTraceId("11");
-        requestBodyObject.setAmount(100_000D);
-        requestBodyObject.setDescription("some description");
-        requestBodyObject.setClientTransactionDate("2022-12-20T08:28:09.5662061+04:30");
-        requestBodyObject.setPaymanId("mIA5qLv581Fn");
+        requestBodyObject.setTraceId(inputDto.getTraceId());
+        requestBodyObject.setAmount(inputDto.getAmount());
+        requestBodyObject.setDescription(inputDto.getDescription());
+        requestBodyObject.setClientTransactionDate(inputDto.getClientTransactionDate());
+        requestBodyObject.setPaymanId(inputDto.getPaymanId());
         return requestBodyObject;
     }
 
@@ -44,7 +48,8 @@ public class PaymanPayManager extends PaymanBaseManager {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + paymanService.getAccessToken())
+                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
+                        GeneralUtils.BEARER_PREFIX + paymanService.getAccessToken())
                 .build();
         return headers;
     }
