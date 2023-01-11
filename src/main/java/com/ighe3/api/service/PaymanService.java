@@ -5,6 +5,7 @@ import com.ighe3.api.management.payman.*;
 import com.ighe3.api.model.ResponseObject;
 import com.ighe3.api.model.payman.responseBody.*;
 import com.ighe3.api.util.GeneralUtils;
+import okhttp3.Headers;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -61,18 +62,22 @@ public class PaymanService implements BaseService {
     public String getAccessToken() throws Exception {
         ResponseObject response = paymanGetAccessTokenManager.getAccessToken();
         Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
-        return (String) body.get("access_token");
+        String accessToken = (String) body.get("access_token");
+        return accessToken;
     }
 
-    public void createPayman(PaymanCreateInputDTO inputDto) throws Exception {
+    public String createPayman(PaymanCreateInputDTO inputDto) throws Exception {
         ResponseObject response = paymanCreateManager.create(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        Headers headers = response.getHeaders();
+        String redirectUrl = headers.get("Location");
+        return redirectUrl;
     }
 
     public String getPaymanId(String paymanCode) throws Exception {
         ResponseObject response = paymanGetPaymanIdManager.getPaymanId(paymanCode);
         Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
-        return (String) body.get("payman_id");
+        String paymanId = (String) body.get("payman_id");
+        return paymanId;
     }
 
     public PaymanTraceCreateResponseBodyObject traceCreatePayman(String traceId) throws Exception {
