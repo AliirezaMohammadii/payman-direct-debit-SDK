@@ -3,7 +3,7 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dal.dto.input.TransactionsReportStatisticsInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBody.PaymanTransactionsReportStatisticsRequestBodyObject;
+import com.ighe3.api.model.requestBodies.PaymanTransactionsReportStatisticsRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -45,8 +45,8 @@ public class TransactionsReportStatisticsService extends BaseService {
 
     private PaymanTransactionsReportStatisticsRequestBodyObject getRequestBodyObject() {
         PaymanTransactionsReportStatisticsRequestBodyObject requestBodyObject = new PaymanTransactionsReportStatisticsRequestBodyObject();
-        requestBodyObject.setStartDate("...");
-        requestBodyObject.setEndDate("...");
+        requestBodyObject.setStartDate(null);
+        requestBodyObject.setEndDate(null);
         return requestBodyObject;
     }
 

@@ -9,5 +9,5 @@ public class TransactionsInputDTO {
     private Integer offset;
     private Integer length;
     @JsonProperty("filter")
-    private FilterObject filterObject;
+    private FilterObjectInputDTO filterObject;
 }

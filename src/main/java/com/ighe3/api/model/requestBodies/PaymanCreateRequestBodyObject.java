@@ -1,4 +1,4 @@
-package com.ighe3.api.model.requestBody;
+package com.ighe3.api.model.requestBodies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ighe3.api.model.PaymanObject;

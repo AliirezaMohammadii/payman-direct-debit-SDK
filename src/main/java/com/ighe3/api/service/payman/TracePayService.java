@@ -9,6 +9,7 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -19,14 +20,14 @@ public class TracePayService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public ResponseObject trace(String traceId, String date) throws Exception {
+    public ResponseObject trace(String traceId, Date date) throws Exception {
         ResponseObject response = getResponseObject(traceId, date);
         Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject(String traceId, String date) throws Exception {
-        String url = Urls.TRACE_PAY.getValue() + "?trace-id" + "=" + traceId + "&date" + "=" + date;
+    private ResponseObject getResponseObject(String traceId, Date date) throws Exception {
+        String url = Urls.TRACE_PAY.getValue() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
         Request request = createRequest(url, createHeaders());
         ResponseObject response = sendRequest(request);
         return response;

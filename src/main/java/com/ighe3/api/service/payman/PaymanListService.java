@@ -4,7 +4,7 @@ import com.ighe3.api.dal.dto.input.ListInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.FilterObject;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBody.PaymanListRequestBodyObject;
+import com.ighe3.api.model.requestBodies.PaymanListRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -47,9 +47,9 @@ public class PaymanListService extends BaseService {
 
     private FilterObject getPaymanRequestFilterObject() {
         FilterObject filterObject = new FilterObject();
-        filterObject.setTransactionType("...");
-        filterObject.setFromTransactionAmount("...");
-        filterObject.setToTransactionAmount("...");
+        filterObject.setTransactionType(null);
+        filterObject.setFromTransactionAmount(null);
+        filterObject.setToTransactionAmount(null);
         // ...
         return filterObject;
     }
@@ -57,8 +57,8 @@ public class PaymanListService extends BaseService {
     private PaymanListRequestBodyObject getRequestBodyObject(FilterObject filterObject) {
         PaymanListRequestBodyObject requestBodyObject = new PaymanListRequestBodyObject();
         requestBodyObject.setFilter(filterObject);
-        requestBodyObject.setLength("...");
-        requestBodyObject.setOffset("...");
+        requestBodyObject.setLength(null);
+        requestBodyObject.setOffset(null);
         return requestBodyObject;
     }
 

@@ -3,7 +3,7 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dal.dto.input.UpdateInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBody.PaymanUpdateRequestBodyObject;
+import com.ighe3.api.model.requestBodies.PaymanUpdateRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -42,12 +42,12 @@ public class UpdateService extends BaseService {
 
     private PaymanUpdateRequestBodyObject getRequestBodyObject() {
         PaymanUpdateRequestBodyObject requestBodyObject = new PaymanUpdateRequestBodyObject();
-        requestBodyObject.setPaymanId("...");
-        requestBodyObject.setExpirationDate("...");
-        requestBodyObject.setMaxDailyTransactionCount("...");
-        requestBodyObject.setMaxMonthlyTransactionCount("...");
-        requestBodyObject.setMaxTransactionAmount("...");
-        requestBodyObject.setRedirectUrl("...");
+        requestBodyObject.setPaymanId(null);
+        requestBodyObject.setExpirationDate(null);
+        requestBodyObject.setMaxDailyTransactionCount(null);
+        requestBodyObject.setMaxMonthlyTransactionCount(null);
+        requestBodyObject.setMaxTransactionAmount(null);
+        requestBodyObject.setRedirectUrl(null);
         return requestBodyObject;
     }
 

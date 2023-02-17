@@ -3,7 +3,7 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dal.dto.input.ChangeStatusInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBody.PaymanChangeStatusRequestBodyObject;
+import com.ighe3.api.model.requestBodies.PaymanChangeStatusRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -42,8 +42,8 @@ public class ChangeStatusService extends BaseService {
 
     private PaymanChangeStatusRequestBodyObject getRequestBodyObject() {
         PaymanChangeStatusRequestBodyObject requestBodyObject = new PaymanChangeStatusRequestBodyObject();
-        requestBodyObject.setNewStatus("...");
-        requestBodyObject.setPaymanId("...");
+        requestBodyObject.setNewStatus(null);
+        requestBodyObject.setPaymanId(null);
         return requestBodyObject;
     }
 

@@ -1,7 +1,9 @@
-package com.ighe3.api.model.requestBody;
+package com.ighe3.api.model.requestBodies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class PaymanUpdateRequestBodyObject {
@@ -10,7 +12,7 @@ public class PaymanUpdateRequestBodyObject {
     private String paymanId;
 
     @JsonProperty("expiration_date")
-    private String expirationDate;
+    private Date expirationDate;
 
     @JsonProperty("max_daily_transaction_count")
     private String maxDailyTransactionCount;

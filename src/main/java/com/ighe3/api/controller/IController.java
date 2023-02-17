@@ -1,4 +1,4 @@
 package com.ighe3.api.controller;
 
-public interface BaseController {
+public interface IController {
 }

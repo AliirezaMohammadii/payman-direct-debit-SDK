@@ -1,7 +1,9 @@
-package com.ighe3.api.model.requestBody;
+package com.ighe3.api.model.requestBodies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class PaymanPayRequestBodyObject {
@@ -14,7 +16,7 @@ public class PaymanPayRequestBodyObject {
     private String description;
 
     @JsonProperty("client_transaction_date")
-    private String clientTransactionDate;
+    private Date clientTransactionDate;
 
     @JsonProperty("trace_id")
     private String traceId;

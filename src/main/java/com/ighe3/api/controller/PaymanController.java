@@ -6,9 +6,11 @@ import com.ighe3.api.service.payman.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/payman")
-public class PaymanController implements BaseController {
+public class PaymanController implements IController {
     private final AccessTokenService accessTokenService;
     private final CreateService createService;
     private final PaymanIdService paymanIdService;
@@ -87,7 +89,7 @@ public class PaymanController implements BaseController {
     @GetMapping("/pay/trace/{trace_id}")
     @ResponseStatus(HttpStatus.OK)
     public Object tracePay(@PathVariable String trace_id,
-                           @RequestParam(required = false) String date) throws Exception {
+                           @RequestParam(required = false) Date date) throws Exception {
         return tracePayService.trace(trace_id, date);
     }
 
@@ -121,7 +123,7 @@ public class PaymanController implements BaseController {
         paymanListService.getList(inputDTO);
     }
 
-    @GetMapping("/merchant-permissions")
+    @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
     public Object getMerchantPermissions() throws Exception {
         return merchantPermissionsService.getPermissions();
