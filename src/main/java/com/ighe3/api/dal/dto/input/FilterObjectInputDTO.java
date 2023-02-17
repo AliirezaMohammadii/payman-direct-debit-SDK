@@ -16,9 +16,9 @@ public class FilterObjectInputDTO {
     private Double fromTransactionAmount;
     private Double toTransactionAmount;
 
-    private Date fromTransactionDate;
+    private String fromTransactionDate;
 
-    private Date toTransactionDate;
+    private String toTransactionDate;
     private String note;
     private String sourceBankCode;
     private String destinationBankCode;

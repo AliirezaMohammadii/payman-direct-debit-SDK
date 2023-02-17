@@ -9,7 +9,7 @@ import java.util.Date;
 public class TransactionsReportInputDTO {
     private Integer offset;
     private Integer length;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String bankCode;
 }

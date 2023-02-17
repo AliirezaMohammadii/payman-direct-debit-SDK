@@ -83,13 +83,14 @@ public class PaymanController implements IController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     public void pay(@RequestBody PayInputDTO inputDTO) throws Exception {
+        System.out.println(inputDTO.getClientTransactionDate());
         payService.pay(inputDTO);
     }
 
     @GetMapping("/pay/trace/{trace_id}")
     @ResponseStatus(HttpStatus.OK)
     public Object tracePay(@PathVariable String trace_id,
-                           @RequestParam(required = false) Date date) throws Exception {
+                           @RequestParam(required = false) String date) throws Exception {
         return tracePayService.trace(trace_id, date);
     }
 

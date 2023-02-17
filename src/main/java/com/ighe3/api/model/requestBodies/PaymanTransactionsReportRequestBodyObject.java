@@ -13,10 +13,10 @@ public class PaymanTransactionsReportRequestBodyObject {
     private Integer length;
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
 
     @JsonProperty("end_date")
-    private Date endDate;
+    private String endDate;
 
     @JsonProperty("bank_code")
     private String bankCode;

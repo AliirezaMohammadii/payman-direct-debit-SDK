@@ -16,8 +16,8 @@ public class CreateInputDTO {
     // TODO: remove
     private List<Integer> permissionIds;
 
-    private Date startDate;
-    private Date expirationDate;
+    private String startDate;
+    private String expirationDate;
     private Integer maxDailyTransactionCount;
     private Integer maxMonthlyTransactionCount;
     private Double maxTransactionAmount;

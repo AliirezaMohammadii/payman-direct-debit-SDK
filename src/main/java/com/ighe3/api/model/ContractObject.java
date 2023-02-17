@@ -7,8 +7,8 @@ import java.util.Date;
 
 @Data
 public class ContractObject {
-    private Date startDate;
-    private Date expirationDate;
+    private String startDate;
+    private String expirationDate;
     private Integer maxDailyTransactionCount;
     private Integer maxMonthlyTransactionCount;
     private Double maxTransactionAmount;

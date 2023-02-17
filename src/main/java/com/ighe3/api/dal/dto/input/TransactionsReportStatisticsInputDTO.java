@@ -6,6 +6,6 @@ import java.util.Date;
 
 @Data
 public class TransactionsReportStatisticsInputDTO {
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 }

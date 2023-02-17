@@ -9,8 +9,8 @@ import java.util.Date;
 public class PaymanTransactionsReportStatisticsRequestBodyObject {
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
 
     @JsonProperty("end_date")
-    private Date endDate;
+    private String endDate;
 }

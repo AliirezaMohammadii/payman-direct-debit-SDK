@@ -16,9 +16,9 @@ public class FilterObject {
     private Double fromTransactionAmount;
     private Double toTransactionAmount;
     // TODO: must be dateTime
-    private Date fromTransactionDate;
+    private String fromTransactionDate;
     // TODO: must be dateTime
-    private Date toTransactionDate;
+    private String toTransactionDate;
     private String note;
     private String sourceBankCode;
     private String destinationBankCode;

@@ -10,7 +10,7 @@ import java.util.List;
 public class UpdateInputDTO {
     private String bankCode;
     private String paymanId;
-    private Date expirationDate;
+    private String expirationDate;
     private Integer maxDailyTransactionCount;
     private Integer maxMonthlyTransactionCount;
     private Double maxTransactionAmount;
