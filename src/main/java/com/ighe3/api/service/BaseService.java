@@ -12,7 +12,7 @@ public abstract class BaseService {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
         ResponseObject responseObject = createResponseObject(response);
-        printResponse(responseObject);
+//        printResponse(responseObject);
         return responseObject;
     }
 
@@ -35,7 +35,7 @@ public abstract class BaseService {
 
     protected void printResponse(ResponseObject response) throws Exception {
         System.out.println("status code: " + response.getStatusCode());
-        System.out.println(GeneralUtils.getBeautifiedJson(response.getBody()));
+        System.out.println(GeneralUtils.beautifyJson(response.getBody()));
     }
 
     protected Response executeSending(OkHttpClient client, Request request) {
@@ -48,6 +48,8 @@ public abstract class BaseService {
     }
 
     protected abstract Headers createHeaders() throws Exception;
+
+    protected abstract Object convertJsonToJavaObject(String value);
 
     private ResponseObject createResponseObject(Response response) throws Exception {
         String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();

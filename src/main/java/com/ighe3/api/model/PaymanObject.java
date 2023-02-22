@@ -11,5 +11,5 @@ public class PaymanObject {
     private String userId;
     private List<Integer> permissionIds;
     @JsonProperty("contract")
-    private ContractObject contractObject;
+    private PaymanContractModel paymanContractModel;
 }

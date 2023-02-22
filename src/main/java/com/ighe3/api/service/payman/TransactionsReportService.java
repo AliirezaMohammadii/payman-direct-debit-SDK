@@ -3,7 +3,7 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dal.dto.input.TransactionsReportInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBodies.PaymanTransactionsReportRequestBodyObject;
+import com.ighe3.api.model.request.PaymanTransactionsReportRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -22,7 +22,7 @@ public class TransactionsReportService extends BaseService {
 
     public Object getReport(TransactionsReportInputDTO inputDto) throws Exception {
         ResponseObject response = getResponseObject();
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        Map<String, Object> body = convertJsonToJavaObject(response.getBody());
         return null;
     }
 

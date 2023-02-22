@@ -1,5 +1,8 @@
 package com.ighe3.api.service.payman;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.model.response.PaymanTracePayResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
 import com.ighe3.api.util.GeneralUtils;
@@ -8,9 +11,6 @@ import com.ighe3.api.util.Urls;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.Map;
 
 @Service
 public class TracePayService extends BaseService {
@@ -21,8 +21,9 @@ public class TracePayService extends BaseService {
     }
 
     public ResponseObject trace(String traceId, String date) throws Exception {
-        ResponseObject response = getResponseObject(traceId, date);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        ResponseObject paymanResponse = getResponseObject(traceId, date);
+        PaymanTracePayResponse paymanResponseBody
+                = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
@@ -42,5 +43,16 @@ public class TracePayService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanTracePayResponse response = mapper.readValue(value, PaymanTracePayResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

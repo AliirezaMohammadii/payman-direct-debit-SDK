@@ -83,7 +83,6 @@ public class PaymanController implements IController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     public void pay(@RequestBody PayInputDTO inputDTO) throws Exception {
-        System.out.println(inputDTO.getClientTransactionDate());
         payService.pay(inputDTO);
     }
 

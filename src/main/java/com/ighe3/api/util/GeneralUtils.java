@@ -28,15 +28,15 @@ public class GeneralUtils {
         return client;
     }
 
-    public static String getBeautifiedJson(String json) throws JsonProcessingException {
+    public static String beautifyJson(String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String beautifiedJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readTree(json));
         return beautifiedJson;
     }
 
     public static String convertJavaObjectToJson(Object object) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer();
-        String json = ow.writeValueAsString(object);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(object);
         return json;
     }
 

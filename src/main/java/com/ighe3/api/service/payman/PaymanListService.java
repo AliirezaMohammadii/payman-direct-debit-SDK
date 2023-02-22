@@ -4,7 +4,7 @@ import com.ighe3.api.dal.dto.input.ListInputDTO;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.FilterObject;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBodies.PaymanListRequestBodyObject;
+import com.ighe3.api.model.request.PaymanListRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -23,7 +23,7 @@ public class PaymanListService extends BaseService {
 
     public Object getList(ListInputDTO inputDto) throws Exception {
         ResponseObject response = getResponseObject();
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        Map<String, Object> body = convertJsonToJavaObject(response.getBody());
         return response;
     }
 

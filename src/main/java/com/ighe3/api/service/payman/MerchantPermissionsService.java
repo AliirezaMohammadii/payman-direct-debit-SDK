@@ -19,7 +19,7 @@ public class MerchantPermissionsService extends BaseService {
 
     public Object getPermissions() throws Exception {
         ResponseObject response = getResponseObject();
-//        List<Map<String, Object>> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+//        List<Map<String, Object>> body = convertJsonToJavaObject(response.getBody());
         return null;
     }
 

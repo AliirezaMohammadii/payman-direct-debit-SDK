@@ -1,16 +1,17 @@
 package com.ighe3.api.service.payman;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dal.dto.input.PayInputDTO;
+import com.ighe3.api.model.response.PaymanPayResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBodies.PaymanPayRequestBodyObject;
+import com.ighe3.api.model.request.PaymanPayRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class PayService extends BaseService {
@@ -21,8 +22,8 @@ public class PayService extends BaseService {
     }
 
     public Object pay(PayInputDTO inputDto) throws Exception {
-        ResponseObject response = getResponseObject(inputDto);
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        ResponseObject paymanResponse = getResponseObject(inputDto);
+        PaymanPayResponse paymanResponseBody = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
@@ -59,5 +60,16 @@ public class PayService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanPayResponse response = mapper.readValue(value, PaymanPayResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.ighe3.api.service.payman;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
 import com.ighe3.api.util.GeneralUtils;
@@ -8,15 +11,13 @@ import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
 public class AccessTokenService extends BaseService {
     public Object getAccessToken() throws Exception {
-        ResponseObject response = getResponseObject();
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
-        String accessToken = (String) body.get("access_token");
-        return accessToken;
+        ResponseObject paymanResponse = getResponseObject();
+        PaymanGetAccessTokenResponse paymanResponseBody
+                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return null;
     }
 
     private ResponseObject getResponseObject() throws Exception {
@@ -39,5 +40,16 @@ public class AccessTokenService extends BaseService {
     protected Headers createHeaders() {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         return generalHeaders;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanGetAccessTokenResponse response = mapper.readValue(value, PaymanGetAccessTokenResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

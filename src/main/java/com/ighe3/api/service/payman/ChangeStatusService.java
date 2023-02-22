@@ -1,16 +1,17 @@
 package com.ighe3.api.service.payman;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dal.dto.input.ChangeStatusInputDTO;
+import com.ighe3.api.model.response.PaymanChangeStatusResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.requestBodies.PaymanChangeStatusRequestBodyObject;
+import com.ighe3.api.model.request.PaymanChangeStatusRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class ChangeStatusService extends BaseService {
@@ -21,8 +22,9 @@ public class ChangeStatusService extends BaseService {
     }
 
     public Object changeStatus(ChangeStatusInputDTO inputDto) throws Exception {
-        ResponseObject response = getResponseObject();
-        Map<String, Object> body = GeneralUtils.getResponseBodyAsMap(response.getBody());
+        ResponseObject paymanResponse = getResponseObject();
+        PaymanChangeStatusResponse paymanResponseBody
+                = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
@@ -55,5 +57,16 @@ public class ChangeStatusService extends BaseService {
                 .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanChangeStatusResponse response = mapper.readValue(value, PaymanChangeStatusResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
