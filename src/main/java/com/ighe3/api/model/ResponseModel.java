@@ -6,7 +6,7 @@ import okhttp3.Headers;
 
 @Data
 @AllArgsConstructor
-public class ResponseObject {
+public class ResponseModel {
     private Headers headers;
     private String body;
     private Integer statusCode;

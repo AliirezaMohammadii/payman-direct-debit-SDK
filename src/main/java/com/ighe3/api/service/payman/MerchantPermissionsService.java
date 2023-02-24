@@ -1,12 +1,11 @@
 package com.ighe3.api.service.payman;
 
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,14 +17,14 @@ public class MerchantPermissionsService extends BaseService {
     }
 
     public Object getPermissions() throws Exception {
-        ResponseObject response = getResponseObject();
+        ResponseModel response = getResponseObject();
 //        List<Map<String, Object>> body = convertJsonToJavaObject(response.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject() throws Exception {
+    private ResponseModel getResponseObject() throws Exception {
         Request request = createRequest(Urls.MERCHANT_PERMISSIONS.getValue(), createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 

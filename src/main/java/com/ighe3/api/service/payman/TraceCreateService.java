@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanTraceCreateResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -21,16 +21,16 @@ public class TraceCreateService extends BaseService {
     }
 
     public Object trace(String traceId) throws Exception {
-        ResponseObject paymanResponse = getResponseObject(traceId);
+        ResponseModel paymanResponse = getResponseObject(traceId);
         PaymanTraceCreateResponse paymanResponseBody
                 = (PaymanTraceCreateResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject(String traceId) throws Exception {
+    private ResponseModel getResponseObject(String traceId) throws Exception {
         String url = Urls.TRACE_CREATE.getValue() + "?trace-id" + "=" + traceId;
         Request request = createRequest(url, createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 

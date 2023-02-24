@@ -1,16 +1,17 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dal.dto.input.TransactionsReportInputDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.dal.dto.input.TransactionsReportInputDto;
+import com.ighe3.api.model.response.PaymanTransactionsReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.request.PaymanTransactionsReportRequestBodyObject;
+import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.model.request.PaymanTransactionsReportRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class TransactionsReportService extends BaseService {
@@ -20,22 +21,23 @@ public class TransactionsReportService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object getReport(TransactionsReportInputDTO inputDto) throws Exception {
-        ResponseObject response = getResponseObject();
-        Map<String, Object> body = convertJsonToJavaObject(response.getBody());
+    public Object getReport(TransactionsReportInputDto inputDto) throws Exception {
+        ResponseModel paymanResponse = getResponseObject(inputDto);
+        PaymanTransactionsReportResponse paymanResponseBody
+                = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject() throws Exception {
-        RequestBody requestBody = createRequestBody();
+    private ResponseModel getResponseObject(TransactionsReportInputDto inputDto) throws Exception {
+        RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, Urls.TRANSACTIONS_REPORT.getValue(), createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody() throws Exception {
+    private RequestBody createRequestBody(TransactionsReportInputDto inputDto) throws Exception {
 
-        PaymanTransactionsReportRequestBodyObject requestBodyObject = getRequestBodyObject();
+        PaymanTransactionsReportRequest requestBodyObject = getRequestBodyObject(inputDto);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
 
@@ -43,8 +45,8 @@ public class TransactionsReportService extends BaseService {
         return body;
     }
 
-    private PaymanTransactionsReportRequestBodyObject getRequestBodyObject() {
-        PaymanTransactionsReportRequestBodyObject requestBodyObject = new PaymanTransactionsReportRequestBodyObject();
+    private PaymanTransactionsReportRequest getRequestBodyObject(TransactionsReportInputDto inputDto) {
+        PaymanTransactionsReportRequest requestBodyObject = new PaymanTransactionsReportRequest();
         requestBodyObject.setOffset(0);
         requestBodyObject.setLength(0);
         requestBodyObject.setStartDate(null);
@@ -62,5 +64,16 @@ public class TransactionsReportService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanTransactionsReportResponse response = mapper.readValue(value, PaymanTransactionsReportResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

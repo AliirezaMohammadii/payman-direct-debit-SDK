@@ -25,5 +25,5 @@ public class PaymanListResult {
     private List<String> permissionIds;
     @JsonProperty("registration_date")
     private Date registrationDate;
-    private PaymanContractModel contract;
+    private PaymanContract contract;
 }

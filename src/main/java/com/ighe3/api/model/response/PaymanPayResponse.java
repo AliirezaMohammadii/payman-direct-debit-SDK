@@ -1,7 +1,7 @@
 package com.ighe3.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ighe3.api.model.DetailsObject;
+import com.ighe3.api.model.PaymanPayDetails;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,5 +23,5 @@ public class PaymanPayResponse {
     private Double commissionAmount;
     // TODO: to be enum
     private String status;
-    private List<DetailsObject> details;
+    private List<PaymanPayDetails> details;
 }

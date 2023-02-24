@@ -6,10 +6,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PaymanObject {
+public class PaymanModel {
+    @JsonProperty("payman_id")
     private String bankCode;
+    @JsonProperty("user_id")
     private String userId;
+    @JsonProperty("permission_ids")
     private List<Integer> permissionIds;
     @JsonProperty("contract")
-    private PaymanContractModel paymanContractModel;
+    private PaymanContract contract;
 }

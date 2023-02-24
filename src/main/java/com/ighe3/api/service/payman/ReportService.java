@@ -2,17 +2,15 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.model.response.PaymanGetPaymanIdResponse;
+import com.ighe3.api.model.response.PaymanReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class ReportService extends BaseService {
@@ -23,15 +21,16 @@ public class ReportService extends BaseService {
     }
 
     public Object getReport(String paymanId) throws Exception {
-        ResponseObject response = getResponseObject(paymanId);
-        Map<String, Object> body = convertJsonToJavaObject(response.getBody());
+        ResponseModel paymanResponse = getResponseObject(paymanId);
+        PaymanReportResponse paymanResponseBody
+                = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject(String paymanId) throws Exception {
+    private ResponseModel getResponseObject(String paymanId) throws Exception {
         String url = Urls.REPORT.getValue() + "/" + paymanId;
         Request request = createRequest(url, createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 
@@ -50,7 +49,7 @@ public class ReportService extends BaseService {
     protected Object convertJsonToJavaObject(String value) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            PaymanGetPaymanIdResponse response = mapper.readValue(value, PaymanGetPaymanIdResponse.class);
+            PaymanReportResponse response = mapper.readValue(value, PaymanReportResponse.class);
             return response;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

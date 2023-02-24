@@ -1,7 +1,7 @@
 package com.ighe3.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ighe3.api.model.PaymanContractModel;
+import com.ighe3.api.model.PaymanContract;
 import lombok.Data;
 
 import java.util.List;
@@ -21,5 +21,5 @@ public class PaymanTraceCreateResponse {
     // TODO: must be list of enums
     @JsonProperty("permission_ids")
     private List<String> permissionIds;
-    private PaymanContractModel contract;
+    private PaymanContract contract;
 }

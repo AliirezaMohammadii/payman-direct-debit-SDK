@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanGetPaymanIdResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -20,16 +20,16 @@ public class PaymanIdService extends BaseService {
     }
 
     public Object getPaymanId(String paymanCode) throws Exception {
-        ResponseObject paymanResponse = getResponseObject(paymanCode);
+        ResponseModel paymanResponse = getResponseObject(paymanCode);
         PaymanGetPaymanIdResponse paymanResponseBody
                 = (PaymanGetPaymanIdResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject(String paymanCode) throws Exception {
+    private ResponseModel getResponseObject(String paymanCode) throws Exception {
         String url = Urls.PAYMAN_ID.getValue() + "?payman_code" + "=" + paymanCode;
         Request request = createRequest(url, createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 

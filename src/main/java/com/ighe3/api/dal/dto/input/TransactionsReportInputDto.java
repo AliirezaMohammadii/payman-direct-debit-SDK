@@ -6,10 +6,13 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportInputDTO {
+public class TransactionsReportInputDto {
     private Integer offset;
     private Integer length;
-    private String startDate;
-    private String endDate;
+    @JsonProperty("start_date")
+    private Date startDate;
+    @JsonProperty("end_date")
+    private Date endDate;
+    @JsonProperty("bank_code")
     private String bankCode;
 }

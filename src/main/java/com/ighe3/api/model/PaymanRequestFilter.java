@@ -2,11 +2,10 @@ package com.ighe3.api.model;
 
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
-public class FilterObject {
+public class PaymanRequestFilter {
     private List<String> paymanIds;
     private List<String> userIds;
     private String traceId;

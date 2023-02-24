@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class PaymanContractModel {
+public class PaymanContract {
     @JsonProperty("start_date")
     private Date startDate;
     @JsonProperty("expiration_date")

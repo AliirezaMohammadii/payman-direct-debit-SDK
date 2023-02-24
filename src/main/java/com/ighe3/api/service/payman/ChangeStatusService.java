@@ -2,11 +2,11 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.dal.dto.input.ChangeStatusInputDTO;
+import com.ighe3.api.dal.dto.input.ChangeStatusInputDto;
 import com.ighe3.api.model.response.PaymanChangeStatusResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.request.PaymanChangeStatusRequestBodyObject;
+import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.model.request.PaymanChangeStatusRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -21,29 +21,29 @@ public class ChangeStatusService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object changeStatus(ChangeStatusInputDTO inputDto) throws Exception {
-        ResponseObject paymanResponse = getResponseObject();
+    public Object changeStatus(ChangeStatusInputDto inputDto) throws Exception {
+        ResponseModel paymanResponse = getResponseObject();
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject() throws Exception {
+    private ResponseModel getResponseObject() throws Exception {
         RequestBody requestBody = createRequestBody();
         Request request = createRequest(requestBody, Urls.CHANGE_STATUS.getValue(), createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 
     private RequestBody createRequestBody() throws Exception {
-        PaymanChangeStatusRequestBodyObject requestBodyObject = getRequestBodyObject();
+        PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject();
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanChangeStatusRequestBodyObject getRequestBodyObject() {
-        PaymanChangeStatusRequestBodyObject requestBodyObject = new PaymanChangeStatusRequestBodyObject();
+    private PaymanChangeStatusRequest getRequestBodyObject() {
+        PaymanChangeStatusRequest requestBodyObject = new PaymanChangeStatusRequest();
         requestBodyObject.setNewStatus(null);
         requestBodyObject.setPaymanId(null);
         return requestBodyObject;

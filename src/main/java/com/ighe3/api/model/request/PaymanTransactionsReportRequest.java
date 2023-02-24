@@ -3,19 +3,16 @@ package com.ighe3.api.model.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class PaymanTransactionsReportRequestBodyObject {
-
+public class PaymanTransactionsReportRequest {
     private Integer offset;
-
     private Integer length;
-
     @JsonProperty("start_date")
-    private String startDate;
-
+    private Date startDate;
     @JsonProperty("end_date")
-    private String endDate;
-
+    private Date endDate;
     @JsonProperty("bank_code")
     private String bankCode;
 }

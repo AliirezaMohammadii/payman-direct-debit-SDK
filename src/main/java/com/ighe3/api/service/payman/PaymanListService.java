@@ -1,17 +1,18 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dal.dto.input.ListInputDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.dal.dto.input.ListInputDto;
+import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.FilterObject;
-import com.ighe3.api.model.ResponseObject;
-import com.ighe3.api.model.request.PaymanListRequestBodyObject;
+import com.ighe3.api.model.PaymanRequestFilter;
+import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.model.request.PaymanListRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class PaymanListService extends BaseService {
@@ -21,23 +22,23 @@ public class PaymanListService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object getList(ListInputDTO inputDto) throws Exception {
-        ResponseObject response = getResponseObject();
-        Map<String, Object> body = convertJsonToJavaObject(response.getBody());
-        return response;
+    public Object getList(ListInputDto inputDto) throws Exception {
+        ResponseModel paymanResponse = getResponseObject();
+        PaymanListResponse paymanResponseBody = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return null;
     }
 
-    private ResponseObject getResponseObject() throws Exception {
+    private ResponseModel getResponseObject() throws Exception {
         RequestBody requestBody = createRequestBody();
         Request request = createRequest(requestBody, Urls.PAYMAN_LIST.getValue(), createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 
     private RequestBody createRequestBody() throws Exception {
 
-        FilterObject filterObject = getPaymanRequestFilterObject();
-        PaymanListRequestBodyObject requestBodyObject = getRequestBodyObject(filterObject);
+        PaymanRequestFilter paymanRequestFilter = getPaymanRequestFilterObject();
+        PaymanListRequest requestBodyObject = getRequestBodyObject(paymanRequestFilter);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
 
@@ -45,18 +46,18 @@ public class PaymanListService extends BaseService {
         return body;
     }
 
-    private FilterObject getPaymanRequestFilterObject() {
-        FilterObject filterObject = new FilterObject();
-        filterObject.setTransactionType(null);
-        filterObject.setFromTransactionAmount(null);
-        filterObject.setToTransactionAmount(null);
+    private PaymanRequestFilter getPaymanRequestFilterObject() {
+        PaymanRequestFilter paymanRequestFilter = new PaymanRequestFilter();
+        paymanRequestFilter.setTransactionType(null);
+        paymanRequestFilter.setFromTransactionAmount(null);
+        paymanRequestFilter.setToTransactionAmount(null);
         // ...
-        return filterObject;
+        return paymanRequestFilter;
     }
 
-    private PaymanListRequestBodyObject getRequestBodyObject(FilterObject filterObject) {
-        PaymanListRequestBodyObject requestBodyObject = new PaymanListRequestBodyObject();
-        requestBodyObject.setFilter(filterObject);
+    private PaymanListRequest getRequestBodyObject(PaymanRequestFilter paymanRequestFilter) {
+        PaymanListRequest requestBodyObject = new PaymanListRequest();
+        requestBodyObject.setFilter(paymanRequestFilter);
         requestBodyObject.setLength(null);
         requestBodyObject.setOffset(null);
         return requestBodyObject;
@@ -71,5 +72,16 @@ public class PaymanListService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            PaymanListResponse response = mapper.readValue(value, PaymanListResponse.class);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

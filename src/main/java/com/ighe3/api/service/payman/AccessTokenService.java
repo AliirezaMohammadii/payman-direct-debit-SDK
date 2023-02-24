@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseObject;
+import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.SecurityUtils;
 import com.ighe3.api.util.Urls;
@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccessTokenService extends BaseService {
     public Object getAccessToken() throws Exception {
-        ResponseObject paymanResponse = getResponseObject();
+        ResponseModel paymanResponse = getResponseObject();
         PaymanGetAccessTokenResponse paymanResponseBody
                 = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseObject getResponseObject() throws Exception {
+    private ResponseModel getResponseObject() throws Exception {
         FormBody requestBody = getFormBody();
         Request request = createRequest(requestBody, Urls.ACCESS_TOKEN.getValue(), createHeaders());
-        ResponseObject response = sendRequest(request);
+        ResponseModel response = sendRequest(request);
         return response;
     }
 
