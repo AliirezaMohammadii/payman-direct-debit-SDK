@@ -1,4 +1,4 @@
-package com.ighe3.api.dal.dto.output;
+package com.ighe3.api.controller.dto.output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateOutputDto {
+public class UpdateOutputDto {
     @JsonProperty("redirect_url")
     private String redirectUrl;
 }

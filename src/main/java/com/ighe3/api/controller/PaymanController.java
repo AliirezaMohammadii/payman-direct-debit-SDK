@@ -1,7 +1,7 @@
 package com.ighe3.api.controller;
 
 
-import com.ighe3.api.dal.dto.input.*;
+import com.ighe3.api.controller.dto.input.*;
 import com.ighe3.api.service.payman.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

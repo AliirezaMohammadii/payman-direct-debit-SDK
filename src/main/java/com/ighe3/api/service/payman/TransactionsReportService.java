@@ -2,7 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.dal.dto.input.TransactionsReportInputDto;
+import com.ighe3.api.controller.dto.input.TransactionsReportInputDto;
 import com.ighe3.api.model.response.PaymanTransactionsReportResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseModel;

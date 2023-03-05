@@ -1,7 +1,7 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dal.dto.input.UpdateInputDto;
-import com.ighe3.api.dal.dto.output.UpdateOutputDto;
+import com.ighe3.api.controller.dto.input.UpdateInputDto;
+import com.ighe3.api.controller.dto.output.UpdateOutputDto;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.model.request.PaymanUpdateRequestBodyObject;

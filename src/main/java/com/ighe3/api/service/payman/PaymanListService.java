@@ -2,7 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.dal.dto.input.ListInputDto;
+import com.ighe3.api.controller.dto.input.ListInputDto;
 import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanRequestFilter;
