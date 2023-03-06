@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdateOutputDto {
+public class PaymanCreateOto {
     @JsonProperty("redirect_url")
     private String redirectUrl;
 }

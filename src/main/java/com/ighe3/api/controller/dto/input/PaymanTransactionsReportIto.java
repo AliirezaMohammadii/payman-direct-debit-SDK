@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportInputDto {
+public class PaymanTransactionsReportIto {
     private Integer offset;
     private Integer length;
     @JsonProperty("start_date")

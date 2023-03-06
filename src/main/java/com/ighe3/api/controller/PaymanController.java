@@ -62,7 +62,7 @@ public class PaymanController implements IController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPayman(@RequestBody CreateInputDto inputDTO) throws Exception {
+    public void createPayman(@RequestBody PaymanCreateIto inputDTO) throws Exception {
         createService.create(inputDTO);
     }
 
@@ -80,7 +80,7 @@ public class PaymanController implements IController {
 
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
-    public void pay(@RequestBody PayInputDto inputDTO) throws Exception {
+    public void pay(@RequestBody PaymanPayIto inputDTO) throws Exception {
         payService.pay(inputDTO);
     }
 
@@ -93,13 +93,13 @@ public class PaymanController implements IController {
 
     @PostMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePayman(@RequestBody UpdateInputDto inputDTO) throws Exception {
+    public void updatePayman(@RequestBody PaymanUpdateIto inputDTO) throws Exception {
         updateService.update(inputDTO);
     }
 
     @PostMapping("/change-status")
     @ResponseStatus(HttpStatus.OK)
-    public void changePaymanStatus(@RequestBody ChangeStatusInputDto inputDTO) throws Exception {
+    public void changePaymanStatus(@RequestBody PaymanChangeStatusIto inputDTO) throws Exception {
         changeStatusService.changeStatus(inputDTO);
     }
 
@@ -111,13 +111,13 @@ public class PaymanController implements IController {
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
-    public void getTransactions(@RequestBody TransactionsInputDto inputDTO) throws Exception {
+    public void getTransactions(@RequestBody PaymanTransactionsIto inputDTO) throws Exception {
         transactionsService.getTransactions(inputDTO);
     }
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public void getList(@RequestBody ListInputDto inputDTO) throws Exception {
+    public void getList(@RequestBody PaymanListIto inputDTO) throws Exception {
         paymanListService.getList(inputDTO);
     }
 
@@ -129,14 +129,14 @@ public class PaymanController implements IController {
 
     @PostMapping("/transactions/report")
     @ResponseStatus(HttpStatus.OK)
-    public void getTransactionsReport(@RequestBody TransactionsReportInputDto inputDTO) throws Exception {
+    public void getTransactionsReport(@RequestBody PaymanTransactionsReportIto inputDTO) throws Exception {
         transactionsReportService.getReport(inputDTO);
     }
 
     @PostMapping("/transactions/report/statistics")
     @ResponseStatus(HttpStatus.OK)
     public void getTransactionsReportStatistics(
-            @RequestBody TransactionsReportStatisticsInputDto inputDTO) throws Exception {
+            @RequestBody PaymanTransactionsReportStatisticsIto inputDTO) throws Exception {
         transactionsReportStatisticsService.getReportStatistics(inputDTO);
     }
 }

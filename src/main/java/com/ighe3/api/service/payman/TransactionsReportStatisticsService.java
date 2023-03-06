@@ -2,7 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.TransactionsReportStatisticsInputDto;
+import com.ighe3.api.controller.dto.input.PaymanTransactionsReportStatisticsIto;
 import com.ighe3.api.model.response.PaymanTransactionsReportStatisticsResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseModel;
@@ -21,21 +21,21 @@ public class TransactionsReportStatisticsService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object getReportStatistics(TransactionsReportStatisticsInputDto inputDto) throws Exception {
+    public Object getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
         ResponseModel paymanResponse = getResponseObject(inputDto);
         PaymanTransactionsReportStatisticsResponse paymanResponseBody
                 = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(TransactionsReportStatisticsInputDto inputDto) throws Exception {
+    private ResponseModel getResponseObject(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, Urls.TRANSACTIONS_REPORT_STATISTICS.getValue(), createHeaders());
         ResponseModel response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody(TransactionsReportStatisticsInputDto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
 
         PaymanTransactionsReportStatisticsRequest requestBodyObject = getRequestBodyObject(inputDto);
 
@@ -45,7 +45,7 @@ public class TransactionsReportStatisticsService extends BaseService {
         return body;
     }
 
-    private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(TransactionsReportStatisticsInputDto inputDto) {
+    private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(PaymanTransactionsReportStatisticsIto inputDto) {
         PaymanTransactionsReportStatisticsRequest requestBodyObject
                 = new PaymanTransactionsReportStatisticsRequest();
         requestBodyObject.setStartDate(null);

@@ -2,7 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.ListInputDto;
+import com.ighe3.api.controller.dto.input.PaymanListIto;
 import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanRequestFilter;
@@ -22,7 +22,7 @@ public class PaymanListService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object getList(ListInputDto inputDto) throws Exception {
+    public Object getList(PaymanListIto inputDto) throws Exception {
         ResponseModel paymanResponse = getResponseObject();
         PaymanListResponse paymanResponseBody = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;

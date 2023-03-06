@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportStatisticsInputDto {
+public class PaymanTransactionsReportStatisticsIto {
     @JsonProperty("start_date")
     private Date startDate;
     @JsonProperty("end_date")

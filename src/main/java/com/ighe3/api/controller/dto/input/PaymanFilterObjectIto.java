@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class FilterObjectInputDto {
+public class PaymanFilterObjectIto {
     @JsonProperty("payman_ids")
     private List<String> paymanIds;
     @JsonProperty("user_ids")

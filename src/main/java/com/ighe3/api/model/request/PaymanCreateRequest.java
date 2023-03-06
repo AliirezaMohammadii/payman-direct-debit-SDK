@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 public class PaymanCreateRequest {
-    @JsonProperty("payman")
-    private PaymanModel paymanObject;
+    private PaymanModel payman;
     @JsonProperty("redirect_url")
     private String redirectUrl;
     @JsonProperty("trace_id")

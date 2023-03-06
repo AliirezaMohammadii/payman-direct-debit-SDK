@@ -1,7 +1,7 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.controller.dto.input.UpdateInputDto;
-import com.ighe3.api.controller.dto.output.UpdateOutputDto;
+import com.ighe3.api.controller.dto.input.PaymanUpdateIto;
+import com.ighe3.api.controller.dto.output.PaymanUpdateOto;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseModel;
 import com.ighe3.api.model.request.PaymanUpdateRequestBodyObject;
@@ -19,28 +19,28 @@ public class UpdateService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public UpdateOutputDto update(UpdateInputDto inputDto) throws Exception {
+    public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws Exception {
         ResponseModel paymanResponse = getResponseObject(inputDto);
         Headers headers = paymanResponse.getHeaders();
-        UpdateOutputDto appResponse = new UpdateOutputDto(headers.get("Location"));
+        PaymanUpdateOto appResponse = new PaymanUpdateOto(headers.get("Location"));
         return appResponse;
     }
 
-    private ResponseModel getResponseObject(UpdateInputDto inputDto) throws Exception {
+    private ResponseModel getResponseObject(PaymanUpdateIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, Urls.UPDATE.getValue(), createHeaders());
         ResponseModel response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody(UpdateInputDto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanUpdateIto inputDto) throws Exception {
         PaymanUpdateRequestBodyObject requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanUpdateRequestBodyObject getRequestBodyObject(UpdateInputDto inputDto) {
+    private PaymanUpdateRequestBodyObject getRequestBodyObject(PaymanUpdateIto inputDto) {
         PaymanUpdateRequestBodyObject requestBodyObject = new PaymanUpdateRequestBodyObject();
         requestBodyObject.setPaymanId(null);
         requestBodyObject.setExpirationDate(null);

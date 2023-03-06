@@ -1,7 +1,7 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.controller.dto.input.CreateInputDto;
-import com.ighe3.api.controller.dto.output.CreateOutputDto;
+import com.ighe3.api.controller.dto.input.PaymanCreateIto;
+import com.ighe3.api.controller.dto.output.PaymanCreateOto;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanContract;
 import com.ighe3.api.model.PaymanModel;
@@ -21,21 +21,21 @@ public class CreateService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public CreateOutputDto create(CreateInputDto inputDto) throws Exception {
+    public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
         ResponseModel paymanResponse = getResponseObject(inputDto);
         Headers headers = paymanResponse.getHeaders();
-        CreateOutputDto appResponse = new CreateOutputDto(headers.get("Location"));
+        PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
         return appResponse;
     }
 
-    private ResponseModel getResponseObject(CreateInputDto inputDto) throws Exception {
+    private ResponseModel getResponseObject(PaymanCreateIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, Urls.CREATE.getValue(), createHeaders(inputDto));
         ResponseModel response = sendRequest(request);
         return response;
     }
 
-    private RequestBody createRequestBody(CreateInputDto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanCreateIto inputDto) throws Exception {
         PaymanContract paymanContract = getContractObject(inputDto);
         PaymanModel paymanObject = getPaymanObject(paymanContract, inputDto);
         PaymanCreateRequest requestBodyObject = getRequestBodyObject(paymanObject, inputDto);
@@ -46,7 +46,7 @@ public class CreateService extends BaseService {
         return body;
     }
 
-    private PaymanCreateRequest getRequestBodyObject(PaymanModel paymanObject, CreateInputDto inputDto) {
+    private PaymanCreateRequest getRequestBodyObject(PaymanModel paymanObject, PaymanCreateIto inputDto) {
         PaymanCreateRequest requestBodyObject = new PaymanCreateRequest();
         requestBodyObject.setTraceId(inputDto.getTraceId());
         requestBodyObject.setRedirectUrl(inputDto.getRedirectUrl());
@@ -54,7 +54,7 @@ public class CreateService extends BaseService {
         return requestBodyObject;
     }
 
-    private PaymanModel getPaymanObject(PaymanContract paymanContract, CreateInputDto inputDto) {
+    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) {
         PaymanModel paymanObject = new PaymanModel();
         paymanObject.setUserId(inputDto.getUserId());
         paymanObject.setBankCode(inputDto.getBankCode());
@@ -63,7 +63,7 @@ public class CreateService extends BaseService {
         return paymanObject;
     }
 
-    private PaymanContract getContractObject(CreateInputDto inputDto) {
+    private PaymanContract getContractObject(PaymanCreateIto inputDto) {
         PaymanContract paymanContract = new PaymanContract();
         paymanContract.setStartDate(inputDto.getStartDate());
         paymanContract.setExpirationDate(inputDto.getExpirationDate());
@@ -74,7 +74,7 @@ public class CreateService extends BaseService {
         return paymanContract;
     }
 
-    protected Headers createHeaders(CreateInputDto inputDto) throws Exception {
+    protected Headers createHeaders(PaymanCreateIto inputDto) throws Exception {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

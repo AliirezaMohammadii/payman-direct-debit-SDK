@@ -2,7 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.ChangeStatusInputDto;
+import com.ighe3.api.controller.dto.input.PaymanChangeStatusIto;
 import com.ighe3.api.model.response.PaymanChangeStatusResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.ResponseModel;
@@ -21,7 +21,7 @@ public class ChangeStatusService extends BaseService {
         this.accessTokenService = accessTokenService;
     }
 
-    public Object changeStatus(ChangeStatusInputDto inputDto) throws Exception {
+    public Object changeStatus(PaymanChangeStatusIto inputDto) throws Exception {
         ResponseModel paymanResponse = getResponseObject();
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());

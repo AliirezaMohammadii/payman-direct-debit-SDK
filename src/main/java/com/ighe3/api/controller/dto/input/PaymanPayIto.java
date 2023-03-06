@@ -5,7 +5,7 @@ import lombok.Data;
 
 // TODO: remove
 @Data
-public class PayInputDto {
+public class PaymanPayIto {
     @JsonProperty("payman_id")
     private String paymanId;
     @JsonProperty("trace_id")
