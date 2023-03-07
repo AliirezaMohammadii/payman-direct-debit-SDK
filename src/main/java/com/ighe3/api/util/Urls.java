@@ -1,24 +1,93 @@
 package com.ighe3.api.util;
 
-public enum Urls {
-    ACCESS_TOKEN("https://payman2.sandbox.faraboom.co/oauth/token"),
-    CREATE("https://payman2.sandbox.faraboom.co/v1/payman/create"),
-    PAYMAN_ID("https://payman2.sandbox.faraboom.co/v1/payman/getId"),
-    TRACE_CREATE("https://payman2.sandbox.faraboom.co/v1/payman/create/trace"),
-    PAY("https://payman2.sandbox.faraboom.co/v1/payman/pay"),
-    TRACE_PAY("https://payman2.sandbox.faraboom.co/v1/payman/pay/trace"),
-    UPDATE("https://payman2.sandbox.faraboom.co/v1/payman/update"),
-    CHANGE_STATUS("https://payman2.sandbox.faraboom.co/v1/payman/status/change"),
-    REPORT("https://payman2.sandbox.faraboom.co/v1/payman/report"),
-    TRANSACTIONS("https://payman2.sandbox.faraboom.co/v1/payman/transactions"),
-    PAYMAN_LIST("https://payman2.sandbox.faraboom.co/v1/payman/search"),
-    MERCHANT_PERMISSIONS("https://payman2.sandbox.faraboom.co/v1/payman/creditor/permissions"),
-    TRANSACTIONS_REPORT("https://payman2.sandbox.faraboom.co/v1/reports/transactions"),
-    TRANSACTIONS_REPORT_STATISTICS("https://payman2.sandbox.faraboom.co/v1/reports/transactions/statistics");
 
-    private final String value;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-    public String getValue() { return this.value; }
+@Component
+public class Urls {
+    @Value("${payman.url.base}" + "${payman.url.access-token}")
+    private String accessTokenUrl;
+    @Value("${payman.url.base}" + "${payman.url.create}")
+    private String createUrl;
+    @Value("${payman.url.base}" + "${payman.url.payman-id}")
+    private String paymanIdUrl;
+    @Value("${payman.url.base}" + "${payman.url.trace-create}")
+    private String traceCreateUrl;
+    @Value("${payman.url.base}" + "${payman.url.pay}")
+    private String payUrl;
+    @Value("${payman.url.base}" + "${payman.url.trace-pay}")
+    private String tracePayUrl;
+    @Value("${payman.url.base}" + "${payman.url.update}")
+    private String updateUrl;
+    @Value("${payman.url.base}" + "${payman.url.change-status}")
+    private String changeStatusUrl;
+    @Value("${payman.url.base}" + "${payman.url.report}")
+    private String reportUrl;
+    @Value("${payman.url.base}" + "${payman.url.transaction}")
+    private String transactionsUrl;
+    @Value("${payman.url.base}" + "${payman.url.list}")
+    private String paymanListUrl;
+    @Value("${payman.url.base}" + "${payman.url.merchant-permissions}")
+    private String merchantPermissionsUrl;
+    @Value("${payman.url.base}" + "${payman.url.transaction-report}")
+    private String transactionsReportUrl;
+    @Value("${payman.url.base}" + "${payman.url.transaction-report-statistics}")
+    private String transactionsReportStatisticsUrl;
 
-    private Urls(String value) { this.value = value; }
+    public String getAccessTokenUrl() {
+        return accessTokenUrl;
+    }
+
+    public String getCreateUrl() {
+        return createUrl;
+    }
+
+    public String getPaymanIdUrl() {
+        return paymanIdUrl;
+    }
+
+    public String getTraceCreateUrl() {
+        return traceCreateUrl;
+    }
+
+    public String getPayUrl() {
+        return payUrl;
+    }
+
+    public String getTracePayUrl() {
+        return tracePayUrl;
+    }
+
+    public String getUpdateUrl() {
+        return updateUrl;
+    }
+
+    public String getChangeStatusUrl() {
+        return changeStatusUrl;
+    }
+
+    public String getReportUrl() {
+        return reportUrl;
+    }
+
+    public String getTransactionsUrl() {
+        return transactionsUrl;
+    }
+
+    public String getPaymanListUrl() {
+        return paymanListUrl;
+    }
+
+    public String getMerchantPermissionsUrl() {
+        return merchantPermissionsUrl;
+    }
+
+    public String getTransactionsReportUrl() {
+        return transactionsReportUrl;
+    }
+
+    public String getTransactionsReportStatisticsUrl() {
+        return transactionsReportStatisticsUrl;
+    }
 }

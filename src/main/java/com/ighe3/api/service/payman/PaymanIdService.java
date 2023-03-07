@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanGetPaymanIdResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -14,22 +14,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymanIdService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public PaymanIdService(AccessTokenService accessTokenService) {
+    public PaymanIdService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getPaymanId(String paymanCode) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(paymanCode);
+        BaseResponse paymanResponse = getResponseObject(paymanCode);
         PaymanGetPaymanIdResponse paymanResponseBody
                 = (PaymanGetPaymanIdResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(String paymanCode) throws Exception {
-        String url = Urls.PAYMAN_ID.getValue() + "?payman_code" + "=" + paymanCode;
+    private BaseResponse getResponseObject(String paymanCode) throws Exception {
+        String url = urls.getPaymanIdUrl() + "?payman_code" + "=" + paymanCode;
         Request request = createRequest(url, createHeaders());
-        ResponseModel response = sendRequest(request);
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

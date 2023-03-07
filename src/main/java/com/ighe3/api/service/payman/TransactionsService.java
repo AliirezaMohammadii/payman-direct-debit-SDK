@@ -2,11 +2,11 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanTransactionsIto;
+import com.ighe3.api.dto.input.PaymanTransactionsIto;
 import com.ighe3.api.model.response.PaymanTransactionsResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanRequestFilter;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanTransactionsRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -17,22 +17,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionsService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public TransactionsService(AccessTokenService accessTokenService) {
+    public TransactionsService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getTransactions(PaymanTransactionsIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject();
+        BaseResponse paymanResponse = getResponseObject();
         PaymanTransactionsResponse paymanResponseBody
                 = (PaymanTransactionsResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject() throws Exception {
+    private BaseResponse getResponseObject() throws Exception {
         RequestBody requestBody = createRequestBody();
-        Request request = createRequest(requestBody, Urls.TRANSACTIONS.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getTransactionsUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

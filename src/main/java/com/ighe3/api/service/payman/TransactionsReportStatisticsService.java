@@ -2,10 +2,10 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanTransactionsReportStatisticsIto;
+import com.ighe3.api.dto.input.PaymanTransactionsReportStatisticsIto;
 import com.ighe3.api.model.response.PaymanTransactionsReportStatisticsResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanTransactionsReportStatisticsRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -16,22 +16,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionsReportStatisticsService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public TransactionsReportStatisticsService(AccessTokenService accessTokenService) {
+    public TransactionsReportStatisticsService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(inputDto);
+        BaseResponse paymanResponse = getResponseObject(inputDto);
         PaymanTransactionsReportStatisticsResponse paymanResponseBody
                 = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
+    private BaseResponse getResponseObject(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, Urls.TRANSACTIONS_REPORT_STATISTICS.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

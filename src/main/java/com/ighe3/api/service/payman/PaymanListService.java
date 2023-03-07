@@ -2,11 +2,11 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanListIto;
+import com.ighe3.api.dto.input.PaymanListIto;
 import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanRequestFilter;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanListRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -17,21 +17,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymanListService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public PaymanListService(AccessTokenService accessTokenService) {
+    public PaymanListService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getList(PaymanListIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject();
+        BaseResponse paymanResponse = getResponseObject();
         PaymanListResponse paymanResponseBody = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject() throws Exception {
+    private BaseResponse getResponseObject() throws Exception {
         RequestBody requestBody = createRequestBody();
-        Request request = createRequest(requestBody, Urls.PAYMAN_LIST.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getPaymanListUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 
@@ -42,6 +44,7 @@ public class PaymanListService extends BaseService {
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
 
+        // TODO
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }

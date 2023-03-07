@@ -2,10 +2,10 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanTransactionsReportIto;
+import com.ighe3.api.dto.input.PaymanTransactionsReportIto;
 import com.ighe3.api.model.response.PaymanTransactionsReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanTransactionsReportRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -16,22 +16,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionsReportService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public TransactionsReportService(AccessTokenService accessTokenService) {
+    public TransactionsReportService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getReport(PaymanTransactionsReportIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(inputDto);
+        BaseResponse paymanResponse = getResponseObject(inputDto);
         PaymanTransactionsReportResponse paymanResponseBody
                 = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(PaymanTransactionsReportIto inputDto) throws Exception {
+    private BaseResponse getResponseObject(PaymanTransactionsReportIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, Urls.TRANSACTIONS_REPORT.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getTransactionsReportUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

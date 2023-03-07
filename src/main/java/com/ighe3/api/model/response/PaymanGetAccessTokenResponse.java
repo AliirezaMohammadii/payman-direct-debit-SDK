@@ -7,7 +7,7 @@ import lombok.Data;
 public class PaymanGetAccessTokenResponse {
     @JsonProperty("access_token")
     private String accessToken;
-    @JsonProperty("access_type")
+    @JsonProperty("token_type")
     private String tokenType;
     private String scope;
     @JsonProperty("expires_in")

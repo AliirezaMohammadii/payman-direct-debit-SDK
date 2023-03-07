@@ -3,8 +3,10 @@ package com.ighe3.api.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.ighe3.api.config.MessageSourceConfig;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
@@ -42,6 +44,7 @@ public class GeneralUtils {
 
     public static Headers getGeneralHeaders() {
         Headers headers = new Headers.Builder()
+                // TODO
                 .add(RequestHeaderKeys.APP_KEY.getValue(), SecurityUtils.APP_KEY)
                 .add(RequestHeaderKeys.CONTENT_TYPE.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
                 .add(RequestHeaderKeys.ACCEPT.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
@@ -61,5 +64,13 @@ public class GeneralUtils {
     private static Map<String, Object> convertJsonToMap(String json) throws Exception {
         Map<String, Object> result = new ObjectMapper().readValue(json, HashMap.class);
         return result;
+    }
+
+    public static String getMessageByCode(String code) {
+        return getMessageByCode(code, null);
+    }
+
+    public static String getMessageByCode(String code, Object[] args) {
+        return MessageSourceConfig.instance.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }

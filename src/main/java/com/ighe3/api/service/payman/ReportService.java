@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -15,22 +15,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public ReportService(AccessTokenService accessTokenService) {
+    public ReportService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getReport(String paymanId) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(paymanId);
+        BaseResponse paymanResponse = getResponseObject(paymanId);
         PaymanReportResponse paymanResponseBody
                 = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(String paymanId) throws Exception {
-        String url = Urls.REPORT.getValue() + "/" + paymanId;
+    private BaseResponse getResponseObject(String paymanId) throws Exception {
+        String url = urls.getReportUrl() + "/" + paymanId;
         Request request = createRequest(url, createHeaders());
-        ResponseModel response = sendRequest(request);
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

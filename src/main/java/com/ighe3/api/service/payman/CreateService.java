@@ -1,11 +1,11 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.controller.dto.input.PaymanCreateIto;
-import com.ighe3.api.controller.dto.output.PaymanCreateOto;
+import com.ighe3.api.dto.input.PaymanCreateIto;
+import com.ighe3.api.dto.output.PaymanCreateOto;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanContract;
 import com.ighe3.api.model.PaymanModel;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanCreateRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -16,22 +16,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public CreateService(AccessTokenService accessTokenService) {
+    public CreateService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(inputDto);
+        BaseResponse paymanResponse = getResponseObject(inputDto);
         Headers headers = paymanResponse.getHeaders();
         PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
         return appResponse;
     }
 
-    private ResponseModel getResponseObject(PaymanCreateIto inputDto) throws Exception {
+    private BaseResponse getResponseObject(PaymanCreateIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, Urls.CREATE.getValue(), createHeaders(inputDto));
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
+        BaseResponse response = sendRequest(request);
         return response;
     }
 
@@ -50,7 +52,7 @@ public class CreateService extends BaseService {
         PaymanCreateRequest requestBodyObject = new PaymanCreateRequest();
         requestBodyObject.setTraceId(inputDto.getTraceId());
         requestBodyObject.setRedirectUrl(inputDto.getRedirectUrl());
-        requestBodyObject.setPaymanObject(paymanObject);
+        requestBodyObject.setPayman(paymanObject);
         return requestBodyObject;
     }
 
@@ -59,7 +61,7 @@ public class CreateService extends BaseService {
         paymanObject.setUserId(inputDto.getUserId());
         paymanObject.setBankCode(inputDto.getBankCode());
         paymanObject.setPermissionIds(inputDto.getPermissionIds());
-        paymanObject.setPaymanContract(paymanContract);
+        paymanObject.setContract(paymanContract);
         return paymanObject;
     }
 

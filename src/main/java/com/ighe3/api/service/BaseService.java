@@ -1,6 +1,6 @@
 package com.ighe3.api.service;
 
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.util.GeneralUtils;
 import okhttp3.*;
 
@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 public abstract class BaseService {
-    protected ResponseModel sendRequest(Request request) throws Exception {
+    protected BaseResponse sendRequest(Request request) throws Exception {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
-        ResponseModel responseModel = createResponseObject(response);
+        BaseResponse baseResponse = createBaseResponse(response);
 //        printResponse(responseObject);
-        return responseModel;
+        return baseResponse;
     }
 
     protected Request createRequest(String url, Headers headers) {
@@ -33,7 +33,7 @@ public abstract class BaseService {
         return request;
     }
 
-    protected void printResponse(ResponseModel response) throws Exception {
+    protected void printResponse(BaseResponse response) throws Exception {
         System.out.println("status code: " + response.getStatusCode());
         System.out.println(GeneralUtils.beautifyJson(response.getBody()));
     }
@@ -51,8 +51,8 @@ public abstract class BaseService {
 
     protected abstract Object convertJsonToJavaObject(String value);
 
-    private ResponseModel createResponseObject(Response response) throws Exception {
+    private BaseResponse createBaseResponse(Response response) throws Exception {
         String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
-        return new ResponseModel(response.headers(), responseBody, response.code());
+        return new BaseResponse(response.headers(), responseBody, response.code());
     }
 }

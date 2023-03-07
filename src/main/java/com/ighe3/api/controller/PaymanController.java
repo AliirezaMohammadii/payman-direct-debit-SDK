@@ -1,14 +1,16 @@
 package com.ighe3.api.controller;
 
 
-import com.ighe3.api.controller.dto.input.*;
+import com.ighe3.api.dto.input.*;
 import com.ighe3.api.service.payman.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/payman")
+@RequestMapping("/v1")
 public class PaymanController implements IController {
+
     private final AccessTokenService accessTokenService;
     private final CreateService createService;
     private final PaymanIdService paymanIdService;

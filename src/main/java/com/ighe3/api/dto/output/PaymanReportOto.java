@@ -1,4 +1,4 @@
-package com.ighe3.api.controller.dto.output;
+package com.ighe3.api.dto.output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

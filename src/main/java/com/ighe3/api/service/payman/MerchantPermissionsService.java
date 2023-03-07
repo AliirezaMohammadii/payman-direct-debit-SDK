@@ -1,7 +1,7 @@
 package com.ighe3.api.service.payman;
 
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
 import com.ighe3.api.util.Urls;
@@ -11,20 +11,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class MerchantPermissionsService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public MerchantPermissionsService(AccessTokenService accessTokenService) {
+    public MerchantPermissionsService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object getPermissions() throws Exception {
-        ResponseModel response = getResponseObject();
+        BaseResponse response = getResponseObject();
 //        List<Map<String, Object>> body = convertJsonToJavaObject(response.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject() throws Exception {
-        Request request = createRequest(Urls.MERCHANT_PERMISSIONS.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+    private BaseResponse getResponseObject() throws Exception {
+        Request request = createRequest(urls.getMerchantPermissionsUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 
@@ -37,5 +39,11 @@ public class MerchantPermissionsService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
+    }
+
+    // TODO
+    @Override
+    protected Object convertJsonToJavaObject(String value) {
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.ighe3.api.controller.dto.input;
+package com.ighe3.api.dto.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ighe3.api.model.PaymanRequestFilter;

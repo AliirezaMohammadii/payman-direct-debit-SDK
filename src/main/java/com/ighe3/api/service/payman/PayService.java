@@ -2,10 +2,10 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanPayIto;
+import com.ighe3.api.dto.input.PaymanPayIto;
 import com.ighe3.api.model.response.PaymanPayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanPayRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -16,27 +16,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class PayService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public PayService(AccessTokenService accessTokenService) {
+    public PayService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object pay(PaymanPayIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(inputDto);
+        BaseResponse paymanResponse = getResponseObject(inputDto);
         PaymanPayResponse paymanResponseBody = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject(PaymanPayIto inputDto) throws Exception {
+    private BaseResponse getResponseObject(PaymanPayIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, Urls.PAY.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 
     private RequestBody createRequestBody(PaymanPayIto inputDto) throws Exception {
         PaymanPayRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
+        // TODO: mediaType from spring boot
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }

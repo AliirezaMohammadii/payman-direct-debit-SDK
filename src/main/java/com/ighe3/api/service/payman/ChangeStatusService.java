@@ -2,10 +2,10 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.controller.dto.input.PaymanChangeStatusIto;
+import com.ighe3.api.dto.input.PaymanChangeStatusIto;
 import com.ighe3.api.model.response.PaymanChangeStatusResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanChangeStatusRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -16,22 +16,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChangeStatusService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public ChangeStatusService(AccessTokenService accessTokenService) {
+    public ChangeStatusService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public Object changeStatus(PaymanChangeStatusIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject();
+        BaseResponse paymanResponse = getResponseObject();
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());
         return null;
     }
 
-    private ResponseModel getResponseObject() throws Exception {
+    private BaseResponse getResponseObject() throws Exception {
         RequestBody requestBody = createRequestBody();
-        Request request = createRequest(requestBody, Urls.CHANGE_STATUS.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 

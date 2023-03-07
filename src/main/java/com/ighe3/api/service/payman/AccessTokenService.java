@@ -2,35 +2,54 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.dto.output.PaymanGetAccessTokenOto;
 import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.SecurityUtils;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccessTokenService extends BaseService {
-    public Object getAccessToken() throws Exception {
-        ResponseModel paymanResponse = getResponseObject();
-        PaymanGetAccessTokenResponse paymanResponseBody
-                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
+
+    @Value("${credentials.use-static-access-token}")
+    private String useStaticAccessToken;
+    @Value("${credentials.access-token}")
+    private String accessToken;
+
+    @Value("${credentials.app-key}")
+    private String appKey;
+    @Value("${credentials.client-secret}")
+    private String clientSecret;
+
+    private final Urls urls;
+
+    public AccessTokenService(Urls urls) {
+        this.urls = urls;
     }
 
-    private ResponseModel getResponseObject() throws Exception {
+    public String getAccessToken() throws Exception {
+
+        if (Boolean.parseBoolean(useStaticAccessToken))
+            return accessToken;
+
         FormBody requestBody = getFormBody();
-        Request request = createRequest(requestBody, Urls.ACCESS_TOKEN.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
-        return response;
+        Request request = createRequest(requestBody, urls.getAccessTokenUrl(), createHeaders());
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanGetAccessTokenResponse paymanResponseBody
+                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody());
+
+        return paymanResponseBody.getAccessToken();
     }
 
     private FormBody getFormBody() {
         FormBody requestBody = new FormBody.Builder()
-                .addEncoded("client_id", SecurityUtils.APP_KEY)
-                .addEncoded("client_secret", SecurityUtils.CLIENT_SECRET)
+                .addEncoded("client_id", appKey)
+                .addEncoded("client_secret", clientSecret)
                 .addEncoded("grant_type", "client_credentials")
                 .build();
         return requestBody;

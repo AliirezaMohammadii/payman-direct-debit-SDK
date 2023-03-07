@@ -1,9 +1,9 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.controller.dto.input.PaymanUpdateIto;
-import com.ighe3.api.controller.dto.output.PaymanUpdateOto;
+import com.ighe3.api.dto.input.PaymanUpdateIto;
+import com.ighe3.api.dto.output.PaymanUpdateOto;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.ResponseModel;
+import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanUpdateRequestBodyObject;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
@@ -14,22 +14,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateService extends BaseService {
     private final AccessTokenService accessTokenService;
+    private final Urls urls;
 
-    public UpdateService(AccessTokenService accessTokenService) {
+    public UpdateService(AccessTokenService accessTokenService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.urls = urls;
     }
 
     public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws Exception {
-        ResponseModel paymanResponse = getResponseObject(inputDto);
+        BaseResponse paymanResponse = getResponseObject(inputDto);
         Headers headers = paymanResponse.getHeaders();
         PaymanUpdateOto appResponse = new PaymanUpdateOto(headers.get("Location"));
         return appResponse;
     }
 
-    private ResponseModel getResponseObject(PaymanUpdateIto inputDto) throws Exception {
+    private BaseResponse getResponseObject(PaymanUpdateIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, Urls.UPDATE.getValue(), createHeaders());
-        ResponseModel response = sendRequest(request);
+        Request request = createRequest(requestBody, urls.getUpdateUrl(), createHeaders());
+        BaseResponse response = sendRequest(request);
         return response;
     }
 
