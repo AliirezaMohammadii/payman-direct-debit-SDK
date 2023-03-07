@@ -8,14 +8,15 @@ import java.util.Date;
 @Data
 public class PaymanContract {
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
     @JsonProperty("expiration_date")
-    private Date expirationDate;
+    private String expirationDate;
     @JsonProperty("max_daily_transaction_count")
     private Integer maxDailyTransactionCount;
     @JsonProperty("max_monthly_transaction_count")
     private Integer maxMonthlyTransactionCount;
     @JsonProperty("max_transaction_amount")
     private Double maxTransactionAmount;
-    private String currency;
+    @JsonProperty("daily_max_transaction_amount")
+    private Double dailyMaxTransactionAmount;
 }

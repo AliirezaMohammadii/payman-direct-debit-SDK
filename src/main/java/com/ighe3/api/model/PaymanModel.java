@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class PaymanModel {
-    @JsonProperty("payman_id")
+    @JsonProperty("bank_code")
     private String bankCode;
     @JsonProperty("user_id")
     private String userId;

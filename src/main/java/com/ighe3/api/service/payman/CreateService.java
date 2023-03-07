@@ -9,58 +9,70 @@ import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanCreateRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
+import com.ighe3.api.util.TraceIdGenerator;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateService extends BaseService {
+
+    @Value("${callback.url}")
+    private String callbackUrl;
+
     private final AccessTokenService accessTokenService;
+    private final MerchantPermissionsService merchantPermissionsService;
     private final Urls urls;
 
-    public CreateService(AccessTokenService accessTokenService, Urls urls) {
+    public CreateService(AccessTokenService accessTokenService, MerchantPermissionsService merchantPermissionsService, Urls urls) {
         this.accessTokenService = accessTokenService;
+        this.merchantPermissionsService = merchantPermissionsService;
         this.urls = urls;
     }
 
     public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(inputDto);
+        System.out.println(urls.getCreateUrl());
+        RequestBody requestBody = createRequestBody(inputDto);
+        Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
+
+//        System.out.println(inputDto.getStartDate());
+//        System.out.println("request:");
+//        System.out.println(GeneralUtils.convertJavaObjectToJson(inputDto));
+//        System.out.println(GeneralUtils.beautifyJson(GeneralUtils.convertJavaObjectToJson(inputDto)));
+//        System.out.println();
+
+        BaseResponse paymanResponse = sendRequest(request);
+
         Headers headers = paymanResponse.getHeaders();
         PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
         return appResponse;
     }
 
-    private BaseResponse getResponseObject(PaymanCreateIto inputDto) throws Exception {
-        RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-        BaseResponse response = sendRequest(request);
-        return response;
-    }
-
     private RequestBody createRequestBody(PaymanCreateIto inputDto) throws Exception {
         PaymanContract paymanContract = getContractObject(inputDto);
         PaymanModel paymanObject = getPaymanObject(paymanContract, inputDto);
-        PaymanCreateRequest requestBodyObject = getRequestBodyObject(paymanObject, inputDto);
+        PaymanCreateRequest requestBody = getRequestBody(paymanObject);
 
-        String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
+        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
 
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanCreateRequest getRequestBodyObject(PaymanModel paymanObject, PaymanCreateIto inputDto) {
+    private PaymanCreateRequest getRequestBody(PaymanModel paymanObject) {
         PaymanCreateRequest requestBodyObject = new PaymanCreateRequest();
-        requestBodyObject.setTraceId(inputDto.getTraceId());
-        requestBodyObject.setRedirectUrl(inputDto.getRedirectUrl());
+        requestBodyObject.setTraceId(TraceIdGenerator.generate());
+        requestBodyObject.setRedirectUrl(callbackUrl);
         requestBodyObject.setPayman(paymanObject);
         return requestBodyObject;
     }
 
-    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) {
+    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) throws Exception {
         PaymanModel paymanObject = new PaymanModel();
-        paymanObject.setUserId(inputDto.getUserId());
+        paymanObject.setUserId(inputDto.getMobileNumber());
         paymanObject.setBankCode(inputDto.getBankCode());
-        paymanObject.setPermissionIds(inputDto.getPermissionIds());
+        paymanObject.setPermissionIds(merchantPermissionsService.getPermissionIds());
         paymanObject.setContract(paymanContract);
         return paymanObject;
     }
@@ -72,7 +84,7 @@ public class CreateService extends BaseService {
         paymanContract.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
         paymanContract.setMaxMonthlyTransactionCount(inputDto.getMaxMonthlyTransactionCount());
         paymanContract.setMaxTransactionAmount(inputDto.getMaxTransactionAmount());
-        paymanContract.setCurrency(inputDto.getCurrency());
+        paymanContract.setDailyMaxTransactionAmount(inputDto.getDailyMaxTransactionAmount());
         return paymanContract;
     }
 

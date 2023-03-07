@@ -10,22 +10,33 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GeneralUtils {
 
     public static final String BEARER_PREFIX = "Bearer ";
 
     public static OkHttpClient buildOkhttpClient() {
+//        OkHttpClient client = new OkHttpClient()
+//                .newBuilder()
+//                .hostnameVerifier(new HostnameVerifier() {
+//                    @Override
+//                    public boolean verify(String hostname, SSLSession sslSession) {
+//                        return true;
+//                    }
+//                })
+//                .build();
+//        return client;
+
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession sslSession) {
-                        return true;
-                    }
-                })
+                .followRedirects(false)
+                .hostnameVerifier((hostname, sslSession) -> true)
                 .build();
         return client;
     }
@@ -72,5 +83,30 @@ public class GeneralUtils {
 
     public static String getMessageByCode(String code, Object[] args) {
         return MessageSourceConfig.instance.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    public static String generateRandomString(int size) {
+        byte[] array = new byte[size];
+        new Random().nextBytes(array);
+        String randomString = new String(array, StandardCharsets.UTF_8);
+        return randomString;
+    }
+
+    public static String convertToOnlyEnglishCharactersAndNumbers(String text) {
+        return encryptByMD5(text);
+    }
+
+    private static String encryptByMD5(String str) {
+        String hashedStr = null;
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(str.getBytes());
+            hashedStr = DatatypeConverter.printHexBinary(md.digest()).toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hashedStr;
     }
 }

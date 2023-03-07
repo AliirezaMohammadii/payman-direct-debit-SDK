@@ -2,10 +2,13 @@ package com.ighe3.api.controller;
 
 
 import com.ighe3.api.dto.input.*;
+import com.ighe3.api.dto.output.PaymanCreateOto;
 import com.ighe3.api.service.payman.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/v1")
@@ -64,8 +67,8 @@ public class PaymanController implements IController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPayman(@RequestBody PaymanCreateIto inputDTO) throws Exception {
-        createService.create(inputDTO);
+    public PaymanCreateOto createPayman(@RequestBody PaymanCreateIto inputDTO) throws Exception {
+        return createService.create(inputDTO);
     }
 
     @GetMapping("/payman-id/{paymanCode}")
@@ -126,7 +129,7 @@ public class PaymanController implements IController {
     @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
     public Object getMerchantPermissions() throws Exception {
-        return merchantPermissionsService.getPermissions();
+        return merchantPermissionsService.getPermissionIds();
     }
 
     @PostMapping("/transactions/report")

@@ -1,8 +1,8 @@
 package com.ighe3.api.model.enums;
 
 public enum Permission {
-    PAY(1),
-    BILL(2);
+    NORMAL_PAY(1),
+    BILL_PAY(2);
 
     public final int label;
 

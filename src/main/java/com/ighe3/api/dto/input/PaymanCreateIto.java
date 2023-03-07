@@ -8,35 +8,42 @@ import java.util.List;
 
 @Data
 public class PaymanCreateIto {
+
     @JsonProperty("bank_code")
     private String bankCode;
 
     // TODO: remove
-    @JsonProperty("user_id")
-    private String userId;
+//    @JsonProperty("user_id")
+//    private String userId;
 
     // TODO: remove
-    @JsonProperty("permission_ids")
-    private List<Integer> permissionIds;
+//    @JsonProperty("permission_ids")
+//    private List<Integer> permissionIds;
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
     @JsonProperty("expiration_date")
-    private Date expirationDate;
+    private String expirationDate;
     @JsonProperty("max_daily_transaction_count")
     private Integer maxDailyTransactionCount;
     @JsonProperty("max_monthly_transaction_count")
     private Integer maxMonthlyTransactionCount;
     @JsonProperty("max_transaction_amount")
     private Double maxTransactionAmount;
-    private String currency;
+    @JsonProperty("daily_max_transaction_amount")
+    private Double dailyMaxTransactionAmount;
 
     // TODO: remove
-    private String redirectUrl;
+//    private String currency;
 
-    @JsonProperty("trace_id")
-    private String traceId;
+    // TODO: remove
+//    private String redirectUrl;
 
+    // TODO: to remove
+//    @JsonProperty("trace_id")
+//    private String traceId;
+
+    // TODO: in fact, mobileNumber and nationalCode must be handles by fetching from database.
     @JsonProperty("mobile_number")
     private String mobileNumber;
 

@@ -12,7 +12,7 @@ public abstract class BaseService {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
         BaseResponse baseResponse = createBaseResponse(response);
-//        printResponse(responseObject);
+        printResponse(baseResponse);
         return baseResponse;
     }
 
