@@ -32,15 +32,8 @@ public class CreateService extends BaseService {
     }
 
     public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
-        System.out.println(urls.getCreateUrl());
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-
-//        System.out.println(inputDto.getStartDate());
-//        System.out.println("request:");
-//        System.out.println(GeneralUtils.convertJavaObjectToJson(inputDto));
-//        System.out.println(GeneralUtils.beautifyJson(GeneralUtils.convertJavaObjectToJson(inputDto)));
-//        System.out.println();
 
         BaseResponse paymanResponse = sendRequest(request);
 
