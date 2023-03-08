@@ -3,9 +3,10 @@ package com.ighe3.api.service.payman;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.input.PaymanListIto;
+import com.ighe3.api.model.PaymanListRequestFilter;
 import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.PaymanRequestFilter;
+import com.ighe3.api.model.PaymanTransactionsRequestFilter;
 import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanListRequest;
 import com.ighe3.api.util.GeneralUtils;
@@ -24,45 +25,52 @@ public class PaymanListService extends BaseService {
         this.urls = urls;
     }
 
-    public Object getList(PaymanListIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject();
-        PaymanListResponse paymanResponseBody = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject() throws Exception {
-        RequestBody requestBody = createRequestBody();
+    public PaymanListResponse getList(PaymanListIto inputDto) throws Exception {
+        RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPaymanListUrl(), createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanListResponse paymanResponseBody = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody() throws Exception {
+    private RequestBody createRequestBody(PaymanListIto inputDto) throws Exception {
 
-        PaymanRequestFilter paymanRequestFilter = getPaymanRequestFilterObject();
-        PaymanListRequest requestBodyObject = getRequestBodyObject(paymanRequestFilter);
+        PaymanListRequestFilter filter = getPaymanRequestFilterObject(inputDto.getFilter());
+        PaymanListRequest requestBodyObject = getRequestBodyObject(inputDto, filter);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
 
-        // TODO
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanRequestFilter getPaymanRequestFilterObject() {
-        PaymanRequestFilter paymanRequestFilter = new PaymanRequestFilter();
-        paymanRequestFilter.setTransactionType(null);
-        paymanRequestFilter.setFromTransactionAmount(null);
-        paymanRequestFilter.setToTransactionAmount(null);
-        // ...
-        return paymanRequestFilter;
+    // TODO: about input parameter: either this function is useless, or request object must be
+    // customized for input transfer object.
+    private PaymanListRequestFilter getPaymanRequestFilterObject(PaymanListRequestFilter filter) {
+        PaymanListRequestFilter paymanListRequestFilter = new PaymanListRequestFilter();
+        paymanListRequestFilter.setBankCode(filter.getBankCode());
+        paymanListRequestFilter.setExpirationDateFrom(filter.getExpirationDateFrom());
+        paymanListRequestFilter.setExpirationDateTo(filter.getExpirationDateTo());
+        paymanListRequestFilter.setMaxDailyTransactionsCountFrom(filter.getMaxDailyTransactionsCountFrom());
+        paymanListRequestFilter.setMaxDailyTransactionsCountTo(filter.getMaxDailyTransactionsCountTo());
+        paymanListRequestFilter.setMaxMonthlyTransactionsCountFrom(filter.getMaxMonthlyTransactionsCountFrom());
+        paymanListRequestFilter.setMaxMonthlyTransactionsCountTo(filter.getMaxMonthlyTransactionsCountTo());
+        paymanListRequestFilter.setStartDateFrom(filter.getStartDateFrom());
+        paymanListRequestFilter.setStartDateTo(filter.getStartDateTo());
+        paymanListRequestFilter.setStatuses(filter.getStatuses());
+        paymanListRequestFilter.setTransactionMaxAmountFrom(filter.getTransactionMaxAmountFrom());
+        paymanListRequestFilter.setTransactionMaxAmountTo(filter.getTransactionMaxAmountTo());
+        paymanListRequestFilter.setPaymanId(filter.getPaymanId());
+        paymanListRequestFilter.setUserIds(filter.getUserIds());
+        paymanListRequestFilter.setPermissionIds(filter.getPermissionIds());
+        return paymanListRequestFilter;
     }
 
-    private PaymanListRequest getRequestBodyObject(PaymanRequestFilter paymanRequestFilter) {
+    private PaymanListRequest getRequestBodyObject(PaymanListIto inputDto, PaymanListRequestFilter filter) {
         PaymanListRequest requestBodyObject = new PaymanListRequest();
-        requestBodyObject.setFilter(paymanRequestFilter);
-        requestBodyObject.setLength(null);
-        requestBodyObject.setOffset(null);
+        requestBodyObject.setFilter(filter);
+        requestBodyObject.setLength(inputDto.getLength());
+        requestBodyObject.setOffset(inputDto.getOffset());
         return requestBodyObject;
     }
 

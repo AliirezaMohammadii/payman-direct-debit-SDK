@@ -21,18 +21,13 @@ public class PaymanIdService extends BaseService {
         this.urls = urls;
     }
 
-    public Object getPaymanId(String paymanCode) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(paymanCode);
-        PaymanGetPaymanIdResponse paymanResponseBody
-                = (PaymanGetPaymanIdResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject(String paymanCode) throws Exception {
+    public String getPaymanId(String paymanCode) throws Exception {
         String url = urls.getPaymanIdUrl() + "?payman_code" + "=" + paymanCode;
         Request request = createRequest(url, createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanGetPaymanIdResponse paymanResponseBody
+                = (PaymanGetPaymanIdResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody.getPaymanId();
     }
 
     @Override

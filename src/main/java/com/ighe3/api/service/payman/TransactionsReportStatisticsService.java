@@ -23,18 +23,15 @@ public class TransactionsReportStatisticsService extends BaseService {
         this.urls = urls;
     }
 
-    public Object getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(inputDto);
-        PaymanTransactionsReportStatisticsResponse paymanResponseBody
-                = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
+    public PaymanTransactionsReportStatisticsResponse getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto)
+            throws Exception {
 
-    private BaseResponse getResponseObject(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanTransactionsReportStatisticsResponse paymanResponseBody
+                = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
     private RequestBody createRequestBody(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
@@ -50,8 +47,8 @@ public class TransactionsReportStatisticsService extends BaseService {
     private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(PaymanTransactionsReportStatisticsIto inputDto) {
         PaymanTransactionsReportStatisticsRequest requestBodyObject
                 = new PaymanTransactionsReportStatisticsRequest();
-        requestBodyObject.setStartDate(null);
-        requestBodyObject.setEndDate(null);
+        requestBodyObject.setStartDate(inputDto.getStartDate());
+        requestBodyObject.setEndDate(inputDto.getEndDate());
         return requestBodyObject;
     }
 

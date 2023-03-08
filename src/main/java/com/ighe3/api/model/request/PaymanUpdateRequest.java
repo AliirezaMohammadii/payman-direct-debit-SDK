@@ -6,19 +6,20 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class PaymanUpdateRequestBodyObject {
+public class PaymanUpdateRequest {
     @JsonProperty("payman_id")
     private String paymanId;
     @JsonProperty("expiration_date")
     private Date expirationDate;
     @JsonProperty("max_daily_transaction_count")
-    private String maxDailyTransactionCount;
+    private Integer maxDailyTransactionCount;
     @JsonProperty("max_monthly_transaction_count")
-    private String maxMonthlyTransactionCount;
+    private Integer maxMonthlyTransactionCount;
     @JsonProperty("max_transaction_amount")
-    private String maxTransactionAmount;
+    private Double maxTransactionAmount;
+    @JsonProperty("daily_max_transaction_amount")
+    private Double dailyMaxTransactionAmount;
 
-    // TODO: to remove
     @JsonProperty("redirect_url")
     private String redirectUrl;
 }

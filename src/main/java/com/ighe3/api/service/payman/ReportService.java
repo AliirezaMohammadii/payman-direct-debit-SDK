@@ -22,18 +22,13 @@ public class ReportService extends BaseService {
         this.urls = urls;
     }
 
-    public Object getReport(String paymanId) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(paymanId);
-        PaymanReportResponse paymanResponseBody
-                = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject(String paymanId) throws Exception {
+    public PaymanReportResponse getReport(String paymanId) throws Exception {
         String url = urls.getReportUrl() + "/" + paymanId;
         Request request = createRequest(url, createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanReportResponse paymanResponseBody
+                = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
     @Override

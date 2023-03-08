@@ -34,9 +34,7 @@ public class CreateService extends BaseService {
     public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-
         BaseResponse paymanResponse = sendRequest(request);
-
         Headers headers = paymanResponse.getHeaders();
         PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
         return appResponse;
@@ -56,7 +54,8 @@ public class CreateService extends BaseService {
     private PaymanCreateRequest getRequestBody(PaymanModel paymanObject) {
         PaymanCreateRequest requestBodyObject = new PaymanCreateRequest();
         requestBodyObject.setTraceId(TraceIdGenerator.generate());
-        requestBodyObject.setRedirectUrl(callbackUrl);
+        // TODO: in fact, userId must be fetched from database.
+        requestBodyObject.setRedirectUrl(callbackUrl + "?userId=" + paymanObject.getUserId());
         requestBodyObject.setPayman(paymanObject);
         return requestBodyObject;
     }
@@ -81,7 +80,7 @@ public class CreateService extends BaseService {
         return paymanContract;
     }
 
-    protected Headers createHeaders(PaymanCreateIto inputDto) throws Exception {
+    private Headers createHeaders(PaymanCreateIto inputDto) throws Exception {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

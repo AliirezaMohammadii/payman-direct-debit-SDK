@@ -2,6 +2,7 @@ package com.ighe3.api.service.payman;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.model.PermissionIdDetail;
 import com.ighe3.api.model.enums.Permission;
 import com.ighe3.api.model.response.PaymanMerchantPermissionsResponse;
 import com.ighe3.api.service.BaseService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MerchantPermissionsService extends BaseService {
@@ -41,7 +43,7 @@ public class MerchantPermissionsService extends BaseService {
         BaseResponse paymanResponse = getBaseResponse();
         PaymanMerchantPermissionsResponse paymanResponseBody
                 = (PaymanMerchantPermissionsResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return paymanResponseBody.getPermissionIds();
+        return paymanResponseBody.getPermissionIdsDetail().stream().map(PermissionIdDetail::getId).collect(Collectors.toList());
     }
 
     private BaseResponse getBaseResponse() throws Exception {

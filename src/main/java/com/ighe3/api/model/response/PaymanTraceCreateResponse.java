@@ -12,7 +12,7 @@ public class PaymanTraceCreateResponse {
     private String bankCode;
     @JsonProperty("user_id")
     private String userId;
-    @JsonProperty("payman_code")
+    @JsonProperty("payman_id")
     private String paymanId;
     private String status;
     @JsonProperty("internal_status")

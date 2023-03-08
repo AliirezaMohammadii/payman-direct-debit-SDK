@@ -23,18 +23,13 @@ public class TransactionsReportService extends BaseService {
         this.urls = urls;
     }
 
-    public Object getReport(PaymanTransactionsReportIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(inputDto);
-        PaymanTransactionsReportResponse paymanResponseBody
-                = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject(PaymanTransactionsReportIto inputDto) throws Exception {
+    public PaymanTransactionsReportResponse getReport(PaymanTransactionsReportIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsReportUrl(), createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanTransactionsReportResponse paymanResponseBody
+                = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
     private RequestBody createRequestBody(PaymanTransactionsReportIto inputDto) throws Exception {
@@ -49,11 +44,11 @@ public class TransactionsReportService extends BaseService {
 
     private PaymanTransactionsReportRequest getRequestBodyObject(PaymanTransactionsReportIto inputDto) {
         PaymanTransactionsReportRequest requestBodyObject = new PaymanTransactionsReportRequest();
-        requestBodyObject.setOffset(0);
-        requestBodyObject.setLength(0);
-        requestBodyObject.setStartDate(null);
-        requestBodyObject.setEndDate(null);
-        requestBodyObject.setBankCode(null);
+        requestBodyObject.setOffset(inputDto.getOffset());
+        requestBodyObject.setLength(inputDto.getLength());
+        requestBodyObject.setStartDate(inputDto.getStartDate());
+        requestBodyObject.setEndDate(inputDto.getEndDate());
+        requestBodyObject.setBankCode(inputDto.getBankCode());
         return requestBodyObject;
     }
 

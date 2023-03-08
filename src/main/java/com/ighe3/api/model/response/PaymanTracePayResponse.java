@@ -5,14 +5,20 @@ import lombok.Data;
 
 @Data
 public class PaymanTracePayResponse {
+
     private String currency;
+
     private String description;
+
     @JsonProperty("destination_bank")
     private String destinationBank;
+
     @JsonProperty("destination_deposit")
     private String destinationDeposit;
+
     @JsonProperty("source_bank")
     private String sourceBank;
+
     @JsonProperty("source_deposit")
     private String sourceDeposit;
 

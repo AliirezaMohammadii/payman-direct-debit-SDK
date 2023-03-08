@@ -22,17 +22,6 @@ public class GeneralUtils {
     public static final String BEARER_PREFIX = "Bearer ";
 
     public static OkHttpClient buildOkhttpClient() {
-//        OkHttpClient client = new OkHttpClient()
-//                .newBuilder()
-//                .hostnameVerifier(new HostnameVerifier() {
-//                    @Override
-//                    public boolean verify(String hostname, SSLSession sslSession) {
-//                        return true;
-//                    }
-//                })
-//                .build();
-//        return client;
-
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .followRedirects(false)

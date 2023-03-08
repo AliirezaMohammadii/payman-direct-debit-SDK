@@ -7,8 +7,11 @@ import java.util.Date;
 
 @Data
 public class PaymanUpdateIto {
-    @JsonProperty("bank_code")
-    private String bankCode;
+
+    // TODO: it's temporary. must be removed later.
+    @JsonProperty("user_id")
+    private String userId;
+
     @JsonProperty("payman_id")
     private String paymanId;
     @JsonProperty("expiration_date")
@@ -19,7 +22,15 @@ public class PaymanUpdateIto {
     private Integer maxMonthlyTransactionCount;
     @JsonProperty("max_transaction_amount")
     private Double maxTransactionAmount;
+    @JsonProperty("daily_max_transaction_amount")
+    private Double dailyMaxTransactionAmount;
 
     // TODO: remove
-    private String redirectUrl;
+//    private String redirectUrl;
+
+    @JsonProperty("mobile_number")
+    private String mobileNumber;
+
+    @JsonProperty("national_code")
+    private String nationalCode;
 }

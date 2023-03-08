@@ -9,6 +9,7 @@ import com.ighe3.api.dto.BaseResponse;
 import com.ighe3.api.model.request.PaymanPayRequest;
 import com.ighe3.api.util.GeneralUtils;
 import com.ighe3.api.util.RequestHeaderKeys;
+import com.ighe3.api.util.TraceIdGenerator;
 import com.ighe3.api.util.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,12 @@ public class PayService extends BaseService {
         this.urls = urls;
     }
 
-    public Object pay(PaymanPayIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(inputDto);
-        PaymanPayResponse paymanResponseBody = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject(PaymanPayIto inputDto) throws Exception {
+    public PaymanPayResponse pay(PaymanPayIto inputDto) throws Exception {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanPayResponse paymanResponseBody = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
     private RequestBody createRequestBody(PaymanPayIto inputDto) throws Exception {
@@ -46,11 +42,13 @@ public class PayService extends BaseService {
 
     private PaymanPayRequest getRequestBodyObject(PaymanPayIto inputDto) {
         PaymanPayRequest requestBodyObject = new PaymanPayRequest();
-        requestBodyObject.setTraceId(inputDto.getTraceId());
+        requestBodyObject.setTraceId(TraceIdGenerator.generate());
         requestBodyObject.setAmount(inputDto.getAmount());
         requestBodyObject.setDescription(inputDto.getDescription());
         requestBodyObject.setClientTransactionDate(inputDto.getClientTransactionDate());
         requestBodyObject.setPaymanId(inputDto.getPaymanId());
+        requestBodyObject.setPayId(inputDto.getPayId());
+        requestBodyObject.setCommissionAmount(inputDto.getCommissionAmount());
         return requestBodyObject;
     }
 

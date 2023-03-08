@@ -22,18 +22,13 @@ public class TraceCreateService extends BaseService {
         this.urls = urls;
     }
 
-    public Object trace(String traceId) throws Exception {
-        BaseResponse paymanResponse = getResponseObject(traceId);
-        PaymanTraceCreateResponse paymanResponseBody
-                = (PaymanTraceCreateResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
-    }
-
-    private BaseResponse getResponseObject(String traceId) throws Exception {
+    public PaymanTraceCreateResponse trace(String traceId) throws Exception {
         String url = urls.getTraceCreateUrl() + "?trace-id" + "=" + traceId;
         Request request = createRequest(url, createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
+        BaseResponse paymanResponse = sendRequest(request);
+        PaymanTraceCreateResponse paymanResponseBody
+                = (PaymanTraceCreateResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        return paymanResponseBody;
     }
 
     @Override

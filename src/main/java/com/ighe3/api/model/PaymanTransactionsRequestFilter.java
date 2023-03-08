@@ -7,12 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class PaymanRequestFilter {
+public class PaymanTransactionsRequestFilter {
     @JsonProperty("payman_ids")
     private List<String> paymanIds;
     @JsonProperty("user_ids")
     private List<String> userIds;
-    @JsonProperty("trace")
+    @JsonProperty("trace_id")
     private String traceId;
     @JsonProperty("reference_id")
     private String referenceId;
@@ -36,8 +36,8 @@ public class PaymanRequestFilter {
     @JsonProperty("destination_bank_code")
     private String destinationBankCode;
 
-    @JsonProperty("payamn_statuses")
-    private List<String> payamnStatuses;
+    @JsonProperty("payman_statuses")
+    private List<String> paymanStatuses;
 
     @JsonProperty("transaction_statuses")
     private List<String> transactionStatuses;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChangeStatusService extends BaseService {
+
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
@@ -23,31 +24,26 @@ public class ChangeStatusService extends BaseService {
         this.urls = urls;
     }
 
-    public Object changeStatus(PaymanChangeStatusIto inputDto) throws Exception {
-        BaseResponse paymanResponse = getResponseObject();
+    public PaymanChangeStatusResponse changeStatus(PaymanChangeStatusIto inputDto) throws Exception {
+        RequestBody requestBody = createRequestBody(inputDto);
+        Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
+        BaseResponse paymanResponse = sendRequest(request);
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());
-        return null;
+        return paymanResponseBody;
     }
 
-    private BaseResponse getResponseObject() throws Exception {
-        RequestBody requestBody = createRequestBody();
-        Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
-        BaseResponse response = sendRequest(request);
-        return response;
-    }
-
-    private RequestBody createRequestBody() throws Exception {
-        PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject();
+    private RequestBody createRequestBody(PaymanChangeStatusIto inputDto) throws Exception {
+        PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanChangeStatusRequest getRequestBodyObject() {
+    private PaymanChangeStatusRequest getRequestBodyObject(PaymanChangeStatusIto inputDto) {
         PaymanChangeStatusRequest requestBodyObject = new PaymanChangeStatusRequest();
-        requestBodyObject.setNewStatus(null);
-        requestBodyObject.setPaymanId(null);
+        requestBodyObject.setNewStatus(inputDto.getNewStatus());
+        requestBodyObject.setPaymanId(inputDto.getPaymanId());
         return requestBodyObject;
     }
 
