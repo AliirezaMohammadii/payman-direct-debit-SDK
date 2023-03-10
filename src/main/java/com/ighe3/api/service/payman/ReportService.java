@@ -24,21 +24,10 @@ public class ReportService extends BaseService {
 
     public PaymanReportResponse getReport(String paymanId) throws RuntimeException {
         String url = urls.getReportUrl() + "/" + paymanId;
-        Request request = createRequest(url, createHeaders());
+        Request request = createRequest(url, createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, ReportService.class);
         PaymanReportResponse paymanResponseBody
                 = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanReportResponse.class);
         return paymanResponseBody;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

@@ -52,10 +52,4 @@ public class AccessTokenService extends BaseService {
                 .build();
         return requestBody;
     }
-
-    @Override
-    protected Headers createHeaders() {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        return generalHeaders;
-    }
 }

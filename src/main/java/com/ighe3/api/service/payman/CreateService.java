@@ -26,6 +26,7 @@ public class CreateService extends BaseService {
                          AccessTokenService accessTokenService,
                          MerchantPermissionsService merchantPermissionsService,
                          Urls urls) {
+
         super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.merchantPermissionsService = merchantPermissionsService;
@@ -81,19 +82,15 @@ public class CreateService extends BaseService {
         return contract;
     }
 
-    private Headers createHeaders(CreateRequest inputDto) throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
+    /**
+     * Overloading method and using parent's one inside it.
+     */
+    protected Headers createHeaders(CreateRequest inputDto) throws RuntimeException {
+        Headers generalHeaders = createHeaders(accessTokenService.getAccessToken());
+        Headers headers = generalHeaders.newBuilder()
                 .add(RequestHeaderKeys.MOBILE_NO.getValue(), inputDto.getMobileNumber())
                 .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), inputDto.getNationalCode())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        return null;
     }
 }

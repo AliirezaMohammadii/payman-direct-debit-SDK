@@ -26,7 +26,7 @@ public class ChangeStatusService extends BaseService {
 
     public PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, ChangeStatusService.class);
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanChangeStatusResponse.class);
@@ -45,15 +45,5 @@ public class ChangeStatusService extends BaseService {
         requestBodyObject.setNewStatus(inputDto.getNewStatus());
         requestBodyObject.setPaymanId(inputDto.getPaymanId());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

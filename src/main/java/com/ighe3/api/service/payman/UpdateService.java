@@ -1,5 +1,6 @@
 package com.ighe3.api.service.payman;
 
+import com.ighe3.api.dto.client.request.CreateRequest;
 import com.ighe3.api.dto.client.request.UpdateRequest;
 import com.ighe3.api.dto.client.response.UpdateResponse;
 import com.ighe3.api.service.BaseService;
@@ -56,19 +57,15 @@ public class UpdateService extends BaseService {
         return requestBodyObject;
     }
 
-    private Headers createHeaders(UpdateRequest inputDto) throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
+    /**
+     * Overloading method and using parent's one inside it.
+     */
+    protected Headers createHeaders(UpdateRequest inputDto) throws RuntimeException {
+        Headers generalHeaders = createHeaders(accessTokenService.getAccessToken());
+        Headers headers = generalHeaders.newBuilder()
                 .add(RequestHeaderKeys.MOBILE_NO.getValue(), inputDto.getMobileNumber())
                 .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), inputDto.getNationalCode())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        return null;
     }
 }

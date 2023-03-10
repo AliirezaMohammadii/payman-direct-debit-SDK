@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.config.MessageSourceConfig;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -49,21 +47,6 @@ public class GeneralUtils {
         }
 
         return null;
-    }
-
-    public static Headers getGeneralHeaders() {
-        Headers headers = new Headers.Builder()
-                // TODO
-                .add(RequestHeaderKeys.APP_KEY.getValue(), appKey)
-                .add(RequestHeaderKeys.CONTENT_TYPE.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
-                .add(RequestHeaderKeys.ACCEPT.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
-                .add(RequestHeaderKeys.CLIENT_IP_ADDRESS.getValue(), "127.0.0.1")
-                .add(RequestHeaderKeys.CLIENT_PLATFORM_TYPE.getValue(), RequestHeaderValues.WEB.getValue())
-                .add(RequestHeaderKeys.CLIENT_DEVICE_ID.getValue(), "127.0.0.1")
-                .add(RequestHeaderKeys.CLIENT_USER_ID.getValue(), "09120000000")
-                .add(RequestHeaderKeys.CLIENT_USER_AGENT.getValue(), "firefox5.0")
-                .build();
-        return headers;
     }
 
     public static Map<String, Object> getResponseBodyAsMap(String body) throws RuntimeException {

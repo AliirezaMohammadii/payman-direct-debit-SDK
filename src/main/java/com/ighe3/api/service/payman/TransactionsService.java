@@ -26,7 +26,7 @@ public class TransactionsService extends BaseService {
 
     public PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getTransactionsUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getTransactionsUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, TransactionsService.class);
         PaymanTransactionsResponse paymanResponseBody
                 = (PaymanTransactionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsResponse.class);
@@ -73,16 +73,5 @@ public class TransactionsService extends BaseService {
         requestBodyObject.setLength(inputDto.getLength());
         requestBodyObject.setOffset(inputDto.getOffset());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

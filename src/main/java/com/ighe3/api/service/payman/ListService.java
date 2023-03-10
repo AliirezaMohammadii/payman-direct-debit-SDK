@@ -26,7 +26,7 @@ public class ListService extends BaseService {
 
     public PaymanListResponse getList(ListRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getPaymanListUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getPaymanListUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, ListService.class);
         PaymanListResponse paymanResponseBody
                 = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanListResponse.class);
@@ -72,16 +72,5 @@ public class ListService extends BaseService {
         requestBodyObject.setLength(inputDto.getLength());
         requestBodyObject.setOffset(inputDto.getOffset());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

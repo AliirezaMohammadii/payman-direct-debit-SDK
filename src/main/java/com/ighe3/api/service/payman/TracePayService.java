@@ -24,21 +24,10 @@ public class TracePayService extends BaseService {
 
     public PaymanTracePayResponse trace(String traceId, String date) throws RuntimeException {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
-        Request request = createRequest(url, createHeaders());
+        Request request = createRequest(url, createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, TracePayService.class);
         PaymanTracePayResponse paymanResponseBody
                 = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTracePayResponse.class);
         return paymanResponseBody;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

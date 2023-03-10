@@ -29,7 +29,7 @@ public class TransactionsReportStatisticsService extends BaseService {
             throws RuntimeException {
 
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, TransactionsReportStatisticsService.class);
         PaymanTransactionsReportStatisticsResponse paymanResponseBody
                 = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class);
@@ -37,11 +37,8 @@ public class TransactionsReportStatisticsService extends BaseService {
     }
 
     private RequestBody createRequestBody(TransactionsReportStatisticsRequest inputDto) throws RuntimeException {
-
         PaymanTransactionsReportStatisticsRequest requestBodyObject = getRequestBodyObject(inputDto);
-
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
-
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
@@ -52,16 +49,5 @@ public class TransactionsReportStatisticsService extends BaseService {
         requestBodyObject.setStartDate(inputDto.getStartDate());
         requestBodyObject.setEndDate(inputDto.getEndDate());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

@@ -25,7 +25,7 @@ public class TransactionsReportService extends BaseService {
 
     public PaymanTransactionsReportResponse getReport(TransactionsReportRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getTransactionsReportUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getTransactionsReportUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, TransactionsReportService.class);
         PaymanTransactionsReportResponse paymanResponseBody
                 = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportResponse.class);
@@ -33,11 +33,8 @@ public class TransactionsReportService extends BaseService {
     }
 
     private RequestBody createRequestBody(TransactionsReportRequest inputDto) throws RuntimeException {
-
         PaymanTransactionsReportRequest requestBodyObject = getRequestBodyObject(inputDto);
-
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
-
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
@@ -50,16 +47,5 @@ public class TransactionsReportService extends BaseService {
         requestBodyObject.setEndDate(inputDto.getEndDate());
         requestBodyObject.setBankCode(inputDto.getBankCode());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

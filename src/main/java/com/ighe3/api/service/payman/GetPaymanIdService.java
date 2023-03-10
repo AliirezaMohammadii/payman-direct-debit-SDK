@@ -23,21 +23,10 @@ public class GetPaymanIdService extends BaseService {
 
     public String getPaymanId(String paymanCode) throws RuntimeException {
         String url = urls.getPaymanIdUrl() + "?payman_code" + "=" + paymanCode;
-        Request request = createRequest(url, createHeaders());
+        Request request = createRequest(url, createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, GetPaymanIdService.class);
         PaymanGetPaymanIdResponse paymanResponseBody
                 = (PaymanGetPaymanIdResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanGetPaymanIdResponse.class);
         return paymanResponseBody.getPaymanId();
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

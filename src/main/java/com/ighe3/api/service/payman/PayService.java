@@ -22,7 +22,7 @@ public class PayService extends BaseService {
 
     public PaymanPayResponse pay(PayRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
+        Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, PayService.class);
         PaymanPayResponse paymanResponseBody
                 = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
@@ -47,16 +47,5 @@ public class PayService extends BaseService {
         requestBodyObject.setPayId(inputDto.getPayId());
         requestBodyObject.setCommissionAmount(inputDto.getCommissionAmount());
         return requestBodyObject;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }

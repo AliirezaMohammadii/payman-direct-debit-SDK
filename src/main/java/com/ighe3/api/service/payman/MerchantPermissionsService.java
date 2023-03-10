@@ -37,26 +37,10 @@ public class MerchantPermissionsService extends BaseService {
         if (Boolean.parseBoolean(appHasOnlyNormalPayPermission))
             return Collections.singletonList(MerchantPermissions.NORMAL_PAY.label);
 
-        Response paymanResponse = getBaseResponse();
+        Request request = createRequest(urls.getMerchantPermissionsUrl(), createHeaders(accessTokenService.getAccessToken()));
+        Response paymanResponse = sendRequest(request, MerchantPermissionsService.class);
         PaymanMerchantPermissionsResponse paymanResponseBody
                 = (PaymanMerchantPermissionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class);
         return paymanResponseBody.getPermissionIdsDetail().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
-    }
-
-    private Response getBaseResponse() throws RuntimeException {
-        Request request = createRequest(urls.getMerchantPermissionsUrl(), createHeaders());
-        Response response = sendRequest(request, MerchantPermissionsService.class);
-        return response;
-    }
-
-    @Override
-    protected Headers createHeaders() throws RuntimeException {
-        Headers generalHeaders = GeneralUtils.getGeneralHeaders();
-        Headers headers = new Headers.Builder()
-                .addAll(generalHeaders)
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(),
-                        GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
-                .build();
-        return headers;
     }
 }
