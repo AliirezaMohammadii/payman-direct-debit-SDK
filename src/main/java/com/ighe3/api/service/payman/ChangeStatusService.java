@@ -24,7 +24,7 @@ public class ChangeStatusService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanChangeStatusResponse changeStatus(PaymanChangeStatusIto inputDto) throws Exception {
+    public PaymanChangeStatusResponse changeStatus(PaymanChangeStatusIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
@@ -33,7 +33,7 @@ public class ChangeStatusService extends BaseService {
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanChangeStatusIto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanChangeStatusIto inputDto) throws RuntimeException {
         PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
@@ -48,7 +48,7 @@ public class ChangeStatusService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

@@ -24,7 +24,7 @@ public class TransactionsReportStatisticsService extends BaseService {
     }
 
     public PaymanTransactionsReportStatisticsResponse getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto)
-            throws Exception {
+            throws RuntimeException {
 
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
@@ -34,7 +34,7 @@ public class TransactionsReportStatisticsService extends BaseService {
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanTransactionsReportStatisticsIto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanTransactionsReportStatisticsIto inputDto) throws RuntimeException {
 
         PaymanTransactionsReportStatisticsRequest requestBodyObject = getRequestBodyObject(inputDto);
 
@@ -53,7 +53,7 @@ public class TransactionsReportStatisticsService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

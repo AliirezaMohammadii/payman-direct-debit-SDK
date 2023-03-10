@@ -22,7 +22,7 @@ public class ReportService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanReportResponse getReport(String paymanId) throws Exception {
+    public PaymanReportResponse getReport(String paymanId) throws RuntimeException {
         String url = urls.getReportUrl() + "/" + paymanId;
         Request request = createRequest(url, createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
@@ -32,7 +32,7 @@ public class ReportService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

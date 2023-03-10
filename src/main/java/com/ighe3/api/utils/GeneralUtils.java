@@ -34,10 +34,18 @@ public class GeneralUtils {
         return beautifiedJson;
     }
 
-    public static String convertJavaObjectToJson(Object object) throws JsonProcessingException {
+    public static String convertJavaObjectToJson(Object object) {
+
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(object);
-        return json;
+
+        try {
+            String json = mapper.writeValueAsString(object);
+            return json;
+        } catch (JsonProcessingException e) {
+            // TODO
+        }
+
+        return null;
     }
 
     public static Headers getGeneralHeaders() {
@@ -55,13 +63,20 @@ public class GeneralUtils {
         return headers;
     }
 
-    public static Map<String, Object> getResponseBodyAsMap(String body) throws Exception {
+    public static Map<String, Object> getResponseBodyAsMap(String body) throws RuntimeException {
         return convertJsonToMap(body);
     }
 
-    private static Map<String, Object> convertJsonToMap(String json) throws Exception {
-        Map<String, Object> result = new ObjectMapper().readValue(json, HashMap.class);
-        return result;
+    private static Map<String, Object> convertJsonToMap(String json) throws RuntimeException {
+
+        try {
+            Map<String, Object> result = new ObjectMapper().readValue(json, HashMap.class);
+            return result;
+        } catch (JsonProcessingException e) {
+            // TODO
+        }
+
+        return null;
     }
 
     public static String getMessageByCode(String code) {

@@ -21,7 +21,7 @@ public class PaymanIdService extends BaseService {
         this.urls = urls;
     }
 
-    public String getPaymanId(String paymanCode) throws Exception {
+    public String getPaymanId(String paymanCode) throws RuntimeException {
         String url = urls.getPaymanIdUrl() + "?payman_code" + "=" + paymanCode;
         Request request = createRequest(url, createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
@@ -31,7 +31,7 @@ public class PaymanIdService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

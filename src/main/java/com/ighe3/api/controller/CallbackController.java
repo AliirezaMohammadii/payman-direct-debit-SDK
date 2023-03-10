@@ -20,12 +20,12 @@ public class CallbackController {
     @GetMapping("/create")
     public void createCallback(@RequestParam(name = "user_id") String userId,
                                @RequestParam(name = "payman_code") String paymanCode,
-                               @RequestParam(name = "status") String creationStatus) throws Exception {
+                               @RequestParam(name = "status") String creationStatus) throws RuntimeException {
 
         if (creationStatus.equals(RedirectUrlStatus.CREATED.name())) {
             String paymanId = paymanIdService.getPaymanId(paymanCode);
         } else if (creationStatus.equals(RedirectUrlStatus.UPDATED.name())) {
         } else
-            throw new Exception("error");
+            throw new RuntimeException("error");
     }
 }

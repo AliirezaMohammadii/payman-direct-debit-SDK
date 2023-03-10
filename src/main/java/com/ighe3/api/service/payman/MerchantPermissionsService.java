@@ -32,7 +32,7 @@ public class MerchantPermissionsService extends BaseService {
         this.urls = urls;
     }
 
-    public List<Integer> getPermissionIds() throws Exception {
+    public List<Integer> getPermissionIds() throws RuntimeException {
 
         try {
             if (Boolean.parseBoolean(appHasOnlyNormalPayPermission))
@@ -46,14 +46,14 @@ public class MerchantPermissionsService extends BaseService {
         return paymanResponseBody.getPermissionIdsDetail().stream().map(PermissionIdDetail::getId).collect(Collectors.toList());
     }
 
-    private BaseResponse getBaseResponse() throws Exception {
+    private BaseResponse getBaseResponse() throws RuntimeException {
         Request request = createRequest(urls.getMerchantPermissionsUrl(), createHeaders());
         BaseResponse response = sendRequest(request);
         return response;
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

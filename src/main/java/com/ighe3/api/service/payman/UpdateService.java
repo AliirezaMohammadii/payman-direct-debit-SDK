@@ -26,7 +26,7 @@ public class UpdateService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws Exception {
+    public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
         BaseResponse paymanResponse = sendRequest(request);
@@ -35,7 +35,7 @@ public class UpdateService extends BaseService {
         return appResponse;
     }
 
-    private RequestBody createRequestBody(PaymanUpdateIto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanUpdateIto inputDto) throws RuntimeException {
         PaymanUpdateRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
@@ -54,7 +54,7 @@ public class UpdateService extends BaseService {
         return requestBodyObject;
     }
 
-    private Headers createHeaders(PaymanUpdateIto inputDto) throws Exception {
+    private Headers createHeaders(PaymanUpdateIto inputDto) throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)
@@ -66,7 +66,7 @@ public class UpdateService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         return null;
     }
 }

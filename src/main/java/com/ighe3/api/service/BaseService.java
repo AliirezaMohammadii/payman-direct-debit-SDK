@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public abstract class BaseService {
-    protected BaseResponse sendRequest(Request request) throws Exception {
+    protected BaseResponse sendRequest(Request request) throws RuntimeException {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
         BaseResponse baseResponse = createBaseResponse(response);
@@ -37,9 +37,14 @@ public abstract class BaseService {
         return request;
     }
 
-    protected void printResponse(BaseResponse response) throws Exception {
+    protected void printResponse(BaseResponse response) throws RuntimeException {
         System.out.println("status code: " + response.getStatusCode());
-        System.out.println(GeneralUtils.beautifyJson(response.getBody()));
+
+        try {
+            System.out.println(GeneralUtils.beautifyJson(response.getBody()));
+        } catch (JsonProcessingException e) {
+//            throw new some thing like internal error exception
+        }
     }
 
     protected Response executeSending(OkHttpClient client, Request request) {
@@ -51,7 +56,7 @@ public abstract class BaseService {
         }
     }
 
-    protected abstract Headers createHeaders() throws Exception;
+    protected abstract Headers createHeaders() throws RuntimeException;
 
     protected <T extends Object> Object convertJsonToJavaObject(String value, Class<T> responseClass) {
         ObjectMapper mapper = new ObjectMapper();
@@ -63,8 +68,16 @@ public abstract class BaseService {
         }
     }
 
-    private BaseResponse createBaseResponse(Response response) throws Exception {
-        String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
+    private BaseResponse createBaseResponse(Response response) throws RuntimeException {
+
+        String responseBody = null;
+
+        try {
+            responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
+        } catch (IOException e) {
+//            throw new some thing like internal error exception
+        }
+
         return new BaseResponse(response.headers(), responseBody, response.code());
     }
 }

@@ -24,7 +24,7 @@ public class PayService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanPayResponse pay(PaymanPayIto inputDto) throws Exception {
+    public PaymanPayResponse pay(PaymanPayIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
@@ -33,7 +33,7 @@ public class PayService extends BaseService {
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanPayIto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanPayIto inputDto) throws RuntimeException {
         PaymanPayRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         // TODO: mediaType from spring boot
@@ -54,7 +54,7 @@ public class PayService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

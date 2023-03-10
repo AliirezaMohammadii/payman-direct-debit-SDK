@@ -31,7 +31,7 @@ public class CreateService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanCreateOto create(PaymanCreateIto inputDto) throws Exception {
+    public PaymanCreateOto create(PaymanCreateIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
         BaseResponse paymanResponse = sendRequest(request);
@@ -40,7 +40,7 @@ public class CreateService extends BaseService {
         return appResponse;
     }
 
-    private RequestBody createRequestBody(PaymanCreateIto inputDto) throws Exception {
+    private RequestBody createRequestBody(PaymanCreateIto inputDto) throws RuntimeException {
         PaymanContract paymanContract = getContractObject(inputDto);
         PaymanModel paymanObject = getPaymanObject(paymanContract, inputDto);
         PaymanCreateRequest requestBody = getRequestBody(paymanObject);
@@ -60,7 +60,7 @@ public class CreateService extends BaseService {
         return requestBodyObject;
     }
 
-    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) throws Exception {
+    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) throws RuntimeException {
         PaymanModel paymanObject = new PaymanModel();
         paymanObject.setUserId(inputDto.getMobileNumber());
         paymanObject.setBankCode(inputDto.getBankCode());
@@ -80,7 +80,7 @@ public class CreateService extends BaseService {
         return paymanContract;
     }
 
-    private Headers createHeaders(PaymanCreateIto inputDto) throws Exception {
+    private Headers createHeaders(PaymanCreateIto inputDto) throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)
@@ -92,7 +92,7 @@ public class CreateService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         return null;
     }
 }

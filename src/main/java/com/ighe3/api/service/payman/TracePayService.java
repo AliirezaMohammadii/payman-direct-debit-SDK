@@ -22,7 +22,7 @@ public class TracePayService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanTracePayResponse trace(String traceId, String date) throws Exception {
+    public PaymanTracePayResponse trace(String traceId, String date) throws RuntimeException {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
         Request request = createRequest(url, createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
@@ -32,7 +32,7 @@ public class TracePayService extends BaseService {
     }
 
     @Override
-    protected Headers createHeaders() throws Exception {
+    protected Headers createHeaders() throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

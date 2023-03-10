@@ -63,88 +63,88 @@ public class PaymanController implements IController {
     // TODO: no need to controller, must be removed.
     @GetMapping("/access-token")
     @ResponseStatus(HttpStatus.OK)
-    public Object getAccessToken() throws Exception {
+    public Object getAccessToken() throws RuntimeException {
         return accessTokenService.getAccessToken();
     }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
-    public PaymanCreateOto createPayman(@RequestBody PaymanCreateIto inputDTO) throws Exception {
+    public PaymanCreateOto createPayman(@RequestBody PaymanCreateIto inputDTO) throws RuntimeException {
         return createService.create(inputDTO);
     }
 
     // TODO: no need to controller, must be removed.
     @GetMapping("/payman-id/{paymanCode}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getPaymanId(@PathVariable String paymanCode) throws Exception {
+    public Object getPaymanId(@PathVariable String paymanCode) throws RuntimeException {
         return paymanIdService.getPaymanId(paymanCode);
     }
 
     @GetMapping("/create/trace/{traceId}")
     @ResponseStatus(HttpStatus.OK)
-    public Object traceCreatePayman(@PathVariable String traceId) throws Exception {
+    public Object traceCreatePayman(@PathVariable String traceId) throws RuntimeException {
         return traceCreateService.trace(traceId);
     }
 
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
-    public Object pay(@RequestBody PaymanPayIto inputDTO) throws Exception {
+    public Object pay(@RequestBody PaymanPayIto inputDTO) throws RuntimeException {
         return payService.pay(inputDTO);
     }
 
     @GetMapping("/pay/trace/{traceId}")
     @ResponseStatus(HttpStatus.OK)
     public Object tracePay(@PathVariable String traceId,
-                           @RequestParam(required = false) String date) throws Exception {
+                           @RequestParam(required = false) String date) throws RuntimeException {
         return tracePayService.trace(traceId, date);
     }
 
     @PostMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public Object updatePayman(@RequestBody PaymanUpdateIto inputDTO) throws Exception {
+    public Object updatePayman(@RequestBody PaymanUpdateIto inputDTO) throws RuntimeException {
         return updateService.update(inputDTO);
     }
 
     @PostMapping("/change-status")
     @ResponseStatus(HttpStatus.OK)
-    public Object changePaymanStatus(@RequestBody PaymanChangeStatusIto inputDTO) throws Exception {
+    public Object changePaymanStatus(@RequestBody PaymanChangeStatusIto inputDTO) throws RuntimeException {
         return changeStatusService.changeStatus(inputDTO);
     }
 
     @GetMapping("/report/{paymanId}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getReport(@PathVariable String paymanId) throws Exception {
+    public Object getReport(@PathVariable String paymanId) throws RuntimeException {
         return reportService.getReport(paymanId);
     }
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactions(@RequestBody PaymanTransactionsIto inputDTO) throws Exception {
+    public Object getTransactions(@RequestBody PaymanTransactionsIto inputDTO) throws RuntimeException {
         return transactionsService.getTransactions(inputDTO);
     }
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public Object getList(@RequestBody PaymanListIto inputDTO) throws Exception {
+    public Object getList(@RequestBody PaymanListIto inputDTO) throws RuntimeException {
         return paymanListService.getList(inputDTO);
     }
 
     @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
-    public Object getMerchantPermissions() throws Exception {
+    public Object getMerchantPermissions() throws RuntimeException {
         return merchantPermissionsService.getPermissionIds();
     }
 
     @PostMapping("/transactions/report")
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactionsReport(@RequestBody PaymanTransactionsReportIto inputDTO) throws Exception {
+    public Object getTransactionsReport(@RequestBody PaymanTransactionsReportIto inputDTO) throws RuntimeException {
         return transactionsReportService.getReport(inputDTO);
     }
 
     @PostMapping("/transactions/report/statistics")
     @ResponseStatus(HttpStatus.OK)
     public Object getTransactionsReportStatistics(
-            @RequestBody PaymanTransactionsReportStatisticsIto inputDTO) throws Exception {
+            @RequestBody PaymanTransactionsReportStatisticsIto inputDTO) throws RuntimeException {
         return transactionsReportStatisticsService.getReportStatistics(inputDTO);
     }
 }
