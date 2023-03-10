@@ -4,15 +4,12 @@ package com.ighe3.api.controller;
 import com.ighe3.api.dto.input.*;
 import com.ighe3.api.dto.output.PaymanCreateOto;
 import com.ighe3.api.service.payman.*;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/v1")
-public class PaymanController implements IController {
+public class PaymanController {
 
     private final AccessTokenService accessTokenService;
     private final CreateService createService;
