@@ -1,8 +1,8 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
+import com.ighe3.api.dto.provider.response.PaymanAccessTokenResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.model.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.Urls;
@@ -37,9 +37,9 @@ public class AccessTokenService extends BaseService {
 
         FormBody requestBody = getFormBody();
         Request request = createRequest(requestBody, urls.getAccessTokenUrl(), createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, AccessTokenService.class);
-        PaymanGetAccessTokenResponse paymanResponseBody
-                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanGetAccessTokenResponse.class);
+        Response paymanResponse = sendRequest(request, AccessTokenService.class);
+        PaymanAccessTokenResponse paymanResponseBody
+                = (PaymanAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanAccessTokenResponse.class);
 
         return paymanResponseBody.getAccessToken();
     }

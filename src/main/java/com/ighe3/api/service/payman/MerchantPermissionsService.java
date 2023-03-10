@@ -1,10 +1,10 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.model.PermissionIdDetail;
-import com.ighe3.api.model.enums.Permission;
-import com.ighe3.api.model.response.PaymanMerchantPermissionsResponse;
+import com.ighe3.api.dto.MerchantPermissionDetails;
+import com.ighe3.api.model.enums.MerchantPermissions;
+import com.ighe3.api.dto.provider.response.PaymanMerchantPermissionsResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.model.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -35,17 +35,17 @@ public class MerchantPermissionsService extends BaseService {
     public List<Integer> getPermissionIds() throws RuntimeException {
 
         if (Boolean.parseBoolean(appHasOnlyNormalPayPermission))
-            return Collections.singletonList(Permission.NORMAL_PAY.label);
+            return Collections.singletonList(MerchantPermissions.NORMAL_PAY.label);
 
-        CustomizedResponse paymanResponse = getBaseResponse();
+        Response paymanResponse = getBaseResponse();
         PaymanMerchantPermissionsResponse paymanResponseBody
                 = (PaymanMerchantPermissionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class);
-        return paymanResponseBody.getPermissionIdsDetail().stream().map(PermissionIdDetail::getId).collect(Collectors.toList());
+        return paymanResponseBody.getPermissionIdsDetail().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
     }
 
-    private CustomizedResponse getBaseResponse() throws RuntimeException {
+    private Response getBaseResponse() throws RuntimeException {
         Request request = createRequest(urls.getMerchantPermissionsUrl(), createHeaders());
-        CustomizedResponse response = sendRequest(request, MerchantPermissionsService.class);
+        Response response = sendRequest(request, MerchantPermissionsService.class);
         return response;
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.config.MessageSourceConfig;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.xml.bind.DatatypeConverter;
@@ -17,6 +18,8 @@ import java.util.Random;
 
 public class GeneralUtils {
 
+//    @Value("${credentials.app-key}")
+    private static String appKey = "iGhe3";
     public static final String BEARER_PREFIX = "Bearer ";
 
     public static OkHttpClient buildOkhttpClient() {
@@ -51,7 +54,7 @@ public class GeneralUtils {
     public static Headers getGeneralHeaders() {
         Headers headers = new Headers.Builder()
                 // TODO
-                .add(RequestHeaderKeys.APP_KEY.getValue(), SecurityUtils.APP_KEY)
+                .add(RequestHeaderKeys.APP_KEY.getValue(), appKey)
                 .add(RequestHeaderKeys.CONTENT_TYPE.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
                 .add(RequestHeaderKeys.ACCEPT.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
                 .add(RequestHeaderKeys.CLIENT_IP_ADDRESS.getValue(), "127.0.0.1")

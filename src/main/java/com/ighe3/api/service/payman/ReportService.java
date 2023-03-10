@@ -1,8 +1,8 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.model.response.PaymanReportResponse;
+import com.ighe3.api.dto.provider.response.PaymanReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.model.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -25,7 +25,7 @@ public class ReportService extends BaseService {
     public PaymanReportResponse getReport(String paymanId) throws RuntimeException {
         String url = urls.getReportUrl() + "/" + paymanId;
         Request request = createRequest(url, createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, ReportService.class);
+        Response paymanResponse = sendRequest(request, ReportService.class);
         PaymanReportResponse paymanResponseBody
                 = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanReportResponse.class);
         return paymanResponseBody;

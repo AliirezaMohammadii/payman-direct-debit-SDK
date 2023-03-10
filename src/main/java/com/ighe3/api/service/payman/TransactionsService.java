@@ -1,11 +1,11 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanTransactionsIto;
-import com.ighe3.api.model.response.PaymanTransactionsResponse;
+import com.ighe3.api.dto.client.request.TransactionsRequest;
+import com.ighe3.api.dto.provider.response.PaymanTransactionsResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.PaymanTransactionsRequestFilter;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanTransactionsRequest;
+import com.ighe3.api.dto.TransactionsRequestFilter;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanTransactionsRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -24,18 +24,18 @@ public class TransactionsService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanTransactionsResponse getTransactions(PaymanTransactionsIto inputDto) throws RuntimeException {
+    public PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsUrl(), createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, TransactionsService.class);
+        Response paymanResponse = sendRequest(request, TransactionsService.class);
         PaymanTransactionsResponse paymanResponseBody
                 = (PaymanTransactionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsResponse.class);
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanTransactionsIto inputDto) throws RuntimeException {
+    private RequestBody createRequestBody(TransactionsRequest inputDto) throws RuntimeException {
 
-        PaymanTransactionsRequestFilter filter = getPaymanRequestFilterObject(inputDto.getFilter());
+        TransactionsRequestFilter filter = getPaymanRequestFilterObject(inputDto.getFilter());
         PaymanTransactionsRequest requestBodyObject = getRequestBodyObject(inputDto, filter);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
@@ -46,30 +46,30 @@ public class TransactionsService extends BaseService {
 
     // TODO: about input parameter: either this function is useless, or request object must be
     // customized for input transfer object.
-    private PaymanTransactionsRequestFilter getPaymanRequestFilterObject(PaymanTransactionsRequestFilter filter) {
-        PaymanTransactionsRequestFilter paymanTransactionsRequestFilter = new PaymanTransactionsRequestFilter();
-        paymanTransactionsRequestFilter.setPaymanIds(filter.getPaymanIds());
-        paymanTransactionsRequestFilter.setUserIds(filter.getUserIds());
-        paymanTransactionsRequestFilter.setTraceId(filter.getTraceId());
-        paymanTransactionsRequestFilter.setReferenceId(filter.getReferenceId());
-        paymanTransactionsRequestFilter.setTransactionType(filter.getTransactionType());
-        paymanTransactionsRequestFilter.setFromTransactionAmount(filter.getFromTransactionAmount());
-        paymanTransactionsRequestFilter.setToTransactionAmount(filter.getToTransactionAmount());
-        paymanTransactionsRequestFilter.setFromTransactionDate(filter.getFromTransactionDate());
-        paymanTransactionsRequestFilter.setToTransactionDate(filter.getToTransactionDate());
-        paymanTransactionsRequestFilter.setNote(filter.getNote());
-        paymanTransactionsRequestFilter.setSourceBankCode(filter.getSourceBankCode());
-        paymanTransactionsRequestFilter.setDestinationBankCode(filter.getDestinationBankCode());
-        paymanTransactionsRequestFilter.setPaymanStatuses(filter.getPaymanStatuses());
-        paymanTransactionsRequestFilter.setTransactionStatuses(filter.getTransactionStatuses());
-        return paymanTransactionsRequestFilter;
+    private TransactionsRequestFilter getPaymanRequestFilterObject(TransactionsRequestFilter filter) {
+        TransactionsRequestFilter transactionsRequestFilter = new TransactionsRequestFilter();
+        transactionsRequestFilter.setPaymanIds(filter.getPaymanIds());
+        transactionsRequestFilter.setUserIds(filter.getUserIds());
+        transactionsRequestFilter.setTraceId(filter.getTraceId());
+        transactionsRequestFilter.setReferenceId(filter.getReferenceId());
+        transactionsRequestFilter.setTransactionType(filter.getTransactionType());
+        transactionsRequestFilter.setFromTransactionAmount(filter.getFromTransactionAmount());
+        transactionsRequestFilter.setToTransactionAmount(filter.getToTransactionAmount());
+        transactionsRequestFilter.setFromTransactionDate(filter.getFromTransactionDate());
+        transactionsRequestFilter.setToTransactionDate(filter.getToTransactionDate());
+        transactionsRequestFilter.setNote(filter.getNote());
+        transactionsRequestFilter.setSourceBankCode(filter.getSourceBankCode());
+        transactionsRequestFilter.setDestinationBankCode(filter.getDestinationBankCode());
+        transactionsRequestFilter.setPaymanStatuses(filter.getPaymanStatuses());
+        transactionsRequestFilter.setTransactionStatuses(filter.getTransactionStatuses());
+        return transactionsRequestFilter;
     }
 
-    private PaymanTransactionsRequest getRequestBodyObject(PaymanTransactionsIto inputDto,
-                                                           PaymanTransactionsRequestFilter paymanTransactionsRequestFilter) {
+    private PaymanTransactionsRequest getRequestBodyObject(TransactionsRequest inputDto,
+                                                           TransactionsRequestFilter transactionsRequestFilter) {
 
         PaymanTransactionsRequest requestBodyObject = new PaymanTransactionsRequest();
-        requestBodyObject.setFilter(paymanTransactionsRequestFilter);
+        requestBodyObject.setFilter(transactionsRequestFilter);
         requestBodyObject.setLength(inputDto.getLength());
         requestBodyObject.setOffset(inputDto.getOffset());
         return requestBodyObject;

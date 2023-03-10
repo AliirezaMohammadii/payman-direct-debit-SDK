@@ -1,10 +1,10 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanTransactionsReportIto;
-import com.ighe3.api.model.response.PaymanTransactionsReportResponse;
+import com.ighe3.api.dto.client.request.TransactionsReportRequest;
+import com.ighe3.api.dto.provider.response.PaymanTransactionsReportResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanTransactionsReportRequest;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanTransactionsReportRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -23,16 +23,16 @@ public class TransactionsReportService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanTransactionsReportResponse getReport(PaymanTransactionsReportIto inputDto) throws RuntimeException {
+    public PaymanTransactionsReportResponse getReport(TransactionsReportRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsReportUrl(), createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, TransactionsReportService.class);
+        Response paymanResponse = sendRequest(request, TransactionsReportService.class);
         PaymanTransactionsReportResponse paymanResponseBody
                 = (PaymanTransactionsReportResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportResponse.class);
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanTransactionsReportIto inputDto) throws RuntimeException {
+    private RequestBody createRequestBody(TransactionsReportRequest inputDto) throws RuntimeException {
 
         PaymanTransactionsReportRequest requestBodyObject = getRequestBodyObject(inputDto);
 
@@ -42,7 +42,7 @@ public class TransactionsReportService extends BaseService {
         return body;
     }
 
-    private PaymanTransactionsReportRequest getRequestBodyObject(PaymanTransactionsReportIto inputDto) {
+    private PaymanTransactionsReportRequest getRequestBodyObject(TransactionsReportRequest inputDto) {
         PaymanTransactionsReportRequest requestBodyObject = new PaymanTransactionsReportRequest();
         requestBodyObject.setOffset(inputDto.getOffset());
         requestBodyObject.setLength(inputDto.getLength());

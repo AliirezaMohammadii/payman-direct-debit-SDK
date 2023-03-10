@@ -1,10 +1,10 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanChangeStatusIto;
-import com.ighe3.api.model.response.PaymanChangeStatusResponse;
+import com.ighe3.api.dto.client.request.ChangeStatusRequest;
+import com.ighe3.api.dto.provider.response.PaymanChangeStatusResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanChangeStatusRequest;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanChangeStatusRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -24,23 +24,23 @@ public class ChangeStatusService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanChangeStatusResponse changeStatus(PaymanChangeStatusIto inputDto) throws RuntimeException {
+    public PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, ChangeStatusService.class);
+        Response paymanResponse = sendRequest(request, ChangeStatusService.class);
         PaymanChangeStatusResponse paymanResponseBody
                 = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanChangeStatusResponse.class);
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanChangeStatusIto inputDto) throws RuntimeException {
+    private RequestBody createRequestBody(ChangeStatusRequest inputDto) throws RuntimeException {
         PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanChangeStatusRequest getRequestBodyObject(PaymanChangeStatusIto inputDto) {
+    private PaymanChangeStatusRequest getRequestBodyObject(ChangeStatusRequest inputDto) {
         PaymanChangeStatusRequest requestBodyObject = new PaymanChangeStatusRequest();
         requestBodyObject.setNewStatus(inputDto.getNewStatus());
         requestBodyObject.setPaymanId(inputDto.getPaymanId());

@@ -1,8 +1,8 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.model.response.PaymanTracePayResponse;
+import com.ighe3.api.dto.provider.response.PaymanTracePayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.model.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -25,7 +25,7 @@ public class TracePayService extends BaseService {
     public PaymanTracePayResponse trace(String traceId, String date) throws RuntimeException {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
         Request request = createRequest(url, createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, TracePayService.class);
+        Response paymanResponse = sendRequest(request, TracePayService.class);
         PaymanTracePayResponse paymanResponseBody
                 = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTracePayResponse.class);
         return paymanResponseBody;

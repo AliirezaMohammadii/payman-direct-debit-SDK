@@ -1,12 +1,12 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanCreateIto;
-import com.ighe3.api.dto.output.PaymanCreateOto;
+import com.ighe3.api.dto.client.request.CreateRequest;
+import com.ighe3.api.dto.client.response.CreateResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.PaymanContract;
-import com.ighe3.api.model.PaymanModel;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanCreateRequest;
+import com.ighe3.api.dto.Contract;
+import com.ighe3.api.dto.PaymanDetails;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanCreateRequest;
 import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,19 +32,19 @@ public class CreateService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanCreateOto create(PaymanCreateIto inputDto) throws RuntimeException {
+    public CreateResponse create(CreateRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-        CustomizedResponse paymanResponse = sendRequest(request, CreateService.class);
+        Response paymanResponse = sendRequest(request, CreateService.class);
         Headers headers = paymanResponse.getHeaders();
-        PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
+        CreateResponse appResponse = new CreateResponse(headers.get("Location"));
         return appResponse;
     }
 
-    private RequestBody createRequestBody(PaymanCreateIto inputDto) throws RuntimeException {
-        PaymanContract paymanContract = getContractObject(inputDto);
-        PaymanModel paymanObject = getPaymanObject(paymanContract, inputDto);
-        PaymanCreateRequest requestBody = getRequestBody(paymanObject);
+    private RequestBody createRequestBody(CreateRequest inputDto) throws RuntimeException {
+        Contract contract = getContractObject(inputDto);
+        PaymanDetails paymanDetails = getpaymanDetails(contract, inputDto);
+        PaymanCreateRequest requestBody = getRequestBody(paymanDetails);
 
         String json = GeneralUtils.convertJavaObjectToJson(requestBody);
 
@@ -52,36 +52,36 @@ public class CreateService extends BaseService {
         return body;
     }
 
-    private PaymanCreateRequest getRequestBody(PaymanModel paymanObject) {
+    private PaymanCreateRequest getRequestBody(PaymanDetails paymanDetails) {
         PaymanCreateRequest requestBodyObject = new PaymanCreateRequest();
         requestBodyObject.setTraceId(TraceIdGenerator.generate());
         // TODO: in fact, userId must be fetched from database.
-        requestBodyObject.setRedirectUrl(callbackUrl + "?userId=" + paymanObject.getUserId());
-        requestBodyObject.setPayman(paymanObject);
+        requestBodyObject.setRedirectUrl(callbackUrl + "?userId=" + paymanDetails.getUserId());
+        requestBodyObject.setPayman(paymanDetails);
         return requestBodyObject;
     }
 
-    private PaymanModel getPaymanObject(PaymanContract paymanContract, PaymanCreateIto inputDto) throws RuntimeException {
-        PaymanModel paymanObject = new PaymanModel();
-        paymanObject.setUserId(inputDto.getMobileNumber());
-        paymanObject.setBankCode(inputDto.getBankCode());
-        paymanObject.setPermissionIds(merchantPermissionsService.getPermissionIds());
-        paymanObject.setContract(paymanContract);
-        return paymanObject;
+    private PaymanDetails getpaymanDetails(Contract contract, CreateRequest inputDto) throws RuntimeException {
+        PaymanDetails paymanDetails = new PaymanDetails();
+        paymanDetails.setUserId(inputDto.getMobileNumber());
+        paymanDetails.setBankCode(inputDto.getBankCode());
+        paymanDetails.setPermissionIds(merchantPermissionsService.getPermissionIds());
+        paymanDetails.setContract(contract);
+        return paymanDetails;
     }
 
-    private PaymanContract getContractObject(PaymanCreateIto inputDto) {
-        PaymanContract paymanContract = new PaymanContract();
-        paymanContract.setStartDate(inputDto.getStartDate());
-        paymanContract.setExpirationDate(inputDto.getExpirationDate());
-        paymanContract.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
-        paymanContract.setMaxMonthlyTransactionCount(inputDto.getMaxMonthlyTransactionCount());
-        paymanContract.setMaxTransactionAmount(inputDto.getMaxTransactionAmount());
-        paymanContract.setDailyMaxTransactionAmount(inputDto.getDailyMaxTransactionAmount());
-        return paymanContract;
+    private Contract getContractObject(CreateRequest inputDto) {
+        Contract contract = new Contract();
+        contract.setStartDate(inputDto.getStartDate());
+        contract.setExpirationDate(inputDto.getExpirationDate());
+        contract.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
+        contract.setMaxMonthlyTransactionCount(inputDto.getMaxMonthlyTransactionCount());
+        contract.setMaxTransactionAmount(inputDto.getMaxTransactionAmount());
+        contract.setDailyMaxTransactionAmount(inputDto.getDailyMaxTransactionAmount());
+        return contract;
     }
 
-    private Headers createHeaders(PaymanCreateIto inputDto) throws RuntimeException {
+    private Headers createHeaders(CreateRequest inputDto) throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

@@ -1,10 +1,10 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanUpdateIto;
-import com.ighe3.api.dto.output.PaymanUpdateOto;
+import com.ighe3.api.dto.client.request.UpdateRequest;
+import com.ighe3.api.dto.client.response.UpdateResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanUpdateRequest;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanUpdateRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -28,23 +28,23 @@ public class UpdateService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws RuntimeException {
+    public UpdateResponse update(UpdateRequest inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
-        CustomizedResponse paymanResponse = sendRequest(request, UpdateService.class);
+        Response paymanResponse = sendRequest(request, UpdateService.class);
         Headers headers = paymanResponse.getHeaders();
-        PaymanUpdateOto appResponse = new PaymanUpdateOto(headers.get("Location"));
+        UpdateResponse appResponse = new UpdateResponse(headers.get("Location"));
         return appResponse;
     }
 
-    private RequestBody createRequestBody(PaymanUpdateIto inputDto) throws RuntimeException {
+    private RequestBody createRequestBody(UpdateRequest inputDto) throws RuntimeException {
         PaymanUpdateRequest requestBodyObject = getRequestBodyObject(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
         return body;
     }
 
-    private PaymanUpdateRequest getRequestBodyObject(PaymanUpdateIto inputDto) {
+    private PaymanUpdateRequest getRequestBodyObject(UpdateRequest inputDto) {
         PaymanUpdateRequest requestBodyObject = new PaymanUpdateRequest();
         requestBodyObject.setPaymanId(inputDto.getPaymanId());
         requestBodyObject.setExpirationDate(inputDto.getExpirationDate());
@@ -56,7 +56,7 @@ public class UpdateService extends BaseService {
         return requestBodyObject;
     }
 
-    private Headers createHeaders(PaymanUpdateIto inputDto) throws RuntimeException {
+    private Headers createHeaders(UpdateRequest inputDto) throws RuntimeException {
         Headers generalHeaders = GeneralUtils.getGeneralHeaders();
         Headers headers = new Headers.Builder()
                 .addAll(generalHeaders)

@@ -1,10 +1,10 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.input.PaymanTransactionsReportStatisticsIto;
-import com.ighe3.api.model.response.PaymanTransactionsReportStatisticsResponse;
+import com.ighe3.api.dto.client.request.TransactionsReportStatisticsRequest;
+import com.ighe3.api.dto.provider.response.PaymanTransactionsReportStatisticsResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.CustomizedResponse;
-import com.ighe3.api.model.request.PaymanTransactionsReportStatisticsRequest;
+import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.provider.request.PaymanTransactionsReportStatisticsRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -25,18 +25,18 @@ public class TransactionsReportStatisticsService extends BaseService {
         this.urls = urls;
     }
 
-    public PaymanTransactionsReportStatisticsResponse getReportStatistics(PaymanTransactionsReportStatisticsIto inputDto)
+    public PaymanTransactionsReportStatisticsResponse getReportStatistics(TransactionsReportStatisticsRequest inputDto)
             throws RuntimeException {
 
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
-        CustomizedResponse paymanResponse = sendRequest(request, TransactionsReportStatisticsService.class);
+        Response paymanResponse = sendRequest(request, TransactionsReportStatisticsService.class);
         PaymanTransactionsReportStatisticsResponse paymanResponseBody
                 = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class);
         return paymanResponseBody;
     }
 
-    private RequestBody createRequestBody(PaymanTransactionsReportStatisticsIto inputDto) throws RuntimeException {
+    private RequestBody createRequestBody(TransactionsReportStatisticsRequest inputDto) throws RuntimeException {
 
         PaymanTransactionsReportStatisticsRequest requestBodyObject = getRequestBodyObject(inputDto);
 
@@ -46,7 +46,7 @@ public class TransactionsReportStatisticsService extends BaseService {
         return body;
     }
 
-    private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(PaymanTransactionsReportStatisticsIto inputDto) {
+    private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(TransactionsReportStatisticsRequest inputDto) {
         PaymanTransactionsReportStatisticsRequest requestBodyObject
                 = new PaymanTransactionsReportStatisticsRequest();
         requestBodyObject.setStartDate(inputDto.getStartDate());

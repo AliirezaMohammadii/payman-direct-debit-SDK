@@ -2,8 +2,8 @@ package com.ighe3.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.dto.PaymanErrorResponse;
-import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
+import com.ighe3.api.model.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import okhttp3.*;
@@ -19,10 +19,10 @@ public abstract class BaseService {
         this.exceptionTranslator = exceptionTranslator;
     }
 
-    protected <T extends BaseService> CustomizedResponse sendRequest(Request request, Class<T> servcieClass) throws RuntimeException {
+    protected <T extends BaseService> Response sendRequest(Request request, Class<T> servcieClass) throws RuntimeException {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
-        Response response = executeSending(client, request);
-        CustomizedResponse customizedResponse = createBaseResponse(response);
+        okhttp3.Response response = executeSending(client, request);
+        Response customizedResponse = createBaseResponse(response);
 
         checkForErrors(customizedResponse, servcieClass);
 
@@ -30,15 +30,15 @@ public abstract class BaseService {
         return customizedResponse;
     }
 
-    private <T extends BaseService> void checkForErrors(CustomizedResponse customizedResponse, Class<T> servcieClass) {
-        if (!customizedResponse.isSuccessful()) {
-            PaymanErrorResponse errorResponse = (PaymanErrorResponse) convertJsonToJavaObject(customizedResponse.getBody(), PaymanErrorResponse.class);
+    private <T extends BaseService> void checkForErrors(Response response, Class<T> servcieClass) {
+        if (!response.isSuccessful()) {
+            PaymanErrorResponse errorResponse = (PaymanErrorResponse) convertJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
             throw exceptionTranslator.translate(errorResponse.getCode(), servcieClass);
         }
     }
 
-    private static boolean responseIsNotSuccessful(CustomizedResponse customizedResponse) {
-        return !customizedResponse.getStatusCode().toString().startsWith("2");
+    private static boolean responseIsNotSuccessful(Response response) {
+        return !response.getStatusCode().toString().startsWith("2");
     }
 
     protected Request createRequest(String url, Headers headers) {
@@ -58,19 +58,19 @@ public abstract class BaseService {
         return request;
     }
 
-    protected void printResponse(CustomizedResponse response) throws RuntimeException {
+    protected void printResponse(Response response) throws RuntimeException {
         System.out.println("status code: " + response.getStatusCode());
 
         try {
             System.out.println(GeneralUtils.beautifyJson(response.getBody()));
         } catch (JsonProcessingException e) {
-//            throw new some thing like internal error exception
+//            throw new something like internal error exception
         }
     }
 
-    protected Response executeSending(OkHttpClient client, Request request) {
+    protected okhttp3.Response executeSending(OkHttpClient client, Request request) {
         try {
-            Response response = client.newCall(request).execute();
+            okhttp3.Response response = client.newCall(request).execute();
             return response;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -89,16 +89,16 @@ public abstract class BaseService {
         }
     }
 
-    private CustomizedResponse createBaseResponse(Response response) throws RuntimeException {
+    private Response createBaseResponse(okhttp3.Response response) throws RuntimeException {
 
         String responseBody = null;
 
         try {
             responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
         } catch (IOException e) {
-//            throw new some thing like internal error exception
+//            throw new something like internal error exception
         }
 
-        return new CustomizedResponse(response.headers(), responseBody, response.code(), response.isSuccessful());
+        return new Response(response.headers(), responseBody, response.code(), response.isSuccessful());
     }
 }
