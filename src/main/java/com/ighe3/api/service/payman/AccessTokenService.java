@@ -42,7 +42,7 @@ public class AccessTokenService extends BaseService {
         Request request = createRequest(requestBody, urls.getAccessTokenUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
         PaymanGetAccessTokenResponse paymanResponseBody
-                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanGetAccessTokenResponse.class);
 
         return paymanResponseBody.getAccessToken();
     }

@@ -95,9 +95,4 @@ public class CreateService extends BaseService {
     protected Headers createHeaders() throws Exception {
         return null;
     }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        return null;
-    }
 }

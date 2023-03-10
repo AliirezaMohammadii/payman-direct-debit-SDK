@@ -53,10 +53,10 @@ public abstract class BaseService {
 
     protected abstract Headers createHeaders() throws Exception;
 
-    protected Object convertJsonToJavaObject(String value, Class<BaseService> clazz) {
+    protected <T extends Object> Object convertJsonToJavaObject(String value, Class<T> responseClass) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Object response = mapper.readValue(value, clazz);
+            Object response = mapper.readValue(value, responseClass);
             return response;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

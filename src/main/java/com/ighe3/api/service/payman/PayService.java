@@ -28,7 +28,8 @@ public class PayService extends BaseService {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
-        PaymanPayResponse paymanResponseBody = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody());
+        PaymanPayResponse paymanResponseBody
+                = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
         return paymanResponseBody;
     }
 
@@ -61,16 +62,5 @@ public class PayService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanPayResponse response = mapper.readValue(value, PaymanPayResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

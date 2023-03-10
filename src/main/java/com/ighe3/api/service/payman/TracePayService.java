@@ -27,7 +27,7 @@ public class TracePayService extends BaseService {
         Request request = createRequest(url, createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
         PaymanTracePayResponse paymanResponseBody
-                = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTracePayResponse.class);
         return paymanResponseBody;
     }
 
@@ -40,16 +40,5 @@ public class TracePayService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanTracePayResponse response = mapper.readValue(value, PaymanTracePayResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -27,7 +27,7 @@ public class ReportService extends BaseService {
         Request request = createRequest(url, createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
         PaymanReportResponse paymanResponseBody
-                = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanReportResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanReportResponse.class);
         return paymanResponseBody;
     }
 
@@ -40,16 +40,5 @@ public class ReportService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanReportResponse response = mapper.readValue(value, PaymanReportResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

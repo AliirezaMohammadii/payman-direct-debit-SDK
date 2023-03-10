@@ -29,7 +29,7 @@ public class ChangeStatusService extends BaseService {
         Request request = createRequest(requestBody, urls.getChangeStatusUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
         PaymanChangeStatusResponse paymanResponseBody
-                = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanChangeStatusResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanChangeStatusResponse.class);
         return paymanResponseBody;
     }
 
@@ -55,16 +55,5 @@ public class ChangeStatusService extends BaseService {
                 .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanChangeStatusResponse response = mapper.readValue(value, PaymanChangeStatusResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

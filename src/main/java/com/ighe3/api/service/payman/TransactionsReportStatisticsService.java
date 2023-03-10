@@ -30,7 +30,7 @@ public class TransactionsReportStatisticsService extends BaseService {
         Request request = createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), createHeaders());
         BaseResponse paymanResponse = sendRequest(request);
         PaymanTransactionsReportStatisticsResponse paymanResponseBody
-                = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanTransactionsReportStatisticsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class);
         return paymanResponseBody;
     }
 
@@ -61,17 +61,5 @@ public class TransactionsReportStatisticsService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanTransactionsReportStatisticsResponse response
-                    = mapper.readValue(value, PaymanTransactionsReportStatisticsResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

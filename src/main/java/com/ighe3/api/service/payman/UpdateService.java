@@ -69,9 +69,4 @@ public class UpdateService extends BaseService {
     protected Headers createHeaders() throws Exception {
         return null;
     }
-
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        return null;
-    }
 }

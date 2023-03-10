@@ -42,7 +42,7 @@ public class MerchantPermissionsService extends BaseService {
 
         BaseResponse paymanResponse = getBaseResponse();
         PaymanMerchantPermissionsResponse paymanResponseBody
-                = (PaymanMerchantPermissionsResponse) convertJsonToJavaObject(paymanResponse.getBody());
+                = (PaymanMerchantPermissionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class);
         return paymanResponseBody.getPermissionIdsDetail().stream().map(PermissionIdDetail::getId).collect(Collectors.toList());
     }
 
@@ -61,17 +61,5 @@ public class MerchantPermissionsService extends BaseService {
                         GeneralUtils.BEARER_PREFIX + accessTokenService.getAccessToken())
                 .build();
         return headers;
-    }
-
-    // TODO
-    @Override
-    protected Object convertJsonToJavaObject(String value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            PaymanMerchantPermissionsResponse response = mapper.readValue(value, PaymanMerchantPermissionsResponse.class);
-            return response;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
