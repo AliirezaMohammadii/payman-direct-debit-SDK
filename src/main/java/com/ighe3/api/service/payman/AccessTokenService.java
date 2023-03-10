@@ -32,11 +32,11 @@ public class AccessTokenService extends BaseService {
 
     public String getAccessToken() throws Exception {
 
-//        try {
-//            if (Boolean.parseBoolean(useStaticAccessToken))
-//                return accessToken;
-//            // TODO: change to parse exception and test it.
-//        } catch (Exception e) {}
+        try {
+            if (Boolean.parseBoolean(useStaticAccessToken))
+                return accessToken;
+            // TODO: change to parse exception and test it.
+        } catch (Exception e) {}
 
         FormBody requestBody = getFormBody();
         Request request = createRequest(requestBody, urls.getAccessTokenUrl(), createHeaders());
