@@ -1,10 +1,9 @@
 package com.ighe3.api.service.payman;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.Urls;
 import okhttp3.*;
@@ -26,7 +25,8 @@ public class AccessTokenService extends BaseService {
 
     private final Urls urls;
 
-    public AccessTokenService(Urls urls) {
+    public AccessTokenService(ExceptionTranslator exceptionTranslator, Urls urls) {
+        super(exceptionTranslator);
         this.urls = urls;
     }
 
@@ -37,7 +37,7 @@ public class AccessTokenService extends BaseService {
 
         FormBody requestBody = getFormBody();
         Request request = createRequest(requestBody, urls.getAccessTokenUrl(), createHeaders());
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, AccessTokenService.class);
         PaymanGetAccessTokenResponse paymanResponseBody
                 = (PaymanGetAccessTokenResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanGetAccessTokenResponse.class);
 

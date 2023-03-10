@@ -2,8 +2,9 @@ package com.ighe3.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ighe3.api.model.BaseResponse;
-import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
+import com.ighe3.api.dto.PaymanErrorResponse;
+import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import okhttp3.*;
 
@@ -11,13 +12,33 @@ import java.io.IOException;
 import java.util.Optional;
 
 public abstract class BaseService {
-    protected BaseResponse sendRequest(Request request) throws RuntimeException {
+
+    private final ExceptionTranslator exceptionTranslator;
+
+    public BaseService(ExceptionTranslator exceptionTranslator) {
+        this.exceptionTranslator = exceptionTranslator;
+    }
+
+    protected <T extends BaseService> CustomizedResponse sendRequest(Request request, Class<T> servcieClass) throws RuntimeException {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
-        BaseResponse baseResponse = createBaseResponse(response);
+        CustomizedResponse customizedResponse = createBaseResponse(response);
 
-        printResponse(baseResponse);
-        return baseResponse;
+        checkForErrors(customizedResponse, servcieClass);
+
+        printResponse(customizedResponse);
+        return customizedResponse;
+    }
+
+    private <T extends BaseService> void checkForErrors(CustomizedResponse customizedResponse, Class<T> servcieClass) {
+        if (!customizedResponse.isSuccessful()) {
+            PaymanErrorResponse errorResponse = (PaymanErrorResponse) convertJsonToJavaObject(customizedResponse.getBody(), PaymanErrorResponse.class);
+            throw exceptionTranslator.translate(errorResponse.getCode(), servcieClass);
+        }
+    }
+
+    private static boolean responseIsNotSuccessful(CustomizedResponse customizedResponse) {
+        return !customizedResponse.getStatusCode().toString().startsWith("2");
     }
 
     protected Request createRequest(String url, Headers headers) {
@@ -37,7 +58,7 @@ public abstract class BaseService {
         return request;
     }
 
-    protected void printResponse(BaseResponse response) throws RuntimeException {
+    protected void printResponse(CustomizedResponse response) throws RuntimeException {
         System.out.println("status code: " + response.getStatusCode());
 
         try {
@@ -68,7 +89,7 @@ public abstract class BaseService {
         }
     }
 
-    private BaseResponse createBaseResponse(Response response) throws RuntimeException {
+    private CustomizedResponse createBaseResponse(Response response) throws RuntimeException {
 
         String responseBody = null;
 
@@ -78,6 +99,6 @@ public abstract class BaseService {
 //            throw new some thing like internal error exception
         }
 
-        return new BaseResponse(response.headers(), responseBody, response.code());
+        return new CustomizedResponse(response.headers(), responseBody, response.code(), response.isSuccessful());
     }
 }

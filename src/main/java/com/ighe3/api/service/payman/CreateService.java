@@ -5,12 +5,9 @@ import com.ighe3.api.dto.output.PaymanCreateOto;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanContract;
 import com.ighe3.api.model.PaymanModel;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
 import com.ighe3.api.model.request.PaymanCreateRequest;
-import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.RequestHeaderKeys;
-import com.ighe3.api.utils.TraceIdGenerator;
-import com.ighe3.api.utils.Urls;
+import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,11 @@ public class CreateService extends BaseService {
     private final MerchantPermissionsService merchantPermissionsService;
     private final Urls urls;
 
-    public CreateService(AccessTokenService accessTokenService, MerchantPermissionsService merchantPermissionsService, Urls urls) {
+    public CreateService(ExceptionTranslator exceptionTranslator,
+                         AccessTokenService accessTokenService,
+                         MerchantPermissionsService merchantPermissionsService,
+                         Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.merchantPermissionsService = merchantPermissionsService;
         this.urls = urls;
@@ -34,7 +35,7 @@ public class CreateService extends BaseService {
     public PaymanCreateOto create(PaymanCreateIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, CreateService.class);
         Headers headers = paymanResponse.getHeaders();
         PaymanCreateOto appResponse = new PaymanCreateOto(headers.get("Location"));
         return appResponse;

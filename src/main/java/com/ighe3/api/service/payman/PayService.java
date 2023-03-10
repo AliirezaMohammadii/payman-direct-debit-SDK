@@ -1,16 +1,11 @@
 package com.ighe3.api.service.payman;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.input.PaymanPayIto;
 import com.ighe3.api.model.response.PaymanPayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
 import com.ighe3.api.model.request.PaymanPayRequest;
-import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.RequestHeaderKeys;
-import com.ighe3.api.utils.TraceIdGenerator;
-import com.ighe3.api.utils.Urls;
+import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +14,8 @@ public class PayService extends BaseService {
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
-    public PayService(AccessTokenService accessTokenService, Urls urls) {
+    public PayService(ExceptionTranslator exceptionTranslator, AccessTokenService accessTokenService, Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.urls = urls;
     }
@@ -27,7 +23,7 @@ public class PayService extends BaseService {
     public PaymanPayResponse pay(PaymanPayIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders());
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, PayService.class);
         PaymanPayResponse paymanResponseBody
                 = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
         return paymanResponseBody;

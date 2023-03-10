@@ -3,8 +3,9 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dto.input.PaymanUpdateIto;
 import com.ighe3.api.dto.output.PaymanUpdateOto;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
 import com.ighe3.api.model.request.PaymanUpdateRequest;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
 import com.ighe3.api.utils.Urls;
@@ -21,7 +22,8 @@ public class UpdateService extends BaseService {
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
-    public UpdateService(AccessTokenService accessTokenService, Urls urls) {
+    public UpdateService(ExceptionTranslator exceptionTranslator, AccessTokenService accessTokenService, Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.urls = urls;
     }
@@ -29,7 +31,7 @@ public class UpdateService extends BaseService {
     public PaymanUpdateOto update(PaymanUpdateIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, UpdateService.class);
         Headers headers = paymanResponse.getHeaders();
         PaymanUpdateOto appResponse = new PaymanUpdateOto(headers.get("Location"));
         return appResponse;

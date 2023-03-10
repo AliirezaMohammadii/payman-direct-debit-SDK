@@ -6,8 +6,13 @@ import okhttp3.Headers;
 
 @Data
 @AllArgsConstructor
-public class BaseResponse {
+public class CustomizedResponse {
     private Headers headers;
     private String body;
     private Integer statusCode;
+    private Boolean successful;
+
+    public boolean isSuccessful() {
+        return successful;
+    }
 }

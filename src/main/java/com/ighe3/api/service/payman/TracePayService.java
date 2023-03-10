@@ -1,10 +1,9 @@
 package com.ighe3.api.service.payman;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.model.response.PaymanTracePayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
 import com.ighe3.api.utils.Urls;
@@ -17,7 +16,8 @@ public class TracePayService extends BaseService {
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
-    public TracePayService(AccessTokenService accessTokenService, Urls urls) {
+    public TracePayService(ExceptionTranslator exceptionTranslator, AccessTokenService accessTokenService, Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.urls = urls;
     }
@@ -25,7 +25,7 @@ public class TracePayService extends BaseService {
     public PaymanTracePayResponse trace(String traceId, String date) throws RuntimeException {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
         Request request = createRequest(url, createHeaders());
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, TracePayService.class);
         PaymanTracePayResponse paymanResponseBody
                 = (PaymanTracePayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTracePayResponse.class);
         return paymanResponseBody;

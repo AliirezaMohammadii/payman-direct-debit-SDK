@@ -1,13 +1,12 @@
 package com.ighe3.api.service.payman;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.input.PaymanTransactionsIto;
 import com.ighe3.api.model.response.PaymanTransactionsResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanTransactionsRequestFilter;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
 import com.ighe3.api.model.request.PaymanTransactionsRequest;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
 import com.ighe3.api.utils.Urls;
@@ -19,7 +18,8 @@ public class TransactionsService extends BaseService {
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
-    public TransactionsService(AccessTokenService accessTokenService, Urls urls) {
+    public TransactionsService(ExceptionTranslator exceptionTranslator, AccessTokenService accessTokenService, Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.urls = urls;
     }
@@ -27,7 +27,7 @@ public class TransactionsService extends BaseService {
     public PaymanTransactionsResponse getTransactions(PaymanTransactionsIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getTransactionsUrl(), createHeaders());
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, TransactionsService.class);
         PaymanTransactionsResponse paymanResponseBody
                 = (PaymanTransactionsResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsResponse.class);
         return paymanResponseBody;

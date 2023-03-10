@@ -1,13 +1,12 @@
 package com.ighe3.api.service.payman;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.input.PaymanListIto;
 import com.ighe3.api.model.PaymanListRequestFilter;
 import com.ighe3.api.model.response.PaymanListResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.CustomizedResponse;
 import com.ighe3.api.model.request.PaymanListRequest;
+import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
 import com.ighe3.api.utils.Urls;
@@ -19,7 +18,8 @@ public class PaymanListService extends BaseService {
     private final AccessTokenService accessTokenService;
     private final Urls urls;
 
-    public PaymanListService(AccessTokenService accessTokenService, Urls urls) {
+    public PaymanListService(ExceptionTranslator exceptionTranslator, AccessTokenService accessTokenService, Urls urls) {
+        super(exceptionTranslator);
         this.accessTokenService = accessTokenService;
         this.urls = urls;
     }
@@ -27,7 +27,7 @@ public class PaymanListService extends BaseService {
     public PaymanListResponse getList(PaymanListIto inputDto) throws RuntimeException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPaymanListUrl(), createHeaders());
-        BaseResponse paymanResponse = sendRequest(request);
+        CustomizedResponse paymanResponse = sendRequest(request, PaymanListService.class);
         PaymanListResponse paymanResponseBody
                 = (PaymanListResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanListResponse.class);
         return paymanResponseBody;
