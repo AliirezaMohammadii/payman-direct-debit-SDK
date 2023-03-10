@@ -1,19 +1,17 @@
-package com.ighe3.api.util;
+package com.ighe3.api.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.ighe3.api.config.MessageSourceConfig;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -97,5 +95,9 @@ public class GeneralUtils {
         }
 
         return hashedStr;
+    }
+
+    public static String getExceptionMessageFromCode(String code, Object[] args) {
+        return MessageSourceConfig.instance.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }

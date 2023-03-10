@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.input.PaymanPayIto;
 import com.ighe3.api.model.response.PaymanPayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.dto.BaseResponse;
+import com.ighe3.api.model.BaseResponse;
 import com.ighe3.api.model.request.PaymanPayRequest;
-import com.ighe3.api.util.GeneralUtils;
-import com.ighe3.api.util.RequestHeaderKeys;
-import com.ighe3.api.util.TraceIdGenerator;
-import com.ighe3.api.util.Urls;
+import com.ighe3.api.utils.GeneralUtils;
+import com.ighe3.api.utils.RequestHeaderKeys;
+import com.ighe3.api.utils.TraceIdGenerator;
+import com.ighe3.api.utils.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 

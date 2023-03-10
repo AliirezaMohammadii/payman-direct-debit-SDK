@@ -1,7 +1,10 @@
 package com.ighe3.api.service;
 
-import com.ighe3.api.dto.BaseResponse;
-import com.ighe3.api.util.GeneralUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ighe3.api.model.BaseResponse;
+import com.ighe3.api.model.response.PaymanGetAccessTokenResponse;
+import com.ighe3.api.utils.GeneralUtils;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -12,6 +15,7 @@ public abstract class BaseService {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         Response response = executeSending(client, request);
         BaseResponse baseResponse = createBaseResponse(response);
+
         printResponse(baseResponse);
         return baseResponse;
     }
@@ -49,7 +53,15 @@ public abstract class BaseService {
 
     protected abstract Headers createHeaders() throws Exception;
 
-    protected abstract Object convertJsonToJavaObject(String value);
+    protected Object convertJsonToJavaObject(String value, Class<BaseService> clazz) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Object response = mapper.readValue(value, clazz);
+            return response;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private BaseResponse createBaseResponse(Response response) throws Exception {
         String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();

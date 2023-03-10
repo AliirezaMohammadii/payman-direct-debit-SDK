@@ -6,11 +6,11 @@ import com.ighe3.api.dto.input.PaymanTransactionsIto;
 import com.ighe3.api.model.response.PaymanTransactionsResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.model.PaymanTransactionsRequestFilter;
-import com.ighe3.api.dto.BaseResponse;
+import com.ighe3.api.model.BaseResponse;
 import com.ighe3.api.model.request.PaymanTransactionsRequest;
-import com.ighe3.api.util.GeneralUtils;
-import com.ighe3.api.util.RequestHeaderKeys;
-import com.ighe3.api.util.Urls;
+import com.ighe3.api.utils.GeneralUtils;
+import com.ighe3.api.utils.RequestHeaderKeys;
+import com.ighe3.api.utils.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 

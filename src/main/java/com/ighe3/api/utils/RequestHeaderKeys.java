@@ -1,4 +1,4 @@
-package com.ighe3.api.util;
+package com.ighe3.api.utils;
 
 public enum RequestHeaderKeys {
     APP_KEY("App-Key"),

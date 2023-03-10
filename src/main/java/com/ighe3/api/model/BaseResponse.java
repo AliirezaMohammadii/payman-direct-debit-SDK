@@ -1,4 +1,4 @@
-package com.ighe3.api.dto;
+package com.ighe3.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

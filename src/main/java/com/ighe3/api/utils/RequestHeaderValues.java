@@ -1,4 +1,4 @@
-package com.ighe3.api.util;
+package com.ighe3.api.utils;
 
 public enum RequestHeaderValues {
     APPLICATION_JSON("application/json"),
