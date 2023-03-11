@@ -28,12 +28,12 @@ public abstract class BaseService {
         this.exceptionTranslator = exceptionTranslator;
     }
 
-    protected <T extends BaseService> Response sendRequest(Request request, Class<T> servcieClass) throws RuntimeException {
+    protected <T extends BaseService> Response sendRequest(Request request, Class<T> serviceClass) throws RuntimeException {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         okhttp3.Response response = executeSending(client, request);
         Response customizedResponse = createCustomResponse(response);
 
-        checkForErrors(customizedResponse, servcieClass);
+        checkForErrors(customizedResponse, serviceClass);
 
         printResponse(customizedResponse);
         return customizedResponse;
