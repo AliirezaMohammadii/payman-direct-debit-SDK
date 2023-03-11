@@ -1,9 +1,12 @@
 package com.ighe3.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
 import com.ighe3.api.model.Response;
+import com.ighe3.api.service.payman.CreateService;
+import com.ighe3.api.service.payman.UpdateService;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.RequestHeaderKeys;
@@ -36,10 +39,21 @@ public abstract class BaseService {
         return customizedResponse;
     }
 
-    private <T extends BaseService> void checkForErrors(Response response, Class<T> servcieClass) {
-        if (!response.isSuccessful()) {
+    private <T extends BaseService> void checkForErrors(Response response, Class<T> serviceClass) {
+
+        boolean errorExists = false;
+
+        if (serviceClass == CreateService.class || serviceClass == UpdateService.class) {
+            if(!response.getStatusCode().equals(302))
+                errorExists = true;
+        }
+
+        else if (!response.isSuccessful())
+            errorExists = true;
+
+        if (errorExists) {
             PaymanErrorResponse errorResponse = (PaymanErrorResponse) convertJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
-            throw exceptionTranslator.translate(errorResponse.getCode(), servcieClass);
+            throw exceptionTranslator.translate(errorResponse.getCode(), serviceClass);
         }
     }
 
