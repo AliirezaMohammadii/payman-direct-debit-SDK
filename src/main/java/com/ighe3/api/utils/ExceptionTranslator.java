@@ -1,13 +1,13 @@
 package com.ighe3.api.utils;
 
 import com.ighe3.api.exception.BaseException;
-import com.ighe3.api.service.BaseService;
+import com.ighe3.api.service.impl.HttpServiceImpl;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ExceptionTranslator {
 
-    public <T extends BaseService> BaseException translate(String code, Class<T> serviceClass) {
+    public <T extends HttpServiceImpl> BaseException translate(String code, Class<T> serviceClass) {
 
         BaseException exception;
 
