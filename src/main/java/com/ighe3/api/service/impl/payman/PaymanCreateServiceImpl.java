@@ -8,14 +8,14 @@ import com.ighe3.api.dto.Contract;
 import com.ighe3.api.dto.PaymanDetails;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanCreateRequest;
-import com.ighe3.api.service.payman.CreateService;
+import com.ighe3.api.service.payman.PaymanCreateService;
 import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateServiceImpl implements CreateService {
+public class PaymanCreateServiceImpl implements PaymanCreateService {
 
     @Value("${callback.url}")
     private String callbackUrl;
@@ -25,7 +25,7 @@ public class CreateServiceImpl implements CreateService {
     private final AccessTokenServiceImpl accessTokenService;
     private final MerchantPermissionsServiceImpl merchantPermissionsService;
 
-    public CreateServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService, MerchantPermissionsServiceImpl merchantPermissionsService) {
+    public PaymanCreateServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService, MerchantPermissionsServiceImpl merchantPermissionsService) {
         this.httpService = httpService;
         this.urls = urls;
         this.accessTokenService = accessTokenService;
@@ -36,7 +36,7 @@ public class CreateServiceImpl implements CreateService {
     public CreateResponse create(CreateRequest inputDto) throws BaseException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-        Response paymanResponse = httpService.sendRequest(request, CreateServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanCreateServiceImpl.class);
         Headers headers = paymanResponse.getHeaders();
         return new CreateResponse(headers.get("Location"));
     }

@@ -8,20 +8,20 @@ import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanListRequest;
-import com.ighe3.api.service.payman.ListService;
+import com.ighe3.api.service.payman.PaymanGetAllService;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ListServiceImpl implements ListService {
+public class PaymanGetAllServiceImpl implements PaymanGetAllService {
 
     private final HttpService httpService;
     private final Urls urls;
     private final AccessTokenServiceImpl accessTokenService;
 
-    public ListServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
+    public PaymanGetAllServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
         this.httpService = httpService;
         this.urls = urls;
         this.accessTokenService = accessTokenService;
@@ -31,7 +31,7 @@ public class ListServiceImpl implements ListService {
     public PaymanListResponse getList(ListRequest inputDto) throws BaseException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getPaymanListUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
-        Response paymanResponse = httpService.sendRequest(request, ListServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanGetAllServiceImpl.class);
         return (PaymanListResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanListResponse.class);
     }
 

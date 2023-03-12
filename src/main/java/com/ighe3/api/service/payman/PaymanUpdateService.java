@@ -4,7 +4,7 @@ import com.ighe3.api.dto.client.request.UpdateRequest;
 import com.ighe3.api.dto.client.response.UpdateResponse;
 import com.ighe3.api.exception.BaseException;
 
-public interface UpdateService {
+public interface PaymanUpdateService {
 
     UpdateResponse update(UpdateRequest inputDto) throws BaseException;
 }

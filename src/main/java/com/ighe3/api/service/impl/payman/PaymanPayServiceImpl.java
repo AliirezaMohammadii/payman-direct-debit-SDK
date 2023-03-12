@@ -7,19 +7,19 @@ import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanPayRequest;
-import com.ighe3.api.service.payman.PayService;
+import com.ighe3.api.service.payman.PaymanPayService;
 import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PayServiceImpl implements PayService {
+public class PaymanPayServiceImpl implements PaymanPayService {
 
     private final HttpService httpService;
     private final Urls urls;
     private final AccessTokenServiceImpl accessTokenService;
 
-    public PayServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
+    public PaymanPayServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
         this.httpService = httpService;
         this.urls = urls;
         this.accessTokenService = accessTokenService;
@@ -29,7 +29,7 @@ public class PayServiceImpl implements PayService {
     public PaymanPayResponse pay(PayRequest inputDto) throws BaseException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getPayUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
-        Response paymanResponse = httpService.sendRequest(request, PayServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanPayServiceImpl.class);
         return (PaymanPayResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
     }
 

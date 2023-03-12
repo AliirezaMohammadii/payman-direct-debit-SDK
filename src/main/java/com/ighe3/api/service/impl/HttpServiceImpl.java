@@ -1,15 +1,13 @@
 package com.ighe3.api.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.exception.PaymanException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
-import com.ighe3.api.service.impl.payman.CreateServiceImpl;
-import com.ighe3.api.service.impl.payman.UpdateServiceImpl;
-import com.ighe3.api.utils.ExceptionTranslator;
+import com.ighe3.api.service.impl.payman.PaymanCreateServiceImpl;
+import com.ighe3.api.service.impl.payman.PaymanUpdateServiceImpl;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.CustomHttpHeaders;
 import com.ighe3.api.utils.HttpHeaderValues;
@@ -112,7 +110,7 @@ public class HttpServiceImpl implements HttpService {
 
         boolean errorExists = false;
 
-        if (serviceClass == CreateServiceImpl.class || serviceClass == UpdateServiceImpl.class) {
+        if (serviceClass == PaymanCreateServiceImpl.class || serviceClass == PaymanUpdateServiceImpl.class) {
             if (!response.getStatusCode().equals(302))
                 errorExists = true;
         } else if (!response.isSuccessful())

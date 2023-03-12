@@ -6,7 +6,7 @@ import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanUpdateRequest;
-import com.ighe3.api.service.payman.UpdateService;
+import com.ighe3.api.service.payman.PaymanUpdateService;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.CustomHttpHeaders;
 import com.ighe3.api.utils.Urls;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateServiceImpl implements UpdateService {
+public class PaymanUpdateServiceImpl implements PaymanUpdateService {
 
     @Value("${callback.url}")
     private String callbackUrl;
@@ -24,7 +24,7 @@ public class UpdateServiceImpl implements UpdateService {
     private final Urls urls;
     private final AccessTokenServiceImpl accessTokenService;
 
-    public UpdateServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
+    public PaymanUpdateServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
         this.httpService = httpService;
         this.urls = urls;
         this.accessTokenService = accessTokenService;
@@ -34,7 +34,7 @@ public class UpdateServiceImpl implements UpdateService {
     public UpdateResponse update(UpdateRequest inputDto) throws BaseException {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
-        Response paymanResponse = httpService.sendRequest(request, UpdateServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanUpdateServiceImpl.class);
         Headers headers = paymanResponse.getHeaders();
         return new UpdateResponse(headers.get("Location"));
     }
