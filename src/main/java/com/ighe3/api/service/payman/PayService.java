@@ -3,7 +3,7 @@ package com.ighe3.api.service.payman;
 import com.ighe3.api.dto.client.request.PayRequest;
 import com.ighe3.api.dto.provider.response.PaymanPayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanPayRequest;
 import com.ighe3.api.utils.*;
 import okhttp3.*;
@@ -24,9 +24,9 @@ public class PayService extends BaseService {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = createRequest(requestBody, urls.getPayUrl(), createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = sendRequest(request, PayService.class);
-        PaymanPayResponse paymanResponseBody
-                = (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
-        return paymanResponseBody;
+
+        // TODO: do it for all services
+        return (PaymanPayResponse) convertJsonToJavaObject(paymanResponse.getBody(), PaymanPayResponse.class);
     }
 
     private RequestBody createRequestBody(PayRequest inputDto) throws RuntimeException {

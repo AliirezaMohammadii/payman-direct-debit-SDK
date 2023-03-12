@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Getter
 public class Urls {
 
+    // TODO: configuration properties.
+
     @Value("${payman.url.base}" + "${payman.url.access-token}")
     private String accessTokenUrl;
 

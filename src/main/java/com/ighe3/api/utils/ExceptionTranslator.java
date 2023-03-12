@@ -1,7 +1,6 @@
 package com.ighe3.api.utils;
 
 import com.ighe3.api.exception.BaseException;
-import com.ighe3.api.exception.PaymanCodeNotFoundException;
 import com.ighe3.api.service.BaseService;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +12,10 @@ public class ExceptionTranslator {
         BaseException exception;
 
         switch (code) {
-            case "":
+            case "2001":
             default:
-                exception = new PaymanCodeNotFoundException("");
         }
 
-        return exception;
+        return null;
     }
 }

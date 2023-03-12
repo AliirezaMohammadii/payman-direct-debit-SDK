@@ -1,4 +1,4 @@
-package com.ighe3.api.model.enums;
+package com.ighe3.api.dto.enums;
 
 public enum MerchantPermissions {
     NORMAL_PAY(1),

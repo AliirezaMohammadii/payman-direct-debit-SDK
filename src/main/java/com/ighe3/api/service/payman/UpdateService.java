@@ -1,14 +1,13 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.client.request.CreateRequest;
 import com.ighe3.api.dto.client.request.UpdateRequest;
 import com.ighe3.api.dto.client.response.UpdateResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanUpdateRequest;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.RequestHeaderKeys;
+import com.ighe3.api.utils.CustomHttpHeaders;
 import com.ighe3.api.utils.Urls;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,8 +62,8 @@ public class UpdateService extends BaseService {
     protected Headers createHeaders(UpdateRequest inputDto) throws RuntimeException {
         Headers generalHeaders = createHeaders(accessTokenService.getAccessToken());
         Headers headers = generalHeaders.newBuilder()
-                .add(RequestHeaderKeys.MOBILE_NO.getValue(), inputDto.getMobileNumber())
-                .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), inputDto.getNationalCode())
+                .add(CustomHttpHeaders.MOBILE_NO, inputDto.getMobileNumber())
+                .add(CustomHttpHeaders.NATIONAL_CODE, inputDto.getNationalCode())
                 .build();
         return headers;
     }

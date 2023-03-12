@@ -3,7 +3,6 @@ package com.ighe3.api.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.config.MessageSourceConfig;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -70,7 +69,7 @@ public class GeneralUtils {
     }
 
     public static String getMessageByCode(String code, Object[] args) {
-        return MessageSourceConfig.instance.getMessage(code, args, LocaleContextHolder.getLocale());
+        return MessageSourceConfig.ERROR_MESSAGES_INSTANCE.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 
     public static String generateRandomString(int size) {
@@ -99,6 +98,6 @@ public class GeneralUtils {
     }
 
     public static String getExceptionMessageFromCode(String code, Object[] args) {
-        return MessageSourceConfig.instance.getMessage(code, args, LocaleContextHolder.getLocale());
+        return MessageSourceConfig.ERROR_MESSAGES_INSTANCE.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }

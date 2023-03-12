@@ -9,12 +9,23 @@ import java.util.Locale;
 
 @Configuration
 public class MessageSourceConfig {
-    public static final MessageSource instance = new MessageSourceConfig().messageSource();
+
+    public static final MessageSource ERROR_MESSAGES_INSTANCE = new MessageSourceConfig().errorMessages();
+    public static final MessageSource ERROR_MAPPER_INSTANCE = new MessageSourceConfig().errorMapper();
 
     @Bean
-    public MessageSource messageSource() {
+    public MessageSource errorMessages() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
+        messageSource.setBasename("error-messages");
+        messageSource.setDefaultLocale(Locale.ENGLISH);
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
+    @Bean
+    public MessageSource errorMapper() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("error-mapper");
         messageSource.setDefaultLocale(Locale.ENGLISH);
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;

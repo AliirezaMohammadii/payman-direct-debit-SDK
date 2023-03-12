@@ -5,7 +5,7 @@ import com.ighe3.api.dto.client.response.CreateResponse;
 import com.ighe3.api.service.BaseService;
 import com.ighe3.api.dto.Contract;
 import com.ighe3.api.dto.PaymanDetails;
-import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanCreateRequest;
 import com.ighe3.api.utils.*;
 import okhttp3.*;
@@ -88,8 +88,8 @@ public class CreateService extends BaseService {
     protected Headers createHeaders(CreateRequest inputDto) throws RuntimeException {
         Headers generalHeaders = createHeaders(accessTokenService.getAccessToken());
         Headers headers = generalHeaders.newBuilder()
-                .add(RequestHeaderKeys.MOBILE_NO.getValue(), inputDto.getMobileNumber())
-                .add(RequestHeaderKeys.NATIONAL_CODE.getValue(), inputDto.getNationalCode())
+                .add(CustomHttpHeaders.MOBILE_NO, inputDto.getMobileNumber())
+                .add(CustomHttpHeaders.NATIONAL_CODE, inputDto.getNationalCode())
                 .build();
         return headers;
     }

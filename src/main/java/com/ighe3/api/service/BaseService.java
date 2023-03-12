@@ -1,18 +1,19 @@
 package com.ighe3.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
-import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.Response;
+import com.ighe3.api.exception.PaymanException;
 import com.ighe3.api.service.payman.CreateService;
 import com.ighe3.api.service.payman.UpdateService;
 import com.ighe3.api.utils.ExceptionTranslator;
 import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.RequestHeaderKeys;
-import com.ighe3.api.utils.RequestHeaderValues;
+import com.ighe3.api.utils.CustomHttpHeaders;
+import com.ighe3.api.utils.HttpHeaderValues;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public abstract class BaseService {
 
         if (errorExists) {
             PaymanErrorResponse errorResponse = (PaymanErrorResponse) convertJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
-            throw exceptionTranslator.translate(errorResponse.getCode(), serviceClass);
+            throw new PaymanException(errorResponse.getCode());
         }
     }
 
@@ -97,14 +98,14 @@ public abstract class BaseService {
     protected Headers createHeaders() throws RuntimeException {
         Headers headers = new Headers.Builder()
                 // TODO
-                .add(RequestHeaderKeys.APP_KEY.getValue(), appKey)
-                .add(RequestHeaderKeys.CONTENT_TYPE.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
-                .add(RequestHeaderKeys.ACCEPT.getValue(), RequestHeaderValues.APPLICATION_JSON.getValue())
-                .add(RequestHeaderKeys.CLIENT_IP_ADDRESS.getValue(), "127.0.0.1")
-                .add(RequestHeaderKeys.CLIENT_PLATFORM_TYPE.getValue(), RequestHeaderValues.WEB.getValue())
-                .add(RequestHeaderKeys.CLIENT_DEVICE_ID.getValue(), "127.0.0.1")
-                .add(RequestHeaderKeys.CLIENT_USER_ID.getValue(), "09120000000")
-                .add(RequestHeaderKeys.CLIENT_USER_AGENT.getValue(), "firefox5.0")
+                .add(CustomHttpHeaders.APP_KEY, appKey)
+                .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+                .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
+                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, "127.0.0.1")
+                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, HttpHeaderValues.WEB)
+                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, "127.0.0.1")
+                .add(CustomHttpHeaders.CLIENT_USER_ID, "09120000000")
+                .add(CustomHttpHeaders.CLIENT_USER_AGENT, "firefox5.0")
                 .build();
         return headers;
     }
@@ -112,7 +113,7 @@ public abstract class BaseService {
     protected Headers createHeaders(String accessToken) throws RuntimeException {
         Headers headers = createHeaders();
         Headers headersIncludingToken = headers.newBuilder()
-                .add(RequestHeaderKeys.AUTHORIZATION.getValue(), GeneralUtils.BEARER_PREFIX + accessToken)
+                .add(HttpHeaders.AUTHORIZATION, GeneralUtils.BEARER_PREFIX + accessToken)
                 .build();
         return headersIncludingToken;
     }

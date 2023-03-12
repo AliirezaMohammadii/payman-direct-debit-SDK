@@ -1,8 +1,9 @@
 package com.ighe3.api.utils;
 
+// TODO: for all enums, remove s
 public enum ExceptionCodes {
 
-    A("0");
+    PROVIDER_ERROR("0");
 
     public final String code;
 

@@ -2,12 +2,9 @@ package com.ighe3.api.service.payman;
 
 import com.ighe3.api.dto.provider.response.PaymanTracePayResponse;
 import com.ighe3.api.service.BaseService;
-import com.ighe3.api.model.Response;
+import com.ighe3.api.dto.Response;
 import com.ighe3.api.utils.ExceptionTranslator;
-import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.RequestHeaderKeys;
 import com.ighe3.api.utils.Urls;
-import okhttp3.Headers;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
 

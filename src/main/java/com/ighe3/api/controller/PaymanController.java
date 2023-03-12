@@ -77,7 +77,7 @@ public class PaymanController {
         return getPaymanIdService.getPaymanId(paymanCode);
     }
 
-    @GetMapping("/create/trace/{traceId}")
+    @GetMapping("/create-trace/{traceId}")
     @ResponseStatus(HttpStatus.OK)
     public Object traceCreatePayman(@PathVariable String traceId) throws RuntimeException {
         return traceCreateService.trace(traceId);
@@ -89,7 +89,7 @@ public class PaymanController {
         return payService.pay(inputDTO);
     }
 
-    @GetMapping("/pay/trace/{traceId}")
+    @GetMapping("/pay-trace/{traceId}")
     @ResponseStatus(HttpStatus.OK)
     public Object tracePay(@PathVariable String traceId,
                            @RequestParam(required = false) String date) throws RuntimeException {
@@ -120,6 +120,7 @@ public class PaymanController {
         return transactionsService.getTransactions(inputDTO);
     }
 
+    // TODO: -> v1/paymans/all
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public Object getList(@RequestBody ListRequest inputDTO) throws RuntimeException {

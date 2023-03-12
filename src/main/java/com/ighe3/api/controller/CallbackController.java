@@ -1,6 +1,6 @@
 package com.ighe3.api.controller;
 
-import com.ighe3.api.model.enums.RedirectUrlStatuses;
+import com.ighe3.api.dto.enums.RedirectUrlStatuses;
 import com.ighe3.api.service.payman.GetPaymanIdService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class CallbackController {
         this.getPaymanIdService = getPaymanIdService;
     }
 
-    @GetMapping("/create")
+    @GetMapping
     public void createCallback(@RequestParam(name = "user_id") String userId,
                                @RequestParam(name = "payman_code") String paymanCode,
                                @RequestParam(name = "status") String creationStatus) throws RuntimeException {
