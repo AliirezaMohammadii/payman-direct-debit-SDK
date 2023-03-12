@@ -1,6 +1,6 @@
 package com.ighe3.api.controller;
 
-import com.ighe3.api.dto.enums.RedirectUrlStatuses;
+import com.ighe3.api.dto.enums.RedirectUrlStatus;
 import com.ighe3.api.service.payman.GetPaymanIdService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +22,9 @@ public class CallbackController {
                                @RequestParam(name = "payman_code") String paymanCode,
                                @RequestParam(name = "status") String creationStatus) throws RuntimeException {
 
-        if (creationStatus.equals(RedirectUrlStatuses.CREATED.name())) {
+        if (creationStatus.equals(RedirectUrlStatus.CREATED.name())) {
             String paymanId = getPaymanIdService.getPaymanId(paymanCode);
-        } else if (creationStatus.equals(RedirectUrlStatuses.UPDATED.name())) {
+        } else if (creationStatus.equals(RedirectUrlStatus.UPDATED.name())) {
         } else
             throw new RuntimeException("error");
     }
