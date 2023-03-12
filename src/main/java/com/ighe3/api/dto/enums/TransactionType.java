@@ -1,6 +1,7 @@
 package com.ighe3.api.dto.enums;
 
-public enum TransactionTypes {
+public enum TransactionType {
+
     NORMAL,
     ACH,
     RTGS,

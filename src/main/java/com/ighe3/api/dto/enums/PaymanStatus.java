@@ -1,6 +1,7 @@
 package com.ighe3.api.dto.enums;
 
-public enum PaymanStatuses {
+public enum PaymanStatus {
+
     INITIALIZING,
     ACTIVE,
     DE_ACTIVE,
