@@ -6,5 +6,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface TransactionsService {
 
-    PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) throws BaseException;
+    PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto);
 }

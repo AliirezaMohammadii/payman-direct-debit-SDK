@@ -6,5 +6,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface PaymanUpdateService {
 
-    UpdateResponse update(UpdateRequest inputDto) throws BaseException;
+    UpdateResponse update(UpdateRequest inputDto);
 }

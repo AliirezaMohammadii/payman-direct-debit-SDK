@@ -24,7 +24,7 @@ public class PaymanGetServiceImpl implements PaymanGetService {
     }
 
     @Override
-    public PaymanReportResponse getReport(String paymanId) throws BaseException {
+    public PaymanReportResponse getReport(String paymanId) {
         String url = urls.getReportUrl() + "/" + paymanId;
         Request request = httpService.createRequest(url, httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, PaymanGetServiceImpl.class);

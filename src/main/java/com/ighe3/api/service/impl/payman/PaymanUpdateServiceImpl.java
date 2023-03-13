@@ -31,7 +31,7 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
     }
 
     @Override
-    public UpdateResponse update(UpdateRequest inputDto) throws BaseException {
+    public UpdateResponse update(UpdateRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
         Response paymanResponse = httpService.sendRequest(request, PaymanUpdateServiceImpl.class);

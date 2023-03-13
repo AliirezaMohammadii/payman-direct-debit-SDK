@@ -24,7 +24,7 @@ public class TraceCreationServiceImpl implements TraceCreationService {
     }
 
     @Override
-    public PaymanTraceCreateResponse trace(String traceId) throws BaseException {
+    public PaymanTraceCreateResponse trace(String traceId) {
         String url = urls.getTraceCreateUrl() + "?trace-id" + "=" + traceId;
         Request request = httpService.createRequest(url, httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, TraceCreationServiceImpl.class);

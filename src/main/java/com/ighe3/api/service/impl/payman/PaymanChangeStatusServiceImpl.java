@@ -27,7 +27,7 @@ public class PaymanChangeStatusServiceImpl implements PaymanChangeStatusService 
     }
 
     @Override
-    public PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) throws BaseException {
+    public PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getChangeStatusUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, PaymanChangeStatusServiceImpl.class);

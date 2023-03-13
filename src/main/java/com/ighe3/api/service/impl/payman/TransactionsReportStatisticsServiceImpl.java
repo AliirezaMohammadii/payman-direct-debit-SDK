@@ -28,7 +28,7 @@ public class TransactionsReportStatisticsServiceImpl implements TransactionsRepo
 
     @Override
     public PaymanTransactionsReportStatisticsResponse getReportStatistics(TransactionsReportStatisticsRequest inputDto)
-            throws BaseException {
+            {
 
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));

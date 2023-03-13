@@ -28,7 +28,7 @@ public class TransactionsServiceImpl implements TransactionsService {
     }
 
     @Override
-    public PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) throws BaseException {
+    public PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getTransactionsUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, TransactionsServiceImpl.class);

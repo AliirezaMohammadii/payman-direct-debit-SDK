@@ -6,5 +6,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface PaymanChangeStatusService {
 
-    PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) throws BaseException;
+    PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto);
 }

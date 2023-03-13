@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MerchantPermissionsService {
 
-    List<Integer> getPermissionIds() throws BaseException;
+    List<Integer> getPermissionIds();
 }

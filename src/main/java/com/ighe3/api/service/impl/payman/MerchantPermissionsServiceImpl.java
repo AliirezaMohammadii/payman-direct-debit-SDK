@@ -34,7 +34,7 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
     }
 
     @Override
-    public List<Integer> getPermissionIds() throws BaseException {
+    public List<Integer> getPermissionIds() {
 
         if (Boolean.parseBoolean(appHasOnlyNormalPayPermission))
             return Collections.singletonList(MerchantPermission.NORMAL_PAY.label);

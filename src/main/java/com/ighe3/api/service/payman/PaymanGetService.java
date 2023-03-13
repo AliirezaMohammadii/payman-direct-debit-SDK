@@ -5,5 +5,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface PaymanGetService {
 
-    PaymanReportResponse getReport(String paymanId) throws BaseException;
+    PaymanReportResponse getReport(String paymanId);
 }

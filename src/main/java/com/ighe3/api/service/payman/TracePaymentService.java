@@ -5,5 +5,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface TracePaymentService {
 
-    PaymanTracePayResponse trace(String traceId, String date) throws BaseException;
+    PaymanTracePayResponse trace(String traceId, String date);
 }

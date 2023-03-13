@@ -6,5 +6,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface PaymanCreateService {
 
-    CreateResponse create(CreateRequest inputDto) throws BaseException;
+    CreateResponse create(CreateRequest inputDto);
 }

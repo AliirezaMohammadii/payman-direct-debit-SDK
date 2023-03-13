@@ -5,5 +5,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface TraceCreationService {
 
-    PaymanTraceCreateResponse trace(String traceId) throws BaseException;
+    PaymanTraceCreateResponse trace(String traceId);
 }

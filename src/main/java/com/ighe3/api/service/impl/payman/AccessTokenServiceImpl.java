@@ -33,7 +33,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     }
 
     @Override
-    public String getAccessToken() throws BaseException {
+    public String getAccessToken() {
 
         if (Boolean.parseBoolean(useStaticAccessToken))
             return accessToken;

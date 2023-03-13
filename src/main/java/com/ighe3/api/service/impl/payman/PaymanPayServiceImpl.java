@@ -26,7 +26,7 @@ public class PaymanPayServiceImpl implements PaymanPayService {
     }
 
     @Override
-    public PaymanPayResponse pay(PayRequest inputDto) throws BaseException {
+    public PaymanPayResponse pay(PayRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getPayUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, PaymanPayServiceImpl.class);

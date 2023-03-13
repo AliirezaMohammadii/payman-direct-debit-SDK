@@ -33,7 +33,7 @@ public class PaymanCreateServiceImpl implements PaymanCreateService {
     }
 
     @Override
-    public CreateResponse create(CreateRequest inputDto) throws BaseException {
+    public CreateResponse create(CreateRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
         Response paymanResponse = httpService.sendRequest(request, PaymanCreateServiceImpl.class);

@@ -5,5 +5,5 @@ import okhttp3.FormBody;
 
 public interface AccessTokenService {
 
-    String getAccessToken() throws BaseException;
+    String getAccessToken();
 }

@@ -24,7 +24,7 @@ public class TracePaymentServiceImpl implements TracePaymentService {
     }
 
     @Override
-    public PaymanTracePayResponse trace(String traceId, String date) throws BaseException {
+    public PaymanTracePayResponse trace(String traceId, String date) {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
         Request request = httpService.createRequest(url, httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, TracePaymentServiceImpl.class);

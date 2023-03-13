@@ -6,5 +6,5 @@ import com.ighe3.api.exception.BaseException;
 
 public interface PaymanGetAllService {
 
-    PaymanListResponse getList(ListRequest inputDto) throws BaseException;
+    PaymanListResponse getList(ListRequest inputDto);
 }

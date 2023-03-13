@@ -28,7 +28,7 @@ public class PaymanGetAllServiceImpl implements PaymanGetAllService {
     }
 
     @Override
-    public PaymanListResponse getList(ListRequest inputDto) throws BaseException {
+    public PaymanListResponse getList(ListRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getPaymanListUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, PaymanGetAllServiceImpl.class);
