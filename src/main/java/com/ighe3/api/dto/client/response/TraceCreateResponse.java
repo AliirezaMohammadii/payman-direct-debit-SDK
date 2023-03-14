@@ -16,7 +16,7 @@ public class TraceCreateResponse {
     @JsonProperty("user_id")
     private String userId;
 
-    @JsonProperty("payman_code")
+    @JsonProperty("payman_id")
     private String paymanId;
 
     private String status;
@@ -25,7 +25,7 @@ public class TraceCreateResponse {
     private String internalStatus;
 
     @JsonProperty("permission_ids")
-    private List<MerchantPermissionDetails> permissionIds;
+    private List<Integer> permissionIds;
 
     private Contract contract;
 }

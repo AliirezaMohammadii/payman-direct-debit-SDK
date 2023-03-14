@@ -30,7 +30,7 @@ public class ListResponseResult {
     private String creditorId;
 
     @JsonProperty("permission_ids")
-    private List<MerchantPermissionDetails> permissionIds;
+    private List<Integer> permissionIds;
 
     @JsonProperty("registration_date")
     private Date registrationDate;

@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class MerchantPermissionsResponse {
 
-    private List<MerchantPermissionDetails> paymanMerchantPermissions;
+    private List<MerchantPermissionDetails> merchantPermissions;
 }

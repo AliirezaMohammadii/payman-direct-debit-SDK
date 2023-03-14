@@ -51,5 +51,5 @@ public class ListRequestFilter {
     private List<String> userIds;
 
     @JsonProperty("permission_ids")
-    private List<MerchantPermissionDetails> permissionIds;
+    private List<Integer> permissionIds;
 }

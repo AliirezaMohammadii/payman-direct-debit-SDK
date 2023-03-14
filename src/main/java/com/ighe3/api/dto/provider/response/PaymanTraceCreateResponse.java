@@ -25,7 +25,7 @@ public class PaymanTraceCreateResponse {
     private String internalStatus;
 
     @JsonProperty("permission_ids")
-    private List<MerchantPermissionDetails> permissionIds;
+    private List<Integer> permissionIds;
 
     private Contract contract;
 }

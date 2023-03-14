@@ -3,7 +3,6 @@ package com.ighe3.api.service.impl.payman;
 import com.ighe3.api.dto.MerchantPermissionDetails;
 import com.ighe3.api.dto.enums.MerchantPermission;
 import com.ighe3.api.dto.provider.response.PaymanMerchantPermissionsResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
@@ -43,6 +42,6 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
         Response paymanResponse = httpService.sendRequest(request, MerchantPermissionsServiceImpl.class);
         PaymanMerchantPermissionsResponse paymanResponseBody
                 = (PaymanMerchantPermissionsResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class);
-        return paymanResponseBody.getPermissionIdsDetail().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
+        return paymanResponseBody.getMerchantPermissions().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
     }
 }
