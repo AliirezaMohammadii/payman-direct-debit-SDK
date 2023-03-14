@@ -36,7 +36,7 @@ public class PaymanCreateServiceImpl implements PaymanCreateService {
     public CreateResponse create(CreateRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getCreateUrl(), createHeaders(inputDto));
-        Response paymanResponse = httpService.sendRequest(request, PaymanCreateServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanCreateService.class);
         Headers headers = paymanResponse.getHeaders();
         return new CreateResponse(headers.get("Location"));
     }

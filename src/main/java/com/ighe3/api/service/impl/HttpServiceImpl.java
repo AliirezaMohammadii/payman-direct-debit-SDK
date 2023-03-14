@@ -8,6 +8,8 @@ import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.service.impl.payman.PaymanCreateServiceImpl;
 import com.ighe3.api.service.impl.payman.PaymanUpdateServiceImpl;
+import com.ighe3.api.service.payman.PaymanCreateService;
+import com.ighe3.api.service.payman.PaymanUpdateService;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.CustomHttpHeaders;
 import com.ighe3.api.utils.HttpHeaderValues;
@@ -110,7 +112,7 @@ public class HttpServiceImpl implements HttpService {
 
         boolean errorExists = false;
 
-        if (serviceClass == PaymanCreateServiceImpl.class || serviceClass == PaymanUpdateServiceImpl.class) {
+        if (serviceClass == PaymanCreateService.class || serviceClass == PaymanUpdateService.class) {
             if (!response.getStatusCode().equals(302))
                 errorExists = true;
         } else if (!response.isSuccessful())

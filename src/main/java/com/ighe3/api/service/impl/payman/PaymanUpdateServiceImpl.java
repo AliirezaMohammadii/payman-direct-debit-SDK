@@ -34,7 +34,7 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
     public UpdateResponse update(UpdateRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
         Request request = httpService.createRequest(requestBody, urls.getUpdateUrl(), createHeaders(inputDto));
-        Response paymanResponse = httpService.sendRequest(request, PaymanUpdateServiceImpl.class);
+        Response paymanResponse = httpService.sendRequest(request, PaymanUpdateService.class);
         Headers headers = paymanResponse.getHeaders();
         return new UpdateResponse(headers.get("Location"));
     }
