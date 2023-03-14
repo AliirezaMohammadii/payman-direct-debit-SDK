@@ -8,10 +8,6 @@ import java.util.Date;
 @Data
 public class UpdateRequest {
 
-    // TODO: it's temporary. must be removed later.
-    @JsonProperty("user_id")
-    private String userId;
-
     @JsonProperty("payman_id")
     private String paymanId;
 
@@ -30,8 +26,11 @@ public class UpdateRequest {
     @JsonProperty("daily_max_transaction_amount")
     private Double dailyMaxTransactionAmount;
 
-    // TODO: remove
-//    private String redirectUrl;
+    @JsonProperty("redirect_url")
+    private String redirectUrl;
+
+    @JsonProperty("source_info")
+    private SourceInfo sourceInfo;
 
     @JsonProperty("mobile_number")
     private String mobileNumber;

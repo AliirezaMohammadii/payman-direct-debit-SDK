@@ -7,8 +7,11 @@ import lombok.Data;
 public class ChangeStatusRequest {
 
     @JsonProperty("payman_id")
-    String paymanId;
+    private String paymanId;
 
     @JsonProperty("new_status")
-    String newStatus;
+    private String newStatus;
+
+    @JsonProperty("source_info")
+    private SourceInfo sourceInfo;
 }

@@ -13,4 +13,7 @@ public class TransactionsReportStatisticsRequest {
 
     @JsonProperty("end_date")
     private Date endDate;
+
+    @JsonProperty("source_info")
+    private SourceInfo sourceInfo;
 }

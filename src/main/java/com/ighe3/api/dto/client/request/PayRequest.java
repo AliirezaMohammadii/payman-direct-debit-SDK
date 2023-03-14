@@ -9,9 +9,6 @@ public class PayRequest {
     @JsonProperty("payman_id")
     private String paymanId;
 
-//    @JsonProperty("trace_id")
-//    private String traceId;
-
     private Double amount;
 
     private String description;
@@ -19,9 +16,15 @@ public class PayRequest {
     @JsonProperty("client_transaction_date")
     private String clientTransactionDate;
 
+    @JsonProperty("trace_id")
+    private String traceId;
+
     @JsonProperty("pay_id")
     private String payId;
 
     @JsonProperty("commission_amount")
     private String commissionAmount;
+
+    @JsonProperty("source_info")
+    private SourceInfo sourceInfo;
 }

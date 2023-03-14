@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class PaymanChangeStatusRequest {
 
-    @JsonProperty("new_status")
-    private String newStatus;
-
     @JsonProperty("payman_id")
     private String paymanId;
+
+    @JsonProperty("new_status")
+    private String newStatus;
 }

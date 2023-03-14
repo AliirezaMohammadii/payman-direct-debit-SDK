@@ -6,9 +6,7 @@ import lombok.Data;
 @Data
 public class PaymanListRequest {
 
-    private ListRequestFilter filter;
-
-    private Integer length;
-
     private Integer offset;
+    private Integer length;
+    private ListRequestFilter filter;
 }

@@ -20,4 +20,7 @@ public class TransactionsReportRequest {
 
     @JsonProperty("bank_code")
     private String bankCode;
+
+    @JsonProperty("source_info")
+    private SourceInfo sourceInfo;
 }
