@@ -120,7 +120,7 @@ public class HttpServiceImpl implements HttpService {
 
         if (errorExists) {
             PaymanErrorResponse errorResponse = (PaymanErrorResponse) HttpResponseMapper.convertJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
-            throw new PaymanException(errorResponse.getCode());
+            throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), response.getStatusCode());
         }
     }
 
