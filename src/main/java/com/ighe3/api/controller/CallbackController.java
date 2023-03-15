@@ -24,7 +24,7 @@ public class CallbackController {
                                @RequestParam(name = "payman_code") String paymanCode,
                                @RequestParam(name = "status") String status,
                                // TODO: I'm not sure about "error" keyword
-                               @RequestParam(name = "error", required = false) String errorCode) throws RuntimeException {
+                               @RequestParam(name = "error", required = false) String errorCode) {
 
         // TODO: about errorMessage
         if (errorCode != null) {

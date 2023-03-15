@@ -1,13 +1,13 @@
 package com.ighe3.api.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ighe3.api.dto.client.request.SourceInfo;
+import com.ighe3.api.dto.provider.request.PaymanTransactionsRequest;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.exception.PaymanException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
-import com.ighe3.api.service.impl.payman.PaymanCreateServiceImpl;
-import com.ighe3.api.service.impl.payman.PaymanUpdateServiceImpl;
 import com.ighe3.api.service.payman.PaymanCreateService;
 import com.ighe3.api.service.payman.PaymanUpdateService;
 import com.ighe3.api.utils.GeneralUtils;
@@ -34,7 +34,7 @@ public class HttpServiceImpl implements HttpService {
 //    }
 
     @Override
-    public <T> Response sendRequest(Request request, Class<T> serviceClass) throws RuntimeException {
+    public <S> Response sendRequest(Request request, Class<S> serviceClass) {
         OkHttpClient client = GeneralUtils.buildOkhttpClient();
         okhttp3.Response response = executeSending(client, request);
         Response customizedResponse = createCustomResponse(response);
@@ -73,29 +73,44 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public Headers createHeaders() throws RuntimeException {
+    public Headers createHeaders(SourceInfo sourceInfo) {
         return new Headers.Builder()
-                // TODO
                 .add(CustomHttpHeaders.APP_KEY, appKey)
                 .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
-                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, "127.0.0.1")
-                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, HttpHeaderValues.WEB)
-                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, "127.0.0.1")
-                .add(CustomHttpHeaders.CLIENT_USER_ID, "09120000000")
-                .add(CustomHttpHeaders.CLIENT_USER_AGENT, "firefox5.0")
+                .add(CustomHttpHeaders.DEVICE_ID, sourceInfo.getDeviceId())
+                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, sourceInfo.getClientIpAddress())
+                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, sourceInfo.getClientPlatformType())
+                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, sourceInfo.getClientDeviceId())
+                .add(CustomHttpHeaders.CLIENT_USER_ID, sourceInfo.getClientUserId())
+                .add(CustomHttpHeaders.CLIENT_USER_AGENT, sourceInfo.getClientUserAgent())
                 .build();
     }
 
     @Override
-    public Headers createHeaders(String accessToken) throws RuntimeException {
-        Headers headers = createHeaders();
+    public Headers createHeaders(SourceInfo sourceInfo, String accessToken) {
+        Headers headers = createHeaders(sourceInfo);
         return headers.newBuilder()
                 .add(HttpHeaders.AUTHORIZATION, GeneralUtils.BEARER_PREFIX + accessToken)
                 .build();
     }
 
-    private Response createCustomResponse(okhttp3.Response response) throws RuntimeException {
+    @Override
+    public <R, PR> RequestBody createRequestBody(Class<PR> paymanRequestClass, Class<R> requestClass, R request) {
+
+        Object requestBody = null;
+
+        try {
+            requestBody = paymanRequestClass.getConstructor(requestClass).newInstance(request);
+        } catch (Exception e) {
+            // TODO
+        }
+
+        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
+        return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
+    }
+
+    private Response createCustomResponse(okhttp3.Response response) {
 
         String responseBody = null;
 
@@ -108,7 +123,7 @@ public class HttpServiceImpl implements HttpService {
         return new Response(response.headers(), responseBody, response.code(), response.isSuccessful());
     }
 
-    private <T> void checkForErrors(Response response, Class<T> serviceClass) {
+    private <S> void checkForErrors(Response response, Class<S> serviceClass) {
 
         boolean errorExists = false;
 
@@ -124,7 +139,7 @@ public class HttpServiceImpl implements HttpService {
         }
     }
 
-    private void printResponse(Response response) throws RuntimeException {
+    private void printResponse(Response response) {
         System.out.println("status code: " + response.getStatusCode());
 
         try {

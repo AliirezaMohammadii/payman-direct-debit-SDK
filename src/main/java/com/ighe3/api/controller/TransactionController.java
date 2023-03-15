@@ -28,20 +28,20 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactions(@RequestBody TransactionsRequest inputDTO) throws RuntimeException {
+    public Object getTransactions(@RequestBody TransactionsRequest inputDTO) {
         return transactionsService.getTransactions(inputDTO);
     }
 
     @PostMapping("/report")
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactionsReport(@RequestBody TransactionsReportRequest inputDTO) throws RuntimeException {
+    public Object getTransactionsReport(@RequestBody TransactionsReportRequest inputDTO) {
         return transactionsReportService.getReport(inputDTO);
     }
 
     @PostMapping("/report/statistics")
     @ResponseStatus(HttpStatus.OK)
     public Object getTransactionsReportStatistics(
-            @RequestBody TransactionsReportStatisticsRequest inputDTO) throws RuntimeException {
+            @RequestBody TransactionsReportStatisticsRequest inputDTO) {
         return transactionsReportStatisticsService.getReportStatistics(inputDTO);
     }
 }

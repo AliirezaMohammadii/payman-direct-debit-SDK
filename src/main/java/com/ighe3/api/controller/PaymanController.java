@@ -39,43 +39,43 @@ public class PaymanController {
     @PostMapping
     // TODO: maybe no need to @ResponseStatus(HttpStatus.OK)
     @ResponseStatus(HttpStatus.OK)
-    public CreateResponse createPayman(@RequestBody CreateRequest inputDTO) throws RuntimeException {
+    public CreateResponse createPayman(@RequestBody CreateRequest inputDTO) {
         return paymanCreateService.create(inputDTO);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object updatePayman(@RequestBody UpdateRequest inputDTO) throws RuntimeException {
+    public Object updatePayman(@RequestBody UpdateRequest inputDTO) {
         return paymanUpdateService.update(inputDTO);
     }
 
     @PutMapping("/change_status")
     @ResponseStatus(HttpStatus.OK)
-    public Object changePaymanStatus(@RequestBody ChangeStatusRequest inputDTO) throws RuntimeException {
+    public Object changePaymanStatus(@RequestBody ChangeStatusRequest inputDTO) {
         return paymanChangeStatusService.changeStatus(inputDTO);
     }
 
     @GetMapping("/{paymanId}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getPayman(@PathVariable String paymanId) throws RuntimeException {
+    public Object getPayman(@PathVariable String paymanId) {
         return paymanGetService.getReport(paymanId);
     }
 
     @PostMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public Object getPaymans(@RequestBody ListRequest inputDTO) throws RuntimeException {
+    public Object getPaymans(@RequestBody ListRequest inputDTO) {
         return paymanGetAllService.getList(inputDTO);
     }
 
     @GetMapping("/payman_id/{paymanCode}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getPaymanId(@PathVariable String paymanCode) throws RuntimeException {
+    public Object getPaymanId(@PathVariable String paymanCode) {
         return paymanIdService.getPaymanId(paymanCode);
     }
 
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
-    public Object pay(@RequestBody PayRequest inputDTO) throws RuntimeException {
+    public Object pay(@RequestBody PayRequest inputDTO) {
         return paymanPayService.pay(inputDTO);
     }
 }

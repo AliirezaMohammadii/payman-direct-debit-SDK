@@ -48,11 +48,11 @@ public class GeneralUtils {
         return null;
     }
 
-    public static Map<String, Object> getResponseBodyAsMap(String body) throws RuntimeException {
+    public static Map<String, Object> getResponseBodyAsMap(String body) {
         return convertJsonToMap(body);
     }
 
-    private static Map<String, Object> convertJsonToMap(String json) throws RuntimeException {
+    private static Map<String, Object> convertJsonToMap(String json) {
 
         try {
             Map<String, Object> result = new ObjectMapper().readValue(json, HashMap.class);

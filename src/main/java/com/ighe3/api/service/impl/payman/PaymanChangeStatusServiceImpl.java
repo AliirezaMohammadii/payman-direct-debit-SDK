@@ -2,7 +2,6 @@ package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.dto.client.request.ChangeStatusRequest;
 import com.ighe3.api.dto.provider.response.PaymanChangeStatusResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.payman.PaymanChangeStatusService;
 import com.ighe3.api.service.HttpService;
@@ -26,25 +25,22 @@ public class PaymanChangeStatusServiceImpl implements PaymanChangeStatusService 
         this.accessTokenService = accessTokenService;
     }
 
+    // TODO: change inputDto to request for all
     @Override
     public PaymanChangeStatusResponse changeStatus(ChangeStatusRequest inputDto) {
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = httpService.createRequest(requestBody, urls.getChangeStatusUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
+        Request request = httpService.createRequest(requestBody,
+                urls.getChangeStatusUrl(),
+                httpService.createHeaders(inputDto.getSourceInfo(), accessTokenService.getAccessToken()));
+
         Response paymanResponse = httpService.sendRequest(request, PaymanChangeStatusServiceImpl.class);
         return (PaymanChangeStatusResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanChangeStatusResponse.class);
     }
 
     // TODO: move this method to httpService and pass classType as an method argument.
-    private RequestBody createRequestBody(ChangeStatusRequest inputDto) throws RuntimeException {
-        PaymanChangeStatusRequest requestBodyObject = getRequestBodyObject(inputDto);
-        String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
+    private RequestBody createRequestBody(ChangeStatusRequest inputDto) {
+        PaymanChangeStatusRequest requestBody = new PaymanChangeStatusRequest(inputDto);
+        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
         return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
-    }
-
-    private PaymanChangeStatusRequest getRequestBodyObject(ChangeStatusRequest inputDto) {
-        PaymanChangeStatusRequest requestBodyObject = new PaymanChangeStatusRequest();
-        requestBodyObject.setNewStatus(inputDto.getNewStatus());
-        requestBodyObject.setPaymanId(inputDto.getPaymanId());
-        return requestBodyObject;
     }
 }

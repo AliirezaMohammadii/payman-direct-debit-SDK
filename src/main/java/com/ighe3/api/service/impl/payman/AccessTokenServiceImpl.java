@@ -1,7 +1,6 @@
 package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.dto.provider.response.PaymanAccessTokenResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
@@ -42,7 +41,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         Request request = httpService.createRequest(requestBody, urls.getAccessTokenUrl(), httpService.createHeaders());
         Response paymanResponse = httpService.sendRequest(request, AccessTokenServiceImpl.class);
         PaymanAccessTokenResponse paymanResponseBody
-                // TODO: mapper class
                 = (PaymanAccessTokenResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanAccessTokenResponse.class);
 
         return paymanResponseBody.getAccessToken();

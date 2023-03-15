@@ -1,9 +1,9 @@
 package com.ighe3.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ighe3.api.dto.provider.response.PaymanAccessTokenResponse;
 import lombok.Data;
 
-// no usage. returning string.
 @Data
 public class AccessTokenResponse {
 
@@ -17,4 +17,11 @@ public class AccessTokenResponse {
 
     @JsonProperty("expires_in")
     private Long expiresIn;
+
+    public AccessTokenResponse(PaymanAccessTokenResponse paymanResponse) {
+        this.accessToken = paymanResponse.getAccessToken();
+        this.tokenType = paymanResponse.getTokenType();
+        this.scope = paymanResponse.getScope();
+        this.expiresIn = paymanResponse.getExpiresIn();
+    }
 }

@@ -1,7 +1,6 @@
 package com.ighe3.api.dto.client.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ighe3.api.dto.client.request.ClientInfo;
 import lombok.Data;
 
 @Data
@@ -10,6 +9,18 @@ public class SourceInfo {
     @JsonProperty("device_id")
     private String deviceId;
 
-    @JsonProperty("client_info")
-    private ClientInfo clientInfo;
+    @JsonProperty("client_device_id")
+    private String clientDeviceId;
+
+    @JsonProperty("client_ip_address")
+    private String clientIpAddress;
+
+    @JsonProperty("client_user_agent")
+    private String clientUserAgent;
+
+    @JsonProperty("client_user_id")
+    private String clientUserId;
+
+    @JsonProperty("client_platform_type")
+    private String clientPlatformType;
 }

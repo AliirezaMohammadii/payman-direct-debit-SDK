@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class HttpResponseMapper {
 
-    public static <T> Object convertJsonToJavaObject(String value, Class<T> responseClass) {
+    public static <R> Object convertJsonToJavaObject(String value, Class<R> responseClass) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(value, responseClass);

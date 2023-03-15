@@ -2,6 +2,7 @@ package com.ighe3.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ighe3.api.dto.PayResponseDetails;
+import com.ighe3.api.dto.provider.response.PaymanPayResponse;
 import lombok.Data;
 
 import java.util.Date;
@@ -31,4 +32,15 @@ public class PayResponse {
     private String status;
 
     private List<PayResponseDetails> details;
+
+    public PayResponse(PaymanPayResponse paymanResponse) {
+        this.referenceId = paymanResponse.getReferenceId();
+        this.traceId = paymanResponse.getTraceId();
+        this.transactionAmount = paymanResponse.getTransactionAmount();
+        this.transactionTime = paymanResponse.getTransactionTime();
+        this.batchId = paymanResponse.getBatchId();
+        this.commissionAmount = paymanResponse.getCommissionAmount();
+        this.status = paymanResponse.getStatus();
+        this.details = paymanResponse.getDetails();
+    }
 }
