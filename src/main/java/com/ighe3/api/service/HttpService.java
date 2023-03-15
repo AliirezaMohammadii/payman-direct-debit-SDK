@@ -2,7 +2,8 @@ package com.ighe3.api.service;
 
 
 import com.ighe3.api.dto.Response;
-import com.ighe3.api.service.impl.HttpServiceImpl;
+import com.ighe3.api.dto.client.request.SourceInfo;
+import com.ighe3.api.dto.client.request.TransactionsRequest;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,7 +11,7 @@ import okhttp3.RequestBody;
 
 public interface HttpService {
 
-    <T> Response sendRequest(Request request, Class<T> serviceClass);
+    <S> Response sendRequest(Request request, Class<S> serviceClass);
 
     Request createRequest(String url, Headers headers);
 
@@ -18,7 +19,9 @@ public interface HttpService {
 
     okhttp3.Response executeSending(OkHttpClient client, Request request);
 
-    Headers createHeaders() throws RuntimeException;
+    Headers createHeaders(SourceInfo sourceInfo);
 
-    Headers createHeaders(String accessToken) throws RuntimeException;
+    Headers createHeaders(SourceInfo sourceInfo, String accessToken);
+
+    <R, PR> RequestBody createRequestBody(Class<PR> paymanRequestClass, Class<R> requestClass, R request);
 }

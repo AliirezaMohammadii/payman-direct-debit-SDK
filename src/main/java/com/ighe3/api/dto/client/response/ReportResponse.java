@@ -1,6 +1,7 @@
 package com.ighe3.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ighe3.api.dto.provider.response.PaymanReportResponse;
 import lombok.Data;
 
 @Data
@@ -35,4 +36,17 @@ public class ReportResponse {
 
     @JsonProperty("remaining_daily_transactions_amount")
     private String remainingDailyTransactionsAmount;
+
+    public ReportResponse(PaymanReportResponse paymanResponse) {
+        this.paymanId = paymanResponse.getPaymanId();
+        this.expirationDate = paymanResponse.getExpirationDate();
+        this.startDate = paymanResponse.getStartDate();
+        this.remainingDailyTransactionsCount = paymanResponse.getRemainingDailyTransactionsCount();
+        this.remainingMonthlyTransactionsCount = paymanResponse.getRemainingMonthlyTransactionsCount();
+        this.endOfCurrentMonth = paymanResponse.getEndOfCurrentMonth();
+        this.maxDailyTransactionsCount = paymanResponse.getMaxDailyTransactionsCount();
+        this.maxMonthlyTransactionsCount = paymanResponse.getMaxMonthlyTransactionsCount();
+        this.remainingDays = paymanResponse.getRemainingDays();
+        this.remainingDailyTransactionsAmount = paymanResponse.getRemainingDailyTransactionsAmount();
+    }
 }

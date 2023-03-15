@@ -2,7 +2,6 @@ package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.dto.client.request.UpdateRequest;
 import com.ighe3.api.dto.client.response.UpdateResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanUpdateRequest;
@@ -39,26 +38,14 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
         return new UpdateResponse(headers.get("Location"));
     }
 
-    private RequestBody createRequestBody(UpdateRequest inputDto) throws RuntimeException {
-        PaymanUpdateRequest requestBodyObject = getRequestBodyObject(inputDto);
+    private RequestBody createRequestBody(UpdateRequest inputDto) {
+        PaymanUpdateRequest requestBodyObject = new PaymanUpdateRequest(inputDto);
         String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
         return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
     }
 
-    private PaymanUpdateRequest getRequestBodyObject(UpdateRequest inputDto) {
-        PaymanUpdateRequest requestBodyObject = new PaymanUpdateRequest();
-        requestBodyObject.setPaymanId(inputDto.getPaymanId());
-        requestBodyObject.setExpirationDate(inputDto.getExpirationDate());
-        requestBodyObject.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
-        requestBodyObject.setMaxMonthlyTransactionCount(inputDto.getMaxMonthlyTransactionCount());
-        requestBodyObject.setMaxTransactionAmount(inputDto.getMaxTransactionAmount());
-        requestBodyObject.setMaxDailyTransactionCount(inputDto.getMaxDailyTransactionCount());
-        requestBodyObject.setRedirectUrl(callbackUrl + "?userId=" + inputDto.getUserId());
-        return requestBodyObject;
-    }
-
-    private Headers createHeaders(UpdateRequest inputDto) throws RuntimeException {
-        Headers generalHeaders = httpService.createHeaders(accessTokenService.getAccessToken());
+    private Headers createHeaders(UpdateRequest inputDto) {
+        Headers generalHeaders = httpService.createHeaders(inputDto.getSourceInfo(), accessTokenService.getAccessToken());
         Headers headers = generalHeaders.newBuilder()
                 .add(CustomHttpHeaders.MOBILE_NO, inputDto.getMobileNumber())
                 .add(CustomHttpHeaders.NATIONAL_CODE, inputDto.getNationalCode())

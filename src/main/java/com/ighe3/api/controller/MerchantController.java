@@ -19,7 +19,7 @@ public class MerchantController {
 
     @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
-    public Object getMerchantPermissions() throws RuntimeException {
+    public Object getMerchantPermissions() {
         return merchantPermissionsService.getPermissionIds();
     }
 }

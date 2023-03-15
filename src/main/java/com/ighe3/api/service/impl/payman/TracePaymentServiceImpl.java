@@ -1,7 +1,6 @@
 package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.dto.provider.response.PaymanTracePayResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
@@ -26,7 +25,7 @@ public class TracePaymentServiceImpl implements TracePaymentService {
     @Override
     public PaymanTracePayResponse trace(String traceId, String date) {
         String url = urls.getTracePayUrl() + "?trace-id" + "=" + traceId + "&date" + "=" + date.toString();
-        Request request = httpService.createRequest(url, httpService.createHeaders(accessTokenService.getAccessToken()));
+        Request request = httpService.createRequest(url, httpService.createHeaders(, accessTokenService.getAccessToken()));
         Response paymanResponse = httpService.sendRequest(request, TracePaymentServiceImpl.class);
         return (PaymanTracePayResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanTracePayResponse.class);
     }

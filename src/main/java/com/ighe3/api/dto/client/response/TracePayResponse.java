@@ -1,6 +1,7 @@
 package com.ighe3.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ighe3.api.dto.provider.response.PaymanTracePayResponse;
 import lombok.Data;
 
 @Data
@@ -50,4 +51,23 @@ public class TracePayResponse {
 
     @JsonProperty("pay_id")
     private String payId;
+
+    public TracePayResponse(PaymanTracePayResponse paymanResponse) {
+        this.currency = paymanResponse.getCurrency();
+        this.description = paymanResponse.getDescription();
+        this.destinationBank = paymanResponse.getDestinationBank();
+        this.destinationDeposit = paymanResponse.getDestinationDeposit();
+        this.sourceBank = paymanResponse.getSourceBank();
+        this.sourceDeposit = paymanResponse.getSourceDeposit();
+        this.transactionType = paymanResponse.getTransactionType();
+        this.referenceId = paymanResponse.getReferenceId();
+        this.traceId = paymanResponse.getTraceId();
+        this.transactionAmount = paymanResponse.getTransactionAmount();
+        this.transactionTime = paymanResponse.getTransactionTime();
+        this.batchId = paymanResponse.getBatchId();
+        this.commissionAmount = paymanResponse.getCommissionAmount();
+        this.status = paymanResponse.getStatus();
+        this.billId = paymanResponse.getBillId();
+        this.payId = paymanResponse.getPayId();
+    }
 }

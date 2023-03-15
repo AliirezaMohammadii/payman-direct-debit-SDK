@@ -2,7 +2,6 @@ package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.dto.client.request.TransactionsReportStatisticsRequest;
 import com.ighe3.api.dto.provider.response.PaymanTransactionsReportStatisticsResponse;
-import com.ighe3.api.exception.BaseException;
 import com.ighe3.api.mapper.HttpResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
@@ -31,23 +30,18 @@ public class TransactionsReportStatisticsServiceImpl implements TransactionsRepo
             {
 
         RequestBody requestBody = createRequestBody(inputDto);
-        Request request = httpService.createRequest(requestBody, urls.getTransactionsReportStatisticsUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
+        Request request = httpService.createRequest(requestBody,
+                urls.getTransactionsReportStatisticsUrl(),
+                httpService.createHeaders(inputDto.getSourceInfo(), accessTokenService.getAccessToken()));
+
         Response paymanResponse = httpService.sendRequest(request, TransactionsReportStatisticsServiceImpl.class);
         return (PaymanTransactionsReportStatisticsResponse) HttpResponseMapper
                 .convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class);
     }
 
-    private RequestBody createRequestBody(TransactionsReportStatisticsRequest inputDto) throws RuntimeException {
-        PaymanTransactionsReportStatisticsRequest requestBodyObject = getRequestBodyObject(inputDto);
-        String json = GeneralUtils.convertJavaObjectToJson(requestBodyObject);
+    private RequestBody createRequestBody(TransactionsReportStatisticsRequest inputDto) {
+        PaymanTransactionsReportStatisticsRequest requestBody = new PaymanTransactionsReportStatisticsRequest(inputDto);
+        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
         return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
-    }
-
-    private PaymanTransactionsReportStatisticsRequest getRequestBodyObject(TransactionsReportStatisticsRequest inputDto) {
-        PaymanTransactionsReportStatisticsRequest requestBodyObject
-                = new PaymanTransactionsReportStatisticsRequest();
-        requestBodyObject.setStartDate(inputDto.getStartDate());
-        requestBodyObject.setEndDate(inputDto.getEndDate());
-        return requestBodyObject;
     }
 }

@@ -19,7 +19,7 @@ public class AuthController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object getAccessToken() throws RuntimeException {
+    public Object getAccessToken() {
         return accessTokenService.getAccessToken();
     }
 }
