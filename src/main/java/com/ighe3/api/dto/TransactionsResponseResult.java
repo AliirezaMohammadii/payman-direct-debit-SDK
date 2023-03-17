@@ -31,7 +31,7 @@ public class TransactionsResponseResult {
     private Double transactionAmount;
 
     @JsonProperty("transaction_time")
-    private Date transactionTime;
+    private String transactionTime;
 
     @JsonProperty("payman_id")
     private String paymanId;

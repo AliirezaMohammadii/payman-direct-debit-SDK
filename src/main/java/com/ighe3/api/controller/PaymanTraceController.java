@@ -20,13 +20,15 @@ public class PaymanTraceController {
     @GetMapping("/creation/{traceId}")
     @ResponseStatus(HttpStatus.OK)
     public Object traceCreatePayman(@PathVariable String traceId) {
-        return traceCreationService.trace(traceId);
+//        return traceCreationService.trace(traceId);
+        return null;
     }
 
     @GetMapping("/payment/{traceId}")
     @ResponseStatus(HttpStatus.OK)
     public Object tracePay(@PathVariable String traceId,
                            @RequestParam(required = false) String date) {
-        return tracePaymentService.trace(traceId, date);
+//        return tracePaymentService.trace(traceId, date);
+        return null;
     }
 }

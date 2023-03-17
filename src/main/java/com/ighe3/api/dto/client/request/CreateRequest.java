@@ -5,7 +5,7 @@ import com.ighe3.api.dto.PaymanDetails;
 import lombok.Data;
 
 @Data
-public class CreateRequest {
+public class CreateRequest extends BaseRequest {
 
     private PaymanDetails payman;
 
@@ -14,9 +14,6 @@ public class CreateRequest {
 
     @JsonProperty("trace_id")
     private String traceId;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 
     @JsonProperty("mobile_number")
     private String mobileNumber;

@@ -31,10 +31,10 @@ public class TransactionsRequestFilter {
     private Double toTransactionAmount;
 
     @JsonProperty("from_transaction_date")
-    private Date fromTransactionDate;
+    private String fromTransactionDate;
 
     @JsonProperty("to_transaction_date")
-    private Date toTransactionDate;
+    private String toTransactionDate;
 
     @JsonProperty("note")
     private String note;

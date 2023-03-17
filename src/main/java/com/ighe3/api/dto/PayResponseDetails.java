@@ -17,7 +17,7 @@ public class PayResponseDetails {
     private String amount;
 
     @JsonProperty("transaction_time")
-    private Date transactionTime;
+    private String transactionTime;
 
     @JsonProperty("transaction_detail_type")
     private String transactionDetailType;

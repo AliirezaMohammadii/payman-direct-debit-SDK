@@ -9,6 +9,8 @@ import com.ighe3.api.service.payman.TransactionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/v1/transactions")
 public class TransactionController {
@@ -28,20 +30,20 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactions(@RequestBody TransactionsRequest inputDTO) {
-        return transactionsService.getTransactions(inputDTO);
+    public Object getTransactions(@RequestBody TransactionsRequest request) throws IOException {
+        return transactionsService.getTransactions(request);
     }
 
     @PostMapping("/report")
     @ResponseStatus(HttpStatus.OK)
-    public Object getTransactionsReport(@RequestBody TransactionsReportRequest inputDTO) {
-        return transactionsReportService.getReport(inputDTO);
+    public Object getTransactionsReport(@RequestBody TransactionsReportRequest request) throws IOException {
+        return transactionsReportService.getReport(request);
     }
 
     @PostMapping("/report/statistics")
     @ResponseStatus(HttpStatus.OK)
     public Object getTransactionsReportStatistics(
-            @RequestBody TransactionsReportStatisticsRequest inputDTO) {
-        return transactionsReportStatisticsService.getReportStatistics(inputDTO);
+            @RequestBody TransactionsReportStatisticsRequest request) throws IOException {
+        return transactionsReportStatisticsService.getReportStatistics(request);
     }
 }

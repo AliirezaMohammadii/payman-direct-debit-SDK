@@ -5,12 +5,9 @@ import com.ighe3.api.dto.TransactionsRequestFilter;
 import lombok.Data;
 
 @Data
-public class TransactionsRequest {
+public class TransactionsRequest extends BaseRequest {
 
     private Integer offset;
     private Integer length;
     private TransactionsRequestFilter filter;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 }

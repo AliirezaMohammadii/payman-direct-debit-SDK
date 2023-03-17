@@ -1,9 +1,11 @@
 package com.ighe3.api.service.payman;
 
-import com.ighe3.api.dto.provider.response.PaymanTraceCreateResponse;
-import com.ighe3.api.exception.BaseException;
+import com.ighe3.api.dto.client.request.TraceCreationRequest;
+import com.ighe3.api.dto.client.response.TraceCreationResponse;
+
+import java.io.IOException;
 
 public interface TraceCreationService {
 
-    PaymanTraceCreateResponse trace(String traceId);
+    TraceCreationResponse trace(TraceCreationRequest request) throws IOException;
 }

@@ -40,10 +40,10 @@ public class TransactionsReportResponse {
     private String transactionType;
 
     @JsonProperty("server_date")
-    private Date serverDate;
+    private String serverDate;
 
     @JsonProperty("client_date")
-    private Date clientDate;
+    private String clientDate;
 
     public TransactionsReportResponse(PaymanTransactionsReportResponse paymanResponse) {
         this.commissionAmount = paymanResponse.getCommissionAmount();

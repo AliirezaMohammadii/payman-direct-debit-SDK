@@ -6,14 +6,11 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportStatisticsRequest {
+public class TransactionsReportStatisticsRequest extends BaseRequest {
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
 
     @JsonProperty("end_date")
-    private Date endDate;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
+    private String endDate;
 }

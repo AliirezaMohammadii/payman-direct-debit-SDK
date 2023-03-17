@@ -20,7 +20,7 @@ public class PaymanPayResponse {
     private Double transactionAmount;
 
     @JsonProperty("transaction_time")
-    private Date transactionTime;
+    private String transactionTime;
 
     @JsonProperty("batch_id")
     private Long batchId;

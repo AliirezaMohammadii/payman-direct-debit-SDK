@@ -10,22 +10,12 @@ import java.util.Locale;
 @Configuration
 public class MessageSourceConfig {
 
-    public static final MessageSource ERROR_MESSAGES_INSTANCE = new MessageSourceConfig().errorMessages();
-    public static final MessageSource ERROR_MAPPER_INSTANCE = new MessageSourceConfig().errorMapper();
+    public static final MessageSource EXCEPTION_MESSAGES_INSTANCE = new MessageSourceConfig().errorMessages();
 
     @Bean
     public MessageSource errorMessages() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("error-messages");
-        messageSource.setDefaultLocale(Locale.ENGLISH);
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
-
-    @Bean
-    public MessageSource errorMapper() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("error-mapper");
+        messageSource.setBasename("exception_messages");
         messageSource.setDefaultLocale(Locale.ENGLISH);
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;

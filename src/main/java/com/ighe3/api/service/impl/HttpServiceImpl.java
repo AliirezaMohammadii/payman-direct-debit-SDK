@@ -1,20 +1,20 @@
 package com.ighe3.api.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ighe3.api.config.CredentialsPropertiesConfig;
 import com.ighe3.api.dto.client.request.SourceInfo;
-import com.ighe3.api.dto.provider.request.PaymanTransactionsRequest;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
 import com.ighe3.api.dto.Response;
+import com.ighe3.api.exception.enums.ExceptionCodes;
+import com.ighe3.api.exception.InternalException;
 import com.ighe3.api.exception.PaymanException;
-import com.ighe3.api.mapper.HttpResponseMapper;
+import com.ighe3.api.mapper.JsonMapper;
 import com.ighe3.api.service.HttpService;
-import com.ighe3.api.service.payman.PaymanCreateService;
+import com.ighe3.api.service.payman.CreateService;
 import com.ighe3.api.service.payman.PaymanUpdateService;
 import com.ighe3.api.utils.GeneralUtils;
 import com.ighe3.api.utils.CustomHttpHeaders;
 import com.ighe3.api.utils.HttpHeaderValues;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +24,23 @@ import java.util.Optional;
 @Service
 public class HttpServiceImpl implements HttpService {
 
-    @Value("${credentials.app-key}")
-    private String appKey;
+    private static final String BEARER_PREFIX = "Bearer ";
+    private final CredentialsPropertiesConfig credentialsPropertiesConfig;
 
-//    private final ExceptionTranslator exceptionTranslator;
-
-//    public HttpServiceImpl(ExceptionTranslator exceptionTranslator) {
-//        this.exceptionTranslator = exceptionTranslator;
-//    }
+    public HttpServiceImpl(CredentialsPropertiesConfig credentialsPropertiesConfig) {
+        this.credentialsPropertiesConfig = credentialsPropertiesConfig;
+    }
 
     @Override
-    public <S> Response sendRequest(Request request, Class<S> serviceClass) {
-        OkHttpClient client = GeneralUtils.buildOkhttpClient();
-        okhttp3.Response response = executeSending(client, request);
-        Response customizedResponse = createCustomResponse(response);
+    public <S> Response sendRequest(Request request, Class<S> serviceClass) throws IOException {
+        OkHttpClient client = buildOkhttpClient();
+        okhttp3.Response response = client.newCall(request).execute();
+        Response internalResponse = mapToInternalResponse(response);
 
-        checkForErrors(customizedResponse, serviceClass);
+        checkForErrors(internalResponse, serviceClass);
 
-        printResponse(customizedResponse);
-        return customizedResponse;
+        printResponse(internalResponse);
+        return internalResponse;
     }
 
     @Override
@@ -63,19 +61,9 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public okhttp3.Response executeSending(OkHttpClient client, Request request) {
-        try {
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            // TODO
-        }
-        return null;
-    }
-
-    @Override
     public Headers createHeaders(SourceInfo sourceInfo) {
         return new Headers.Builder()
-                .add(CustomHttpHeaders.APP_KEY, appKey)
+                .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
                 .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.DEVICE_ID, sourceInfo.getDeviceId())
@@ -91,61 +79,49 @@ public class HttpServiceImpl implements HttpService {
     public Headers createHeaders(SourceInfo sourceInfo, String accessToken) {
         Headers headers = createHeaders(sourceInfo);
         return headers.newBuilder()
-                .add(HttpHeaders.AUTHORIZATION, GeneralUtils.BEARER_PREFIX + accessToken)
+                .add(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .build();
     }
 
-    @Override
-    public <R, PR> RequestBody createRequestBody(Class<PR> paymanRequestClass, Class<R> requestClass, R request) {
-
-        Object requestBody = null;
-
-        try {
-            requestBody = paymanRequestClass.getConstructor(requestClass).newInstance(request);
-        } catch (Exception e) {
-            // TODO
-        }
-
-        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
-        return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
+    private OkHttpClient buildOkhttpClient() {
+        return new OkHttpClient()
+                .newBuilder()
+                .followRedirects(false)
+                .hostnameVerifier((hostname, sslSession) -> true)
+                .build();
     }
 
-    private Response createCustomResponse(okhttp3.Response response) {
-
-        String responseBody = null;
+    private Response mapToInternalResponse(okhttp3.Response response) throws IOException {
 
         try {
-            responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
-        } catch (IOException e) {
-//            throw new something like internal error exception
-        }
+            String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
+            return new Response(response.headers(), responseBody, response.code(), response.isSuccessful());
 
-        return new Response(response.headers(), responseBody, response.code(), response.isSuccessful());
+        } catch (IOException e) {
+            throw new IOException("IO exception occurred while reading response body content.");
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Body of response is null.");
+        }
     }
 
     private <S> void checkForErrors(Response response, Class<S> serviceClass) {
 
         boolean errorExists = false;
 
-        if (serviceClass == PaymanCreateService.class || serviceClass == PaymanUpdateService.class) {
+        if (serviceClass == CreateService.class || serviceClass == PaymanUpdateService.class) {
             if (!response.getStatusCode().equals(302))
                 errorExists = true;
         } else if (!response.isSuccessful())
             errorExists = true;
 
         if (errorExists) {
-            PaymanErrorResponse errorResponse = (PaymanErrorResponse) HttpResponseMapper.convertJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
+            PaymanErrorResponse errorResponse = (PaymanErrorResponse) JsonMapper.mapJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
             throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), response.getStatusCode());
         }
     }
 
     private void printResponse(Response response) {
         System.out.println("status code: " + response.getStatusCode());
-
-        try {
-            System.out.println(GeneralUtils.beautifyJson(response.getBody()));
-        } catch (JsonProcessingException e) {
-//            throw new something like internal error exception
-        }
+        System.out.println(GeneralUtils.beautifyJson(response.getBody()));
     }
 }

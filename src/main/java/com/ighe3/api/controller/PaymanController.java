@@ -7,75 +7,79 @@ import com.ighe3.api.service.payman.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/v1/paymans")
 public class PaymanController {
 
-    private final PaymanCreateService paymanCreateService;
+    private final CreateService createService;
     private final PaymanIdService paymanIdService;
-    private final PaymanPayService paymanPayService;
+    private final PayService payService;
     private final PaymanUpdateService paymanUpdateService;
-    private final PaymanChangeStatusService paymanChangeStatusService;
-    private final PaymanGetService paymanGetService;
-    private final PaymanGetAllService paymanGetAllService;
+    private final ChangeStatusService changeStatusService;
+    private final GetPaymanService getPaymanService;
+    private final GetAllPaymansService getAllPaymansService;
 
-    public PaymanController(PaymanCreateService paymanCreateService,
+    public PaymanController(CreateService createService,
                             PaymanIdService paymanIdService,
-                            PaymanPayService paymanPayService,
+                            PayService payService,
                             PaymanUpdateService paymanUpdateService,
-                            PaymanChangeStatusService paymanChangeStatusService,
-                            PaymanGetService paymanGetService,
-                            PaymanGetAllService paymanGetAllService) {
+                            ChangeStatusService changeStatusService,
+                            GetPaymanService getPaymanService,
+                            GetAllPaymansService getAllPaymansService) {
 
-        this.paymanCreateService = paymanCreateService;
+        this.createService = createService;
         this.paymanIdService = paymanIdService;
-        this.paymanPayService = paymanPayService;
+        this.payService = payService;
         this.paymanUpdateService = paymanUpdateService;
-        this.paymanChangeStatusService = paymanChangeStatusService;
-        this.paymanGetService = paymanGetService;
-        this.paymanGetAllService = paymanGetAllService;
+        this.changeStatusService = changeStatusService;
+        this.getPaymanService = getPaymanService;
+        this.getAllPaymansService = getAllPaymansService;
     }
 
     @PostMapping
     // TODO: maybe no need to @ResponseStatus(HttpStatus.OK)
     @ResponseStatus(HttpStatus.OK)
-    public CreateResponse createPayman(@RequestBody CreateRequest inputDTO) {
-        return paymanCreateService.create(inputDTO);
+    public CreateResponse createPayman(@RequestBody CreateRequest request) throws IOException {
+        return createService.create(request);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object updatePayman(@RequestBody UpdateRequest inputDTO) {
-        return paymanUpdateService.update(inputDTO);
+    public Object updatePayman(@RequestBody UpdateRequest request) throws IOException {
+        return paymanUpdateService.update(request);
     }
 
     @PutMapping("/change_status")
     @ResponseStatus(HttpStatus.OK)
-    public Object changePaymanStatus(@RequestBody ChangeStatusRequest inputDTO) {
-        return paymanChangeStatusService.changeStatus(inputDTO);
+    public Object changePaymanStatus(@RequestBody ChangeStatusRequest request) throws IOException {
+        return changeStatusService.changeStatus(request);
     }
 
     @GetMapping("/{paymanId}")
     @ResponseStatus(HttpStatus.OK)
     public Object getPayman(@PathVariable String paymanId) {
-        return paymanGetService.getReport(paymanId);
+//        return getPaymanService.get(paymanId);
+        return null;
     }
 
     @PostMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public Object getPaymans(@RequestBody ListRequest inputDTO) {
-        return paymanGetAllService.getList(inputDTO);
+    public Object getPaymans(@RequestBody GetAllPaymansRequest request) throws IOException {
+        return getAllPaymansService.get(request);
     }
 
     @GetMapping("/payman_id/{paymanCode}")
     @ResponseStatus(HttpStatus.OK)
     public Object getPaymanId(@PathVariable String paymanCode) {
-        return paymanIdService.getPaymanId(paymanCode);
+//        return paymanIdService.getPaymanId(paymanCode);
+        return null;
     }
 
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
-    public Object pay(@RequestBody PayRequest inputDTO) {
-        return paymanPayService.pay(inputDTO);
+    public Object pay(@RequestBody PayRequest request) throws IOException {
+        return payService.pay(request);
     }
 }

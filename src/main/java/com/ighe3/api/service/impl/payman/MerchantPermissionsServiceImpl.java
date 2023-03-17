@@ -1,47 +1,53 @@
 package com.ighe3.api.service.impl.payman;
 
-import com.ighe3.api.dto.MerchantPermissionDetails;
+import com.ighe3.api.config.GeneralPropertiesConfig;
+import com.ighe3.api.config.UrlPropertiesConfig;
+import com.ighe3.api.dto.client.request.MerchantPermissionsRequest;
+import com.ighe3.api.dto.client.response.MerchantPermissionsResponse;
 import com.ighe3.api.dto.enums.MerchantPermission;
 import com.ighe3.api.dto.provider.response.PaymanMerchantPermissionsResponse;
-import com.ighe3.api.mapper.HttpResponseMapper;
+import com.ighe3.api.mapper.ResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.service.payman.MerchantPermissionsService;
-import com.ighe3.api.utils.Urls;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MerchantPermissionsServiceImpl implements MerchantPermissionsService {
 
-    @Value("${only.normal.pay}")
-    private String appHasOnlyNormalPayPermission;
-
     private final HttpService httpService;
-    private final Urls urls;
+    private final UrlPropertiesConfig urlPropertiesConfig;
     private final AccessTokenServiceImpl accessTokenService;
+    private final GeneralPropertiesConfig generalPropertiesConfig;
 
-    public MerchantPermissionsServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
+    public MerchantPermissionsServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService, GeneralPropertiesConfig generalPropertiesConfig) {
         this.httpService = httpService;
-        this.urls = urls;
+        this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;
+        this.generalPropertiesConfig = generalPropertiesConfig;
     }
 
     @Override
     public List<Integer> getPermissionIds() {
+        if (Boolean.parseBoolean(generalPropertiesConfig.hasOnlyNormalPay()))
+            return Collections.singletonList(MerchantPermission.NORMAL_PAY.code);
+        return Arrays.asList(MerchantPermission.NORMAL_PAY.code, MerchantPermission.BILL_PAY.code);
+    }
 
-        if (Boolean.parseBoolean(appHasOnlyNormalPayPermission))
-            return Collections.singletonList(MerchantPermission.NORMAL_PAY.label);
+    @Override
+    public MerchantPermissionsResponse getPermissionsDetail(MerchantPermissionsRequest request) throws IOException {
+        Request paymanRequest = httpService.createRequest(
+                urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(),
+                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
 
-        Request request = httpService.createRequest(urls.getMerchantPermissionsUrl(), httpService.createHeaders(accessTokenService.getAccessToken()));
-        Response paymanResponse = httpService.sendRequest(request, MerchantPermissionsServiceImpl.class);
-        PaymanMerchantPermissionsResponse paymanResponseBody
-                = (PaymanMerchantPermissionsResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class);
-        return paymanResponseBody.getMerchantPermissions().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
+        Response paymanResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
+        return (MerchantPermissionsResponse) ResponseMapper
+                .mapResponse(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class, MerchantPermissionsResponse.class);
     }
 }

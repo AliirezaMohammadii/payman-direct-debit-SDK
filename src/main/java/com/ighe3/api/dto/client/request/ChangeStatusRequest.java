@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class ChangeStatusRequest {
+public class ChangeStatusRequest extends BaseRequest {
 
     @JsonProperty("payman_id")
     private String paymanId;
 
     @JsonProperty("new_status")
     private String newStatus;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 }
