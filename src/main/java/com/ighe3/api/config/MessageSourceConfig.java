@@ -10,10 +10,10 @@ import java.util.Locale;
 @Configuration
 public class MessageSourceConfig {
 
-    public static final MessageSource EXCEPTION_MESSAGES_INSTANCE = new MessageSourceConfig().errorMessages();
+    public static final MessageSource EXCEPTION_MESSAGES_INSTANCE = new MessageSourceConfig().messageSource();
 
     @Bean
-    public MessageSource errorMessages() {
+    public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("exception_messages");
         messageSource.setDefaultLocale(Locale.ENGLISH);

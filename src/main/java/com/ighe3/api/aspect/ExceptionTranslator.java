@@ -36,7 +36,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler  {
     }
 
     private ResponseEntity<Object> createExceptionResponse(Exception exception) {
-        ErrorResponse response = new ErrorResponse(ExceptionCodes.INTERNAL_ERROR.code, exception.getMessage());
+        ErrorResponse response = new ErrorResponse(ExceptionCodes.INTERNAL_EXCEPTION.code, exception.getMessage());
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

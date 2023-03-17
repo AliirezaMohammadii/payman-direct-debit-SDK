@@ -2,7 +2,7 @@ package com.ighe3.api.exception.enums;
 
 public enum ExceptionCodes {
 
-    INTERNAL_ERROR("0"),
+    INTERNAL_EXCEPTION("0"),
     RESPONSE_MAPPING("1"),
     REQUEST_MAPPING("2"),
     JSON_PROCESSING("3"),
