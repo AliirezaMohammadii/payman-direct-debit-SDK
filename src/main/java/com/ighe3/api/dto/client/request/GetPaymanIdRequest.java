@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class GetPaymanIdRequest extends BaseRequest {
+public class GetPaymanIdRequest {
 
     @JsonProperty("payman_code")
     private String paymanCode;

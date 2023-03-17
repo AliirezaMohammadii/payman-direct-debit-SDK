@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class TraceCreationRequest extends BaseRequest {
+public class TraceCreationRequest {
 
     @JsonProperty("trace_id")
     private String traceId;

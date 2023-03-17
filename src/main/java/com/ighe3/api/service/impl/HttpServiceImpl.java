@@ -1,11 +1,8 @@
 package com.ighe3.api.service.impl;
 
 import com.ighe3.api.config.CredentialsPropertiesConfig;
-import com.ighe3.api.dto.client.request.SourceInfo;
 import com.ighe3.api.dto.provider.response.error.PaymanErrorResponse;
 import com.ighe3.api.dto.Response;
-import com.ighe3.api.exception.enums.ExceptionCodes;
-import com.ighe3.api.exception.InternalException;
 import com.ighe3.api.exception.PaymanException;
 import com.ighe3.api.mapper.JsonMapper;
 import com.ighe3.api.service.HttpService;
@@ -18,6 +15,7 @@ import okhttp3.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -61,23 +59,23 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public Headers createHeaders(SourceInfo sourceInfo) {
+    public Headers createHeaders(HttpServletRequest httpServletRequest) {
         return new Headers.Builder()
                 .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
                 .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
-                .add(CustomHttpHeaders.DEVICE_ID, sourceInfo.getDeviceId())
-                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, sourceInfo.getClientIpAddress())
-                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, sourceInfo.getClientPlatformType())
-                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, sourceInfo.getClientDeviceId())
-                .add(CustomHttpHeaders.CLIENT_USER_ID, sourceInfo.getClientUserId())
-                .add(CustomHttpHeaders.CLIENT_USER_AGENT, sourceInfo.getClientUserAgent())
+                .add(CustomHttpHeaders.DEVICE_ID, httpServletRequest.getHeader(CustomHttpHeaders.DEVICE_ID))
+                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_IP_ADDRESS))
+                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_PLATFORM_TYPE))
+                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_DEVICE_ID))
+                .add(CustomHttpHeaders.CLIENT_USER_ID, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_USER_ID))
+                .add(CustomHttpHeaders.CLIENT_USER_AGENT, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_USER_AGENT))
                 .build();
     }
 
     @Override
-    public Headers createHeaders(SourceInfo sourceInfo, String accessToken) {
-        Headers headers = createHeaders(sourceInfo);
+    public Headers createHeaders(HttpServletRequest httpServletRequest, String accessToken) {
+        Headers headers = createHeaders(httpServletRequest);
         return headers.newBuilder()
                 .add(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .build();

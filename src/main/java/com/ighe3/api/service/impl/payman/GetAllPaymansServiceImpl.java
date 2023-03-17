@@ -13,6 +13,7 @@ import com.ighe3.api.service.payman.GetAllPaymansService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -29,11 +30,11 @@ public class GetAllPaymansServiceImpl implements GetAllPaymansService {
     }
 
     @Override
-    public GetAllPaymansResponse get(GetAllPaymansRequest request) throws IOException {
+    public GetAllPaymansResponse get(HttpServletRequest httpServletRequest, GetAllPaymansRequest request) throws IOException {
         RequestBody requestBody = RequestMapper.mapRequest(request, GetAllPaymansRequest.class, PaymanGetAllPaymansRequest.class);
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getList(),
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, GetAllPaymansServiceImpl.class);
         return (GetAllPaymansResponse) ResponseMapper

@@ -13,6 +13,7 @@ import com.ighe3.api.service.payman.MerchantPermissionsService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,10 +42,10 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
     }
 
     @Override
-    public MerchantPermissionsResponse getPermissionsDetail(MerchantPermissionsRequest request) throws IOException {
+    public MerchantPermissionsResponse getPermissionsDetail(HttpServletRequest httpServletRequest) throws IOException {
         Request paymanRequest = httpService.createRequest(
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(),
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
         return (MerchantPermissionsResponse) ResponseMapper

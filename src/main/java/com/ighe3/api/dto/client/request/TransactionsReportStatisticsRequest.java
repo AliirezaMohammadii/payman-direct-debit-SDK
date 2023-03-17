@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportStatisticsRequest extends BaseRequest {
+public class TransactionsReportStatisticsRequest {
 
     @JsonProperty("start_date")
     private String startDate;

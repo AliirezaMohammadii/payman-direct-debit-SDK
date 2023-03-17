@@ -11,6 +11,7 @@ import com.ighe3.api.service.payman.TraceCreationService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -27,12 +28,12 @@ public class TraceCreationServiceImpl implements TraceCreationService {
     }
 
     @Override
-    public TraceCreationResponse trace(TraceCreationRequest request) throws IOException {
+    public TraceCreationResponse trace(HttpServletRequest httpServletRequest, String traceId) throws IOException {
         String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
-                + "?trace-id" + "=" + request.getTraceId();
+                + "?trace-id" + "=" + traceId;
 
         Request paymanRequest = httpService.createRequest(url,
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper

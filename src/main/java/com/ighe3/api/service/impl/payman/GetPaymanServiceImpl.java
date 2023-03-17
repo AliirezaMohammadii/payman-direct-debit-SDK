@@ -11,6 +11,7 @@ import com.ighe3.api.service.payman.GetPaymanService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -27,10 +28,10 @@ public class GetPaymanServiceImpl implements GetPaymanService {
     }
 
     @Override
-    public GetPaymanResponse get(GetPaymanRequest request) throws IOException {
-        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getReport() + "/" + request.getPaymanId();
+    public GetPaymanResponse get(HttpServletRequest httpServletRequest, String paymanId) throws IOException {
+        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getReport() + "/" + paymanId;
         Request paymanRequest = httpService.createRequest(url,
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, GetPaymanServiceImpl.class);
         return (GetPaymanResponse) ResponseMapper

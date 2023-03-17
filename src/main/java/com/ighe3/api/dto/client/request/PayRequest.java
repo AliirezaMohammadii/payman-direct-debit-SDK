@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class PayRequest extends BaseRequest {
+public class PayRequest {
 
     @JsonProperty("payman_id")
     private String paymanId;

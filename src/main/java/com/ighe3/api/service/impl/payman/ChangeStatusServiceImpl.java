@@ -13,6 +13,7 @@ import com.ighe3.api.dto.provider.request.PaymanChangeStatusRequest;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -29,13 +30,13 @@ public class ChangeStatusServiceImpl implements ChangeStatusService {
     }
 
     @Override
-    public ChangeStatusResponse changeStatus(ChangeStatusRequest request) throws IOException {
+    public ChangeStatusResponse changeStatus(HttpServletRequest httpServletRequest, ChangeStatusRequest request) throws IOException {
         RequestBody requestBody = RequestMapper
                 .mapRequest(request, ChangeStatusRequest.class, PaymanChangeStatusRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getChangeStatus(),
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, ChangeStatusServiceImpl.class);
         return (ChangeStatusResponse) ResponseMapper

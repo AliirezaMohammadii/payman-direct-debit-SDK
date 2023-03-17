@@ -2,11 +2,11 @@ package com.ighe3.api.service;
 
 
 import com.ighe3.api.dto.Response;
-import com.ighe3.api.dto.client.request.SourceInfo;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public interface HttpService {
@@ -17,7 +17,7 @@ public interface HttpService {
 
     Request createRequest(RequestBody body, String url, Headers headers);
 
-    Headers createHeaders(SourceInfo sourceInfo);
+    Headers createHeaders(HttpServletRequest httpServletRequest);
 
-    Headers createHeaders(SourceInfo sourceInfo, String accessToken);
+    Headers createHeaders(HttpServletRequest httpServletRequest, String accessToken);
 }

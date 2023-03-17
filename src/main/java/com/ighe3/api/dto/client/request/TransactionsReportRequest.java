@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TransactionsReportRequest extends BaseRequest {
+public class TransactionsReportRequest {
 
     private Integer offset;
 

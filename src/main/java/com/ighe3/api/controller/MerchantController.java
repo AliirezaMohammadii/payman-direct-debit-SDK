@@ -5,6 +5,9 @@ import com.ighe3.api.service.payman.MerchantPermissionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/v1/merchants")
 public class MerchantController {
@@ -17,8 +20,7 @@ public class MerchantController {
 
     @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
-    public Object getMerchantPermissions() {
-//        return merchantPermissionsService.getPermissionsDetail();
-        return null;
+    public Object getMerchantPermissions(HttpServletRequest httpServletRequest) throws IOException {
+        return merchantPermissionsService.getPermissionsDetail(httpServletRequest);
     }
 }

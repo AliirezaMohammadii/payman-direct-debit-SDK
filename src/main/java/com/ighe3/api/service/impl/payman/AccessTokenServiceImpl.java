@@ -12,6 +12,7 @@ import com.ighe3.api.service.payman.AccessTokenService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -36,21 +37,22 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     }
 
     @Override
-    public AccessTokenResponse getAccessToken(AccessTokenRequest request) throws IOException {
-        FormBody requestBody = getFormBody(request);
+    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest, String clientId, String clientSecret)
+            throws IOException {
+        FormBody requestBody = getFormBody(clientId, clientSecret);
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getAccessToken(),
-                httpService.createHeaders(request.getSourceInfo()));
+                httpService.createHeaders(httpServletRequest));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, AccessTokenServiceImpl.class);
         return (AccessTokenResponse) ResponseMapper
                 .mapResponse(paymanResponse.getBody(), PaymanAccessTokenResponse.class, AccessTokenResponse.class);
     }
 
-    private FormBody getFormBody(AccessTokenRequest request) {
+    private FormBody getFormBody(String clientId, String clientSecret) {
         return new FormBody.Builder()
-                .addEncoded("client_id", request.getClientId())
-                .addEncoded("client_secret", request.getClientSecret())
+                .addEncoded("client_id", clientId)
+                .addEncoded("client_secret", clientSecret)
 
                 // Value of this property must always be equal to "client_credentials".
                 .addEncoded("grant_type", "client_credentials")

@@ -5,7 +5,7 @@ import com.ighe3.api.dto.PaymanDetails;
 import lombok.Data;
 
 @Data
-public class CreateRequest extends BaseRequest {
+public class CreateRequest {
 
     private PaymanDetails payman;
 

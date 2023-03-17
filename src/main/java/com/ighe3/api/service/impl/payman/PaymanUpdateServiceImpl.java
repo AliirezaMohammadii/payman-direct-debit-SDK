@@ -12,6 +12,7 @@ import com.ighe3.api.utils.CustomHttpHeaders;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -28,19 +29,19 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
     }
 
     @Override
-    public UpdateResponse update(UpdateRequest request) throws IOException {
+    public UpdateResponse update(HttpServletRequest httpServletRequest, UpdateRequest request) throws IOException {
         RequestBody requestBody = RequestMapper.mapRequest(request, UpdateRequest.class, PaymanUpdateRequest.class);
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getUpdate(),
-                createHeaders(request));
+                createHeaders(httpServletRequest, request));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, PaymanUpdateService.class);
         Headers headers = paymanResponse.getHeaders();
         return new UpdateResponse(headers.get("Location"));
     }
 
-    private Headers createHeaders(UpdateRequest request) {
-        Headers generalHeaders = httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken());
+    private Headers createHeaders(HttpServletRequest httpServletRequest, UpdateRequest request) {
+        Headers generalHeaders = httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
         Headers headers = generalHeaders.newBuilder()
                 .add(CustomHttpHeaders.MOBILE_NO, request.getMobileNumber())
                 .add(CustomHttpHeaders.NATIONAL_CODE, request.getNationalCode())

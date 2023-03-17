@@ -13,6 +13,7 @@ import com.ighe3.api.service.payman.PayService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -29,11 +30,11 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
-    public PayResponse pay(PayRequest request) throws IOException {
+    public PayResponse pay(HttpServletRequest httpServletRequest, PayRequest request) throws IOException {
         RequestBody requestBody = RequestMapper.mapRequest(request, PayRequest.class, PaymanPayRequest.class);
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getPay(),
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, PayServiceImpl.class);
         return (PayResponse) ResponseMapper

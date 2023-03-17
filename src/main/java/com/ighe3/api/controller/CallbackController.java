@@ -28,7 +28,7 @@ public class CallbackController {
                                // TODO: I'm not sure about "error" keyword
                                @RequestParam(name = "error", required = false) String errorCode) {
 
-        // TODO: about errorMessage
+        // TODO: how to handle errorMessage in this situation
         if (errorCode != null) {
             throw new PaymanException(errorCode, null, HttpStatus.INTERNAL_SERVER_ERROR.value());
         }

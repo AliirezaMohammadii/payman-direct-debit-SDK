@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class MerchantPermissionsRequest extends BaseRequest {
+public class MerchantPermissionsRequest {
 }

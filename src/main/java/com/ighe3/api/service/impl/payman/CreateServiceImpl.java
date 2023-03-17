@@ -12,6 +12,7 @@ import com.ighe3.api.utils.*;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -28,21 +29,20 @@ public class CreateServiceImpl implements CreateService {
     }
 
     @Override
-    public CreateResponse create(CreateRequest request) throws IOException {
-        RequestBody requestBody = RequestMapper.mapRequest(request, CreateRequest.class, PaymanCreateRequest.class
-        );
+    public CreateResponse create(HttpServletRequest httpServletRequest, CreateRequest request) throws IOException {
+        RequestBody requestBody = RequestMapper.mapRequest(request, CreateRequest.class, PaymanCreateRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getCreate(),
-                createHeaders(request));
+                createHeaders(httpServletRequest, request));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, CreateService.class);
         Headers headers = paymanResponse.getHeaders();
         return new CreateResponse(headers.get("Location"));
     }
 
-    private Headers createHeaders(CreateRequest request) {
-        Headers generalHeaders = httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken());
+    private Headers createHeaders(HttpServletRequest httpServletRequest, CreateRequest request) {
+        Headers generalHeaders = httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
         Headers headers = generalHeaders.newBuilder()
                 .add(CustomHttpHeaders.MOBILE_NO, request.getMobileNumber())
                 .add(CustomHttpHeaders.NATIONAL_CODE, request.getNationalCode())

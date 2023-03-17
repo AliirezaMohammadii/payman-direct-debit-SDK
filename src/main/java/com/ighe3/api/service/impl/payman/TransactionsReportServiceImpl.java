@@ -13,6 +13,7 @@ import com.ighe3.api.service.payman.TransactionsReportService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
@@ -29,13 +30,13 @@ public class TransactionsReportServiceImpl implements TransactionsReportService 
     }
 
     @Override
-    public TransactionsReportResponse getReport(TransactionsReportRequest request) throws IOException {
+    public TransactionsReportResponse getReport(HttpServletRequest httpServletRequest, TransactionsReportRequest request) throws IOException {
         RequestBody requestBody = RequestMapper
                 .mapRequest(request, TransactionsReportRequest.class, PaymanTransactionsReportRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
-                httpService.createHeaders(request.getSourceInfo(), accessTokenService.getAccessToken()));
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
         return (TransactionsReportResponse) ResponseMapper
