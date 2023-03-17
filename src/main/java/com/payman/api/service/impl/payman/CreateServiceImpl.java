@@ -8,7 +8,6 @@ import com.payman.api.service.HttpService;
 import com.payman.api.dto.Response;
 import com.payman.api.dto.provider.request.PaymanCreateRequest;
 import com.payman.api.service.payman.CreateService;
-import com.ighe3.api.utils.*;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
