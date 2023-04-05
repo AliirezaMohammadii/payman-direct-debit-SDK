@@ -1,7 +1,6 @@
 package com.ighe3.api.service.impl.payman;
 
 import com.ighe3.api.config.UrlPropertiesConfig;
-import com.ighe3.api.dto.client.request.TraceCreationRequest;
 import com.ighe3.api.dto.client.response.TraceCreationResponse;
 import com.ighe3.api.dto.provider.response.PaymanTraceCreationResponse;
 import com.ighe3.api.mapper.ResponseMapper;
@@ -34,6 +33,19 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
+
+        Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
+        return (TraceCreationResponse) ResponseMapper
+                .mapResponse(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+    }
+
+    @Override
+    public TraceCreationResponse trace(String traceId) throws IOException {
+        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
+                + "?trace-id" + "=" + traceId;
+
+        Request paymanRequest = httpService.createRequest(url,
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper

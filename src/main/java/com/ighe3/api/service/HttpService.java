@@ -20,4 +20,6 @@ public interface HttpService {
     Headers createHeaders(HttpServletRequest httpServletRequest);
 
     Headers createHeaders(HttpServletRequest httpServletRequest, String accessToken);
+
+    Headers createInternalRequestHeaders(String accessToken);
 }
