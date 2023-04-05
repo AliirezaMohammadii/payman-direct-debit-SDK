@@ -9,10 +9,10 @@ import java.util.Date;
 public class PaymanTransactionsReportStatisticsRequest {
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
 
     @JsonProperty("end_date")
-    private Date endDate;
+    private String endDate;
 
     public PaymanTransactionsReportStatisticsRequest(TransactionsReportStatisticsRequest request) {
         this.startDate = request.getStartDate();

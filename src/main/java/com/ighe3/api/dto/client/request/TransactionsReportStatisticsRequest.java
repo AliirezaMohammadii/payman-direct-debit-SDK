@@ -9,11 +9,8 @@ import java.util.Date;
 public class TransactionsReportStatisticsRequest {
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private String startDate;
 
     @JsonProperty("end_date")
-    private Date endDate;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
+    private String endDate;
 }

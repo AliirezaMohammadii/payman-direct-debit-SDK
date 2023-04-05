@@ -12,7 +12,7 @@ public class UpdateRequest {
     private String paymanId;
 
     @JsonProperty("expiration_date")
-    private Date expirationDate;
+    private String expirationDate;
 
     @JsonProperty("max_daily_transaction_count")
     private Integer maxDailyTransactionCount;
@@ -28,9 +28,6 @@ public class UpdateRequest {
 
     @JsonProperty("redirect_url")
     private String redirectUrl;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 
     @JsonProperty("mobile_number")
     private String mobileNumber;

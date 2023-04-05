@@ -10,7 +10,4 @@ public class TransactionsRequest {
     private Integer offset;
     private Integer length;
     private TransactionsRequestFilter filter;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 }

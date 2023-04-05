@@ -19,7 +19,6 @@ public abstract class BaseException extends RuntimeException {
         return code;
     }
 
-    @Override
     public String getMessage() {
         return message;
     }

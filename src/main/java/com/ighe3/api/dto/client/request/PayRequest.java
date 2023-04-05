@@ -3,6 +3,8 @@ package com.ighe3.api.dto.client.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class PayRequest {
 
@@ -24,7 +26,4 @@ public class PayRequest {
 
     @JsonProperty("commission_amount")
     private String commissionAmount;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 }

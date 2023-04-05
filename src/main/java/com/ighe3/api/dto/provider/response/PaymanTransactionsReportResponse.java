@@ -39,8 +39,8 @@ public class PaymanTransactionsReportResponse {
     private String transactionType;
 
     @JsonProperty("server_date")
-    private Date serverDate;
+    private String serverDate;
 
     @JsonProperty("client_date")
-    private Date clientDate;
+    private String clientDate;
 }

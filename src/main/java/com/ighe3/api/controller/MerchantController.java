@@ -1,11 +1,12 @@
 package com.ighe3.api.controller;
 
+import com.ighe3.api.dto.client.request.MerchantPermissionsRequest;
 import com.ighe3.api.service.payman.MerchantPermissionsService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/merchants")
@@ -19,7 +20,7 @@ public class MerchantController {
 
     @GetMapping("/permissions")
     @ResponseStatus(HttpStatus.OK)
-    public Object getMerchantPermissions() {
-        return merchantPermissionsService.getPermissionIds();
+    public Object getMerchantPermissions(HttpServletRequest httpServletRequest) throws IOException {
+        return merchantPermissionsService.getPermissionsDetail(httpServletRequest);
     }
 }

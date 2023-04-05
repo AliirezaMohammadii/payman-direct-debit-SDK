@@ -1,45 +1,45 @@
 package com.ighe3.api.service.impl.payman;
 
+import com.ighe3.api.config.UrlPropertiesConfig;
 import com.ighe3.api.dto.client.request.TransactionsRequest;
+import com.ighe3.api.dto.client.response.TransactionsResponse;
 import com.ighe3.api.dto.provider.response.PaymanTransactionsResponse;
-import com.ighe3.api.mapper.HttpResponseMapper;
+import com.ighe3.api.mapper.RequestMapper;
+import com.ighe3.api.mapper.ResponseMapper;
 import com.ighe3.api.service.HttpService;
-import com.ighe3.api.dto.TransactionsRequestFilter;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.dto.provider.request.PaymanTransactionsRequest;
 import com.ighe3.api.service.payman.TransactionsService;
-import com.ighe3.api.utils.GeneralUtils;
-import com.ighe3.api.utils.Urls;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Service
 public class TransactionsServiceImpl implements TransactionsService {
 
     private final HttpService httpService;
-    private final Urls urls;
+    private final UrlPropertiesConfig urlPropertiesConfig;
     private final AccessTokenServiceImpl accessTokenService;
 
-    public TransactionsServiceImpl(HttpService httpService, Urls urls, AccessTokenServiceImpl accessTokenService) {
+    public TransactionsServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
         this.httpService = httpService;
-        this.urls = urls;
+        this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;
     }
 
     @Override
-    public PaymanTransactionsResponse getTransactions(TransactionsRequest inputDto) {
-        RequestBody requestBody = createRequestBody(inputDto);
-        Request request = httpService.createRequest(requestBody,
-                urls.getTransactionsUrl(),
-                httpService.createHeaders(inputDto.getSourceInfo(), accessTokenService.getAccessToken()));
+    public TransactionsResponse getTransactions(HttpServletRequest httpServletRequest, TransactionsRequest request) throws IOException {
+        RequestBody requestBody = RequestMapper
+                .mapRequest(request, TransactionsRequest.class, PaymanTransactionsRequest.class);
 
-        Response paymanResponse = httpService.sendRequest(request, TransactionsServiceImpl.class);
-        return (PaymanTransactionsResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanTransactionsResponse.class);
-    }
+        Request paymanRequest = httpService.createRequest(requestBody,
+                urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-    private RequestBody createRequestBody(TransactionsRequest inputDto) {
-        PaymanTransactionsRequest requestBody = new PaymanTransactionsRequest(inputDto);
-        String json = GeneralUtils.convertJavaObjectToJson(requestBody);
-        return RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
+        Response paymanResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
+        return (TransactionsResponse) ResponseMapper
+                .mapResponse(paymanResponse.getBody(), PaymanTransactionsResponse.class, TransactionsResponse.class);
     }
 }

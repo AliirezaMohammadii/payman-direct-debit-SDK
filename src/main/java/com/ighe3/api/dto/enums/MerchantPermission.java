@@ -5,9 +5,9 @@ public enum MerchantPermission {
     NORMAL_PAY(1),
     BILL_PAY(2);
 
-    public final int label;
+    public final int code;
 
-    private MerchantPermission(int label) {
-        this.label = label;
+    private MerchantPermission(int code) {
+        this.code = code;
     }
 }

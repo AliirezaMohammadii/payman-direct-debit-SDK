@@ -15,9 +15,6 @@ public class CreateRequest {
     @JsonProperty("trace_id")
     private String traceId;
 
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
-
     @JsonProperty("mobile_number")
     private String mobileNumber;
 

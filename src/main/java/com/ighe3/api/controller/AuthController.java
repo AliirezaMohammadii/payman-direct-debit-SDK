@@ -2,10 +2,10 @@ package com.ighe3.api.controller;
 
 import com.ighe3.api.service.payman.AccessTokenService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -19,7 +19,9 @@ public class AuthController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Object getAccessToken() {
-        return accessTokenService.getAccessToken();
+    public Object getAccessToken(HttpServletRequest httpServletRequest,
+                                 @RequestParam(value = "client_id") String clientId,
+                                 @RequestParam(value = "client_secret") String clientSecret) throws IOException {
+        return accessTokenService.getAccessToken(httpServletRequest, clientId, clientSecret);
     }
 }

@@ -1,55 +1,60 @@
 package com.ighe3.api.service.impl.payman;
 
+import com.ighe3.api.config.CredentialsPropertiesConfig;
+import com.ighe3.api.config.UrlPropertiesConfig;
+import com.ighe3.api.dto.client.request.AccessTokenRequest;
+import com.ighe3.api.dto.client.response.AccessTokenResponse;
 import com.ighe3.api.dto.provider.response.PaymanAccessTokenResponse;
-import com.ighe3.api.mapper.HttpResponseMapper;
+import com.ighe3.api.mapper.ResponseMapper;
 import com.ighe3.api.service.HttpService;
 import com.ighe3.api.dto.Response;
 import com.ighe3.api.service.payman.AccessTokenService;
-import com.ighe3.api.utils.Urls;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Service
 public class AccessTokenServiceImpl implements AccessTokenService {
 
-    @Value("${credentials.use-static-access-token}")
-    private String useStaticAccessToken;
-    @Value("${credentials.access-token}")
-    private String accessToken;
-
-    @Value("${credentials.app-key}")
-    private String appKey;
-    @Value("${credentials.client-secret}")
-    private String clientSecret;
-
     private final HttpService httpService;
-    private final Urls urls;
+    private final UrlPropertiesConfig urlPropertiesConfig;
+    private final CredentialsPropertiesConfig credentialsPropertiesConfig;
 
-    public AccessTokenServiceImpl(HttpService httpService, Urls urls) {
+    public AccessTokenServiceImpl(HttpService httpService,
+                                  UrlPropertiesConfig urlPropertiesConfig,
+                                  CredentialsPropertiesConfig credentialsPropertiesConfig) {
+
         this.httpService = httpService;
-        this.urls = urls;
+        this.urlPropertiesConfig = urlPropertiesConfig;
+        this.credentialsPropertiesConfig = credentialsPropertiesConfig;
     }
 
     @Override
     public String getAccessToken() {
-
-        if (Boolean.parseBoolean(useStaticAccessToken))
-            return accessToken;
-
-        FormBody requestBody = getFormBody();
-        Request request = httpService.createRequest(requestBody, urls.getAccessTokenUrl(), httpService.createHeaders());
-        Response paymanResponse = httpService.sendRequest(request, AccessTokenServiceImpl.class);
-        PaymanAccessTokenResponse paymanResponseBody
-                = (PaymanAccessTokenResponse) HttpResponseMapper.convertJsonToJavaObject(paymanResponse.getBody(), PaymanAccessTokenResponse.class);
-
-        return paymanResponseBody.getAccessToken();
+        return credentialsPropertiesConfig.getAccessToken();
     }
 
-    private FormBody getFormBody() {
+    @Override
+    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest, String clientId, String clientSecret)
+            throws IOException {
+        FormBody requestBody = getFormBody(clientId, clientSecret);
+        Request paymanRequest = httpService.createRequest(requestBody,
+                urlPropertiesConfig.getBase() + urlPropertiesConfig.getAccessToken(),
+                httpService.createHeaders(httpServletRequest));
+
+        Response paymanResponse = httpService.sendRequest(paymanRequest, AccessTokenServiceImpl.class);
+        return (AccessTokenResponse) ResponseMapper
+                .mapResponse(paymanResponse.getBody(), PaymanAccessTokenResponse.class, AccessTokenResponse.class);
+    }
+
+    private FormBody getFormBody(String clientId, String clientSecret) {
         return new FormBody.Builder()
-                .addEncoded("client_id", appKey)
+                .addEncoded("client_id", clientId)
                 .addEncoded("client_secret", clientSecret)
+
+                // Value of this property must always be equal to "client_credentials".
                 .addEncoded("grant_type", "client_credentials")
                 .build();
     }

@@ -1,10 +1,12 @@
 package com.ighe3.api.service.payman;
 
 import com.ighe3.api.dto.client.request.TransactionsReportRequest;
-import com.ighe3.api.dto.provider.response.PaymanTransactionsReportResponse;
-import com.ighe3.api.exception.BaseException;
+import com.ighe3.api.dto.client.response.TransactionsReportResponse;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 public interface TransactionsReportService {
 
-    PaymanTransactionsReportResponse getReport(TransactionsReportRequest inputDto);
+    TransactionsReportResponse getReport(HttpServletRequest httpServletRequest, TransactionsReportRequest request) throws IOException;
 }

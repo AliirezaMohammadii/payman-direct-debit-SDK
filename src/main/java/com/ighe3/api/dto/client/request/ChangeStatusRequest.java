@@ -11,7 +11,4 @@ public class ChangeStatusRequest {
 
     @JsonProperty("new_status")
     private String newStatus;
-
-    @JsonProperty("source_info")
-    private SourceInfo sourceInfo;
 }
