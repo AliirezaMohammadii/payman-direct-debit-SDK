@@ -11,6 +11,7 @@ import com.payman.api.dto.provider.request.PaymanCreateRequest;
 import com.payman.api.service.payman.CreateService;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +26,19 @@ public class CreateServiceImpl implements CreateService {
     private final UrlPropertiesConfig urlPropertiesConfig;
     private final AccessTokenServiceImpl accessTokenService;
     private final ThreadPoolTaskExecutor taskExecutor;
-    private final PaymanCreationTracer paymanCreationTracer;
+    private final ObjectProvider<PaymanCreationTracer> objectProvider;
 
     public CreateServiceImpl(HttpService httpService,
                              UrlPropertiesConfig urlPropertiesConfig,
                              AccessTokenServiceImpl accessTokenService,
                              ThreadPoolTaskExecutor taskExecutor,
-                             PaymanCreationTracer paymanCreationTracer) {
+                             ObjectProvider<PaymanCreationTracer> objectProvider) {
 
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;
         this.taskExecutor = taskExecutor;
-        this.paymanCreationTracer = paymanCreationTracer;
+        this.objectProvider = objectProvider;
     }
 
     @Override
@@ -55,8 +56,9 @@ public class CreateServiceImpl implements CreateService {
     }
 
     private void traceCreationStatus(CreateRequest request) {
-        paymanCreationTracer.setUserId(request.getPayman().getUserId());
-        Future<?> future = taskExecutor.submit(paymanCreationTracer);
+        PaymanCreationTracer tracer = objectProvider.getObject();
+        tracer.setUserId(request.getPayman().getUserId());
+        Future<?> future = taskExecutor.submit(tracer);
         PaymanCreationTracer.ALL_TRACERS.put(request.getPayman().getUserId(), future);
     }
 
