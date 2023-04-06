@@ -8,4 +8,6 @@ import java.io.IOException;
 public interface TraceCreationService {
 
     TraceCreationResponse trace(HttpServletRequest httpServletRequest, String traceId) throws IOException;
+
+    TraceCreationResponse trace(String traceId) throws IOException;
 }

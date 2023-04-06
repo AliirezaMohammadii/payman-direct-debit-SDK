@@ -38,4 +38,17 @@ public class TraceCreationServiceImpl implements TraceCreationService {
         return (TraceCreationResponse) ResponseMapper
                 .mapResponse(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
     }
+
+    @Override
+    public TraceCreationResponse trace(String traceId) throws IOException {
+        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
+                + "?trace-id" + "=" + traceId;
+
+        Request paymanRequest = httpService.createRequest(url,
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
+
+        Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
+        return (TraceCreationResponse) ResponseMapper
+                .mapResponse(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+    }
 }

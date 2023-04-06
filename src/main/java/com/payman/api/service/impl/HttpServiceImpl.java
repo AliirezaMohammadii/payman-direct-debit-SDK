@@ -80,6 +80,21 @@ public class HttpServiceImpl implements HttpService {
                 .build();
     }
 
+    @Override
+    public Headers createInternalRequestHeaders(String accessToken) {
+        return new Headers.Builder()
+                .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
+                .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+                .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
+                .add(CustomHttpHeaders.DEVICE_ID, HttpHeaderValues.APP_DEVICE_ID)
+                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, HttpHeaderValues.APP_CLIENT_IP_ADDRESS)
+                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, HttpHeaderValues.APP_CLIENT_PLATFORM_TYPE)
+                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, HttpHeaderValues.APP_CLIENT_DEVICE_ID)
+                .add(CustomHttpHeaders.CLIENT_USER_ID, HttpHeaderValues.APP_CLIENT_USER_ID)
+                .add(CustomHttpHeaders.CLIENT_USER_AGENT, HttpHeaderValues.APP_CLIENT_USER_AGENT)
+                .build();
+    }
+
     private OkHttpClient buildOkhttpClient() {
         return new OkHttpClient()
                 .newBuilder()
