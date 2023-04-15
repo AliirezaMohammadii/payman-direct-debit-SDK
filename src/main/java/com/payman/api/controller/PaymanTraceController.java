@@ -4,7 +4,6 @@ import com.payman.api.dto.client.response.TraceCreationResponse;
 import com.payman.api.dto.client.response.TracePaymentResponse;
 import com.payman.api.service.payman.TraceCreationService;
 import com.payman.api.service.payman.TracePaymentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

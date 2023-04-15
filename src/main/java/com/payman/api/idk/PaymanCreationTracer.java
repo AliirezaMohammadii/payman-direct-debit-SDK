@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
-import java.util.stream.IntStream;
 
 @Component
 @Scope("prototype")
@@ -37,31 +36,23 @@ public class PaymanCreationTracer implements Runnable {
         if (userId == null)
             throw new InternalException(ExceptionCodes.USER_ID_IS_NULL.code);
 
-        delay();
-
         while (!Thread.currentThread().isInterrupted()) {
+
+            try {
+                Thread.sleep(DELAY_IN_SECONDS);
+            } catch (InterruptedException e) {
+                return;
+            }
+
             try {
                 TraceCreationResponse traceCreationResponse = traceCreationService.trace(userId);
 
-                // TODO: if status is CREATED, save in database and return
+                // TODO: check status and decide what to do.
 
             } catch (IOException e) {
                 throw new InternalException(ExceptionCodes.INTERNAL_EXCEPTION.code);
             }
-
-            delay();
         }
     }
-
-    private void delay() {
-        IntStream.range(0, DELAY_IN_SECONDS).forEach(i -> {
-            try {
-                if (Thread.currentThread().isInterrupted())
-                    return;
-                Thread.sleep(1000L);
-            } catch (InterruptedException e) {
-                throw new InternalException(ExceptionCodes.THREAD_SLEEP_INTERRUPTED.code);
-            }
-        });
-    }
 }
+

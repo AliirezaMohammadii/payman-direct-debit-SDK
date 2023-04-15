@@ -2,7 +2,6 @@ package com.payman.api.controller;
 
 import com.payman.api.dto.client.response.MerchantPermissionsResponse;
 import com.payman.api.service.payman.MerchantPermissionsService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

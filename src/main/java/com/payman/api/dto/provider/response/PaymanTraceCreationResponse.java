@@ -2,7 +2,6 @@ package com.payman.api.dto.provider.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.Contract;
-import com.ighe3.api.dto.provider.response.PaymanTraceCreateResponse;
 import lombok.Data;
 
 import java.util.List;
@@ -28,14 +27,4 @@ public class PaymanTraceCreationResponse {
     private List<Integer> permissionIds;
 
     private Contract contract;
-
-    public TraceCreateResponse(PaymanTraceCreateResponse paymanResponse) {
-        this.bankCode = paymanResponse.getBankCode();
-        this.userId = paymanResponse.getUserId();
-        this.paymanId = paymanResponse.getPaymanId();
-        this.status = paymanResponse.getStatus();
-        this.internalStatus = paymanResponse.getInternalStatus();
-        this.permissionIds = paymanResponse.getPermissionIds();
-        this.contract = paymanResponse.getContract();
-    }
 }

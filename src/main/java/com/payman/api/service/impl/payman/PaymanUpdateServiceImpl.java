@@ -42,10 +42,9 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
 
     private Headers createHeaders(HttpServletRequest httpServletRequest, UpdateRequest request) {
         Headers generalHeaders = httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
-        Headers headers = generalHeaders.newBuilder()
+        return generalHeaders.newBuilder()
                 .add(CustomHttpHeaders.MOBILE_NO, request.getMobileNumber())
                 .add(CustomHttpHeaders.NATIONAL_CODE, request.getNationalCode())
                 .build();
-        return headers;
     }
 }
