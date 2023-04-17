@@ -5,9 +5,9 @@ import com.payman.api.exception.enums.ExceptionCodes;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class RequestMapper {
+public final class RequestMapper {
 
-    public static <R, PR> RequestBody mapRequest(R request, Class<R> requestClass, Class<PR> paymanRequestClass) {
+    public static <R, PR> RequestBody map(R request, Class<R> requestClass, Class<PR> paymanRequestClass) {
         Object requestBody;
 
         try {

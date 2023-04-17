@@ -7,7 +7,7 @@ import com.payman.api.exception.enums.ExceptionCodes;
 import com.payman.api.exception.InternalException;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-public class GeneralUtils {
+public final class GeneralUtils {
 
     public static String beautifyJson(String json) {
         ObjectMapper mapper = new ObjectMapper();

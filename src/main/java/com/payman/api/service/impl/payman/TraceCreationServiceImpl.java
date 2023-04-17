@@ -36,7 +36,7 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+                .map(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+                .map(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
     }
 }

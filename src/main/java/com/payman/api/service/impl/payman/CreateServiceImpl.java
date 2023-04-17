@@ -43,7 +43,7 @@ public class CreateServiceImpl implements CreateService {
 
     @Override
     public CreateResponse create(HttpServletRequest httpServletRequest, CreateRequest request) throws IOException {
-        RequestBody requestBody = RequestMapper.mapRequest(request, CreateRequest.class, PaymanCreateRequest.class);
+        RequestBody requestBody = RequestMapper.map(request, CreateRequest.class, PaymanCreateRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getCreate(),

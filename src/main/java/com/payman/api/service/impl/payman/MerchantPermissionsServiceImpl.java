@@ -48,6 +48,6 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
         return (MerchantPermissionsResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class, MerchantPermissionsResponse.class);
+                .map(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class, MerchantPermissionsResponse.class);
     }
 }

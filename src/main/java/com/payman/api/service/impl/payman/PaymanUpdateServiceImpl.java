@@ -30,7 +30,7 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
 
     @Override
     public UpdateResponse update(HttpServletRequest httpServletRequest, UpdateRequest request) throws IOException {
-        RequestBody requestBody = RequestMapper.mapRequest(request, UpdateRequest.class, PaymanUpdateRequest.class);
+        RequestBody requestBody = RequestMapper.map(request, UpdateRequest.class, PaymanUpdateRequest.class);
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getUpdate(),
                 createHeaders(httpServletRequest, request));

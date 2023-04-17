@@ -32,7 +32,7 @@ public class ChangeStatusServiceImpl implements ChangeStatusService {
     @Override
     public ChangeStatusResponse changeStatus(HttpServletRequest httpServletRequest, ChangeStatusRequest request) throws IOException {
         RequestBody requestBody = RequestMapper
-                .mapRequest(request, ChangeStatusRequest.class, PaymanChangeStatusRequest.class);
+                .map(request, ChangeStatusRequest.class, PaymanChangeStatusRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getChangeStatus(),
@@ -40,6 +40,6 @@ public class ChangeStatusServiceImpl implements ChangeStatusService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, ChangeStatusServiceImpl.class);
         return (ChangeStatusResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanChangeStatusResponse.class, ChangeStatusResponse.class);
+                .map(paymanResponse.getBody(), PaymanChangeStatusResponse.class, ChangeStatusResponse.class);
     }
 }

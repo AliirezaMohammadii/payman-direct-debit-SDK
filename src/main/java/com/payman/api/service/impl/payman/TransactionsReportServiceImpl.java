@@ -32,7 +32,7 @@ public class TransactionsReportServiceImpl implements TransactionsReportService 
     @Override
     public TransactionsReportResponse getReport(HttpServletRequest httpServletRequest, TransactionsReportRequest request) throws IOException {
         RequestBody requestBody = RequestMapper
-                .mapRequest(request, TransactionsReportRequest.class, PaymanTransactionsReportRequest.class);
+                .map(request, TransactionsReportRequest.class, PaymanTransactionsReportRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
@@ -40,6 +40,6 @@ public class TransactionsReportServiceImpl implements TransactionsReportService 
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
         return (TransactionsReportResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanTransactionsReportResponse.class, TransactionsReportResponse.class);
+                .map(paymanResponse.getBody(), PaymanTransactionsReportResponse.class, TransactionsReportResponse.class);
     }
 }

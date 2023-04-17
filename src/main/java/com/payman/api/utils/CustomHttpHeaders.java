@@ -2,7 +2,7 @@ package com.payman.api.utils;
 
 import org.springframework.http.HttpHeaders;
 
-public class CustomHttpHeaders extends HttpHeaders {
+public final class CustomHttpHeaders extends HttpHeaders {
 
     public static final String APP_KEY = "App-Key";
     public static final String DEVICE_ID = "Device-Id";

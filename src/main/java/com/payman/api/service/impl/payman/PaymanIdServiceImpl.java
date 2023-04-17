@@ -37,6 +37,6 @@ public class PaymanIdServiceImpl implements PaymanIdService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
         return (GetPaymanIdResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
+                .map(paymanResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
     }
 }

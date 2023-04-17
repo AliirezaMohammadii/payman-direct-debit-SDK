@@ -45,7 +45,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, AccessTokenServiceImpl.class);
         return (AccessTokenResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanAccessTokenResponse.class, AccessTokenResponse.class);
+                .map(paymanResponse.getBody(), PaymanAccessTokenResponse.class, AccessTokenResponse.class);
     }
 
     private FormBody getFormBody(String clientId, String clientSecret) {

@@ -37,6 +37,6 @@ public class TracePaymentServiceImpl implements TracePaymentService {
 
         Response paymanResponse = httpService.sendRequest(paymanRequest, TracePaymentServiceImpl.class);
         return (TracePaymentResponse) ResponseMapper
-                .mapResponse(paymanResponse.getBody(), PaymanTracePayResponse.class, TracePaymentResponse.class);
+                .map(paymanResponse.getBody(), PaymanTracePayResponse.class, TracePaymentResponse.class);
     }
 }

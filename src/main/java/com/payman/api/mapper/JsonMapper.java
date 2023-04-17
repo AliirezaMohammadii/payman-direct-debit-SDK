@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payman.api.exception.enums.ExceptionCodes;
 import com.payman.api.exception.InternalException;
 
-public class JsonMapper {
+public final class JsonMapper {
 
     public static String mapJavaObjectToJson(Object object) {
         ObjectMapper mapper = new ObjectMapper();
