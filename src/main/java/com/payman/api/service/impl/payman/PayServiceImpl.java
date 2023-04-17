@@ -7,7 +7,7 @@ import com.payman.api.dto.provider.response.PaymanPayResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.request.PaymanPayRequest;
 import com.payman.api.service.payman.PayService;
 import okhttp3.*;
@@ -36,8 +36,8 @@ public class PayServiceImpl implements PayService {
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getPay(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, PayServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PayServiceImpl.class);
         return (PayResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanPayResponse.class, PayResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanPayResponse.class, PayResponse.class);
     }
 }

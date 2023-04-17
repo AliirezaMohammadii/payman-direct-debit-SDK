@@ -5,7 +5,7 @@ import com.payman.api.dto.client.response.GetPaymanIdResponse;
 import com.payman.api.dto.provider.response.PaymanGetPaymanIdResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.service.payman.PaymanIdService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -35,8 +35,8 @@ public class PaymanIdServiceImpl implements PaymanIdService {
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
         return (GetPaymanIdResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
     }
 }

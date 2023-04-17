@@ -2,10 +2,10 @@ package com.payman.api.service.impl.payman;
 
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.response.TraceCreationResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanTraceCreationResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.TraceCreationService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
@@ -34,9 +34,9 @@ public class TraceCreationServiceImpl implements TraceCreationService {
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class TraceCreationServiceImpl implements TraceCreationService {
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
     }
 }

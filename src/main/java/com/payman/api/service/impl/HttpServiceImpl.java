@@ -1,6 +1,7 @@
 package com.payman.api.service.impl;
 
 import com.payman.api.config.CredentialsPropertiesConfig;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.error.PaymanErrorResponse;
 import com.payman.api.exception.PaymanException;
 import com.payman.api.mapper.JsonMapper;
@@ -29,15 +30,15 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public <S> com.payman.api.dto.provider.response.Response sendRequest(Request request, Class<S> serviceClass) throws IOException {
+    public <S> CustomizedResponse sendRequest(Request request, Class<S> serviceClass) throws IOException {
         OkHttpClient client = buildOkhttpClient();
-        okhttp3.Response response = client.newCall(request).execute();
-        com.payman.api.dto.provider.response.Response internalResponse = mapToInternalResponse(response);
+        Response response = client.newCall(request).execute();
+        CustomizedResponse customizedResponse = mapToCustomizedResponse(response);
 
-        checkForErrors(internalResponse, serviceClass);
+        checkForErrors(customizedResponse, serviceClass);
 
-        printResponse(internalResponse);
-        return internalResponse;
+        printResponse(customizedResponse);
+        return customizedResponse;
     }
 
     @Override
@@ -103,37 +104,37 @@ public class HttpServiceImpl implements HttpService {
                 .build();
     }
 
-    private com.payman.api.dto.provider.response.Response mapToInternalResponse(okhttp3.Response response) throws IOException {
+    private CustomizedResponse mapToCustomizedResponse(Response response) throws IOException {
 
         try {
             String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
-            return new com.payman.api.dto.provider.response.Response(response.headers(), responseBody, response.code(), response.isSuccessful());
+            return new CustomizedResponse(response.headers(), responseBody, response.code(), response.isSuccessful());
 
         } catch (IOException e) {
             throw new IOException("IO exception occurred while reading response body content.");
         } catch (NullPointerException e) {
-            throw new NullPointerException("Body of response is null.");
+            throw new NullPointerException("Response body is null.");
         }
     }
 
-    private <S> void checkForErrors(com.payman.api.dto.provider.response.Response response, Class<S> serviceClass) {
+    private <S> void checkForErrors(CustomizedResponse customizedResponse, Class<S> serviceClass) {
 
         boolean errorExists = false;
 
         if (serviceClass == CreateService.class || serviceClass == PaymanUpdateService.class) {
-            if (!response.getStatusCode().equals(302))
+            if (!customizedResponse.getStatusCode().equals(302))
                 errorExists = true;
-        } else if (!response.isSuccessful())
+        } else if (!customizedResponse.isSuccessful())
             errorExists = true;
 
         if (errorExists) {
-            PaymanErrorResponse errorResponse = (PaymanErrorResponse) JsonMapper.mapJsonToJavaObject(response.getBody(), PaymanErrorResponse.class);
-            throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), response.getStatusCode());
+            PaymanErrorResponse errorResponse = (PaymanErrorResponse) JsonMapper.mapJsonToJavaObject(customizedResponse.getBody(), PaymanErrorResponse.class);
+            throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), customizedResponse.getStatusCode());
         }
     }
 
-    private void printResponse(com.payman.api.dto.provider.response.Response response) {
-        System.out.println("status code: " + response.getStatusCode());
-        System.out.println(GeneralUtils.beautifyJson(response.getBody()));
+    private void printResponse(CustomizedResponse customizedResponse) {
+        System.out.println("status code: " + customizedResponse.getStatusCode());
+        System.out.println(GeneralUtils.beautifyJson(customizedResponse.getBody()));
     }
 }

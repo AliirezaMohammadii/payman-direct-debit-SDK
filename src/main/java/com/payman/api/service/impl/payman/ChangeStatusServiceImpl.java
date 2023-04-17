@@ -8,7 +8,7 @@ import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.payman.ChangeStatusService;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.request.PaymanChangeStatusRequest;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class ChangeStatusServiceImpl implements ChangeStatusService {
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getChangeStatus(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, ChangeStatusServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, ChangeStatusServiceImpl.class);
         return (ChangeStatusResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanChangeStatusResponse.class, ChangeStatusResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanChangeStatusResponse.class, ChangeStatusResponse.class);
     }
 }

@@ -3,9 +3,9 @@ package com.payman.api.service.impl.payman;
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.request.UpdateRequest;
 import com.payman.api.dto.client.response.UpdateResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanUpdateRequest;
 import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.CustomHttpHeaders;
@@ -35,8 +35,8 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getUpdate(),
                 createHeaders(httpServletRequest, request));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, PaymanUpdateService.class);
-        Headers headers = paymanResponse.getHeaders();
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanUpdateService.class);
+        Headers headers = paymanCustomizedResponse.getHeaders();
         return new UpdateResponse(headers.get("Location"));
     }
 

@@ -4,10 +4,10 @@ import com.payman.api.config.GeneralPropertiesConfig;
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.response.MerchantPermissionsResponse;
 import com.payman.api.dto.enums.MerchantPermission;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanMerchantPermissionsResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.MerchantPermissionsService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -46,8 +46,8 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
         return (MerchantPermissionsResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanMerchantPermissionsResponse.class, MerchantPermissionsResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanMerchantPermissionsResponse.class, MerchantPermissionsResponse.class);
     }
 }

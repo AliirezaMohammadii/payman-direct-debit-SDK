@@ -11,7 +11,7 @@ import okhttp3.Headers;
  */
 @Data
 @AllArgsConstructor
-public class Response {
+public class CustomizedResponse {
 
     private Headers headers;
     private String body;

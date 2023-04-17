@@ -3,11 +3,11 @@ package com.payman.api.service.impl.payman;
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.request.TransactionsRequest;
 import com.payman.api.dto.client.response.TransactionsResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanTransactionsResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanTransactionsRequest;
 import com.payman.api.service.payman.TransactionsService;
 import okhttp3.*;
@@ -38,8 +38,8 @@ public class TransactionsServiceImpl implements TransactionsService {
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
         return (TransactionsResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanTransactionsResponse.class, TransactionsResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanTransactionsResponse.class, TransactionsResponse.class);
     }
 }

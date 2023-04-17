@@ -3,11 +3,11 @@ package com.payman.api.service.impl.payman;
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.request.TransactionsReportStatisticsRequest;
 import com.payman.api.dto.client.response.TransactionsReportStatisticsResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanTransactionsReportStatisticsResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanTransactionsReportStatisticsRequest;
 import com.payman.api.service.payman.TransactionsReportStatisticsService;
 import okhttp3.*;
@@ -40,8 +40,8 @@ public class TransactionsReportStatisticsServiceImpl implements TransactionsRepo
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
         return (TransactionsReportStatisticsResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class, TransactionsReportStatisticsResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanTransactionsReportStatisticsResponse.class, TransactionsReportStatisticsResponse.class);
     }
 }

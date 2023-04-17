@@ -2,10 +2,10 @@ package com.payman.api.service.impl.payman;
 
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.response.TracePaymentResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanTracePayResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.TracePaymentService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
@@ -35,8 +35,8 @@ public class TracePaymentServiceImpl implements TracePaymentService {
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, TracePaymentServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TracePaymentServiceImpl.class);
         return (TracePaymentResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanTracePayResponse.class, TracePaymentResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanTracePayResponse.class, TracePaymentResponse.class);
     }
 }

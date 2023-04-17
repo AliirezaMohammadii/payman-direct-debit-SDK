@@ -2,10 +2,10 @@ package com.payman.api.service.impl.payman;
 
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.response.GetPaymanResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanGetPaymanResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.GetPaymanService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,8 @@ public class GetPaymanServiceImpl implements GetPaymanService {
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, GetPaymanServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, GetPaymanServiceImpl.class);
         return (GetPaymanResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanGetPaymanResponse.class, GetPaymanResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanGetPaymanResponse.class, GetPaymanResponse.class);
     }
 }

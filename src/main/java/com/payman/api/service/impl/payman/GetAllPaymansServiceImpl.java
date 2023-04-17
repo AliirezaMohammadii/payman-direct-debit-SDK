@@ -3,11 +3,11 @@ package com.payman.api.service.impl.payman;
 import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.request.GetAllPaymansRequest;
 import com.payman.api.dto.client.response.GetAllPaymansResponse;
+import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanGetAllPaymansResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanGetAllPaymansRequest;
 import com.payman.api.service.payman.GetAllPaymansService;
 import okhttp3.*;
@@ -36,8 +36,8 @@ public class GetAllPaymansServiceImpl implements GetAllPaymansService {
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getList(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
-        Response paymanResponse = httpService.sendRequest(paymanRequest, GetAllPaymansServiceImpl.class);
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, GetAllPaymansServiceImpl.class);
         return (GetAllPaymansResponse) ResponseMapper
-                .map(paymanResponse.getBody(), PaymanGetAllPaymansResponse.class, GetAllPaymansResponse.class);
+                .map(paymanCustomizedResponse.getBody(), PaymanGetAllPaymansResponse.class, GetAllPaymansResponse.class);
     }
 }
