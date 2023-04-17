@@ -1,7 +1,8 @@
 package com.payman.api.dto.provider.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.Contract;
+import com.payman.api.dto.client.Contract;
+import com.payman.api.dto.provider.PaymanContract;
 import lombok.Data;
 
 import java.util.List;
@@ -26,5 +27,5 @@ public class PaymanTraceCreationResponse {
     @JsonProperty("permission_ids")
     private List<Integer> permissionIds;
 
-    private Contract contract;
+    private PaymanContract contract;
 }

@@ -6,7 +6,7 @@ import com.payman.api.dto.client.response.AccessTokenResponse;
 import com.payman.api.dto.provider.response.PaymanAccessTokenResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.AccessTokenService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;

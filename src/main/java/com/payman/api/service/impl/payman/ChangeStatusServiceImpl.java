@@ -8,7 +8,7 @@ import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.payman.ChangeStatusService;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanChangeStatusRequest;
 import okhttp3.*;
 import org.springframework.stereotype.Service;

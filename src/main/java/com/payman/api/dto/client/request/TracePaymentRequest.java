@@ -9,6 +9,6 @@ public class TracePaymentRequest {
     @JsonProperty("trace_id")
     private String traceId;
 
-    // TODO: check format (yyyy-mm-dd)
-    private String date;
+    // remind that it's gonna be a query param, while sending to payman
+    private Long dateEpochMillis;
 }

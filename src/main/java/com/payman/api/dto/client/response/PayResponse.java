@@ -1,11 +1,16 @@
 package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.PayResponseDetails;
+import com.payman.api.dto.client.GetAllPaymansResponseResult;
+import com.payman.api.dto.client.PayResponseDetails;
 import com.payman.api.dto.provider.response.PaymanPayResponse;
+import com.payman.api.utils.DateUtils;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 public class PayResponse {
@@ -20,7 +25,7 @@ public class PayResponse {
     private Double transactionAmount;
 
     @JsonProperty("transaction_time")
-    private String transactionTime;
+    private Long transactionTimeEpochMillis;
 
     @JsonProperty("batch_id")
     private Long batchId;
@@ -36,10 +41,11 @@ public class PayResponse {
         this.referenceId = paymanResponse.getReferenceId();
         this.traceId = paymanResponse.getTraceId();
         this.transactionAmount = paymanResponse.getTransactionAmount();
-        this.transactionTime = paymanResponse.getTransactionTime();
+        this.transactionTimeEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getTransactionTime());
         this.batchId = paymanResponse.getBatchId();
         this.commissionAmount = paymanResponse.getCommissionAmount();
         this.status = paymanResponse.getStatus();
-        this.details = paymanResponse.getDetails();
+        this.details = Optional.ofNullable(paymanResponse.getDetails()).orElse(Collections.emptyList())
+                .stream().map(PayResponseDetails::new).collect(Collectors.toList());;
     }
 }

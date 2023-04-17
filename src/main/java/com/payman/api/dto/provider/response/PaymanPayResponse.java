@@ -1,7 +1,8 @@
 package com.payman.api.dto.provider.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.PayResponseDetails;
+import com.payman.api.dto.client.PayResponseDetails;
+import com.payman.api.dto.provider.PaymanPayResponseDetails;
 import lombok.Data;
 
 import java.util.List;
@@ -29,5 +30,5 @@ public class PaymanPayResponse {
 
     private String status;
 
-    private List<PayResponseDetails> details;
+    private List<PaymanPayResponseDetails> details;
 }

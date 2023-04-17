@@ -1,7 +1,7 @@
 package com.payman.api.service;
 
 
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;

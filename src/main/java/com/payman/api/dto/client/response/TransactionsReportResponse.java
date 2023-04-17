@@ -2,6 +2,7 @@ package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.response.PaymanTransactionsReportResponse;
+import com.payman.api.utils.DateUtils;
 import lombok.Data;
 
 @Data
@@ -38,10 +39,10 @@ public class TransactionsReportResponse {
     private String transactionType;
 
     @JsonProperty("server_date")
-    private String serverDate;
+    private Long serverDateEpochMillis;
 
     @JsonProperty("client_date")
-    private String clientDate;
+    private Long clientDateEpochMillis;
 
     public TransactionsReportResponse(PaymanTransactionsReportResponse paymanResponse) {
         this.commissionAmount = paymanResponse.getCommissionAmount();
@@ -55,7 +56,7 @@ public class TransactionsReportResponse {
         this.transactionAmount = paymanResponse.getTransactionAmount();
         this.paymanId = paymanResponse.getPaymanId();
         this.transactionType = paymanResponse.getTransactionType();
-        this.serverDate = paymanResponse.getServerDate();
-        this.clientDate = paymanResponse.getClientDate();
+        this.clientDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getServerDate());
+        this.clientDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getClientDate());
     }
 }

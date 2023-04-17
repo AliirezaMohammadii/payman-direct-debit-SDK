@@ -2,6 +2,7 @@ package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.response.PaymanTracePayResponse;
+import com.payman.api.utils.DateUtils;
 import lombok.Data;
 
 @Data
@@ -36,7 +37,7 @@ public class TracePaymentResponse {
     private String transactionAmount;
 
     @JsonProperty("transaction_time")
-    private String transactionTime;
+    private Long transactionTimeEpochMillis;
 
     @JsonProperty("batch_id")
     private String batchId;
@@ -63,7 +64,7 @@ public class TracePaymentResponse {
         this.referenceId = paymanResponse.getReferenceId();
         this.traceId = paymanResponse.getTraceId();
         this.transactionAmount = paymanResponse.getTransactionAmount();
-        this.transactionTime = paymanResponse.getTransactionTime();
+        this.transactionTimeEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getTransactionTime());
         this.batchId = paymanResponse.getBatchId();
         this.commissionAmount = paymanResponse.getCommissionAmount();
         this.status = paymanResponse.getStatus();

@@ -2,6 +2,7 @@ package com.payman.api.dto.provider.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.request.TransactionsReportRequest;
+import com.payman.api.utils.DateUtils;
 
 public class PaymanTransactionsReportRequest {
 
@@ -21,8 +22,8 @@ public class PaymanTransactionsReportRequest {
     public PaymanTransactionsReportRequest(TransactionsReportRequest request) {
         this.offset = request.getOffset();
         this.length = request.getLength();
-        this.startDate = request.getStartDate();
-        this.endDate = request.getEndDate();
+        this.startDate = DateUtils.epochMillisToPaymanDateTimeFormat(request.getStartDateEpochMillis());
+        this.endDate = DateUtils.epochMillisToPaymanDateTimeFormat(request.getEndDateEpochMillis());
         this.bankCode = request.getBankCode();
     }
 }

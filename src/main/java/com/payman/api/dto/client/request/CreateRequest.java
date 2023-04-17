@@ -1,7 +1,7 @@
 package com.payman.api.dto.client.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.PaymanDetails;
+import com.payman.api.dto.client.PaymanDetails;
 import lombok.Data;
 
 @Data

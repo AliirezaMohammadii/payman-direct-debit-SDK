@@ -1,12 +1,13 @@
 package com.payman.api.dto.provider.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.PaymanDetails;
+import com.payman.api.dto.client.PaymanDetails;
 import com.payman.api.dto.client.request.CreateRequest;
+import com.payman.api.dto.provider.PaymanPaymanDetails;
 
 public class PaymanCreateRequest {
 
-    private PaymanDetails payman;
+    private PaymanPaymanDetails payman;
 
     @JsonProperty("redirect_url")
     private String redirectUrl;
@@ -15,7 +16,7 @@ public class PaymanCreateRequest {
     private String traceId;
 
     public PaymanCreateRequest(CreateRequest request) {
-        this.payman = request.getPayman();
+        this.payman = new PaymanPaymanDetails(request.getPayman());
         this.redirectUrl = request.getRedirectUrl();
         this.traceId = request.getTraceId();
     }

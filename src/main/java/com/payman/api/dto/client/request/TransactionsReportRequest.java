@@ -13,10 +13,10 @@ public class TransactionsReportRequest {
     private Integer length;
 
     @JsonProperty("start_date")
-    private String startDate;
+    private Long startDateEpochMillis;
 
     @JsonProperty("end_date")
-    private String endDate;
+    private Long endDateEpochMillis;
 
     @JsonProperty("bank_code")
     private String bankCode;

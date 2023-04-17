@@ -1,6 +1,6 @@
 package com.payman.api.dto.client.request;
 
-import com.payman.api.dto.GetAllPaymansRequestFilter;
+import com.payman.api.dto.client.GetAllPaymansRequestFilter;
 import lombok.Data;
 
 @Data

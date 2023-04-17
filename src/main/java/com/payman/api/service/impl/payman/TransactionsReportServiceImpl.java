@@ -7,7 +7,7 @@ import com.payman.api.dto.provider.response.PaymanTransactionsReportResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanTransactionsReportRequest;
 import com.payman.api.service.payman.TransactionsReportService;
 import okhttp3.*;

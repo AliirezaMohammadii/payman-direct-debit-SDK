@@ -2,6 +2,7 @@ package com.payman.api.dto.provider.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.request.UpdateRequest;
+import com.payman.api.utils.DateUtils;
 import lombok.Data;
 
 @Data
@@ -30,7 +31,7 @@ public class PaymanUpdateRequest {
 
     public PaymanUpdateRequest(UpdateRequest request) {
         this.paymanId = request.getRedirectUrl();
-        this.expirationDate = request.getExpirationDate();
+        this.expirationDate = DateUtils.epochMillisToPaymanDateTimeFormat(request.getExpirationDateEpochMillis());
         this.maxDailyTransactionCount = request.getMaxDailyTransactionCount();
         this.maxMonthlyTransactionCount = request.getMaxMonthlyTransactionCount();
         this.maxTransactionAmount = request.getMaxTransactionAmount();

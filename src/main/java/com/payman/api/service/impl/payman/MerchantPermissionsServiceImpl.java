@@ -7,7 +7,7 @@ import com.payman.api.dto.enums.MerchantPermission;
 import com.payman.api.dto.provider.response.PaymanMerchantPermissionsResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.MerchantPermissionsService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;

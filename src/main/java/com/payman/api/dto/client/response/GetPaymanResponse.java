@@ -2,6 +2,7 @@ package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.response.PaymanGetPaymanResponse;
+import com.payman.api.utils.DateUtils;
 import lombok.Data;
 
 @Data
@@ -11,10 +12,10 @@ public class GetPaymanResponse {
     private String paymanId;
 
     @JsonProperty("expiration_date")
-    private String expirationDate;
+    private Long expirationDateEpochMillis;
 
     @JsonProperty("start_date")
-    private String startDate;
+    private Long startDateEpochMillis;
 
     @JsonProperty("remaining_daily_transactions_count")
     private String remainingDailyTransactionsCount;
@@ -39,8 +40,8 @@ public class GetPaymanResponse {
 
     public GetPaymanResponse(PaymanGetPaymanResponse paymanResponse) {
         this.paymanId = paymanResponse.getPaymanId();
-        this.expirationDate = paymanResponse.getExpirationDate();
-        this.startDate = paymanResponse.getStartDate();
+        this.expirationDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getExpirationDate());
+        this.startDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getStartDate());
         this.remainingDailyTransactionsCount = paymanResponse.getRemainingDailyTransactionsCount();
         this.remainingMonthlyTransactionsCount = paymanResponse.getRemainingMonthlyTransactionsCount();
         this.endOfCurrentMonth = paymanResponse.getEndOfCurrentMonth();

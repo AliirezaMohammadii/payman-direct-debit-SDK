@@ -12,7 +12,7 @@ public class UpdateRequest {
     private String paymanId;
 
     @JsonProperty("expiration_date")
-    private String expirationDate;
+    private Long expirationDateEpochMillis;
 
     @JsonProperty("max_daily_transaction_count")
     private Integer maxDailyTransactionCount;

@@ -5,7 +5,7 @@ import com.payman.api.dto.client.request.UpdateRequest;
 import com.payman.api.dto.client.response.UpdateResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanUpdateRequest;
 import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.CustomHttpHeaders;

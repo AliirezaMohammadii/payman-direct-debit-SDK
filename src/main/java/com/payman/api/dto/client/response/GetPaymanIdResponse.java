@@ -9,9 +9,7 @@ public class GetPaymanIdResponse {
 
     @JsonProperty("payman_id")
     private String paymanId;
-
     private String status;
-
     private String deposit;
 
     public GetPaymanIdResponse(PaymanGetPaymanIdResponse paymanResponse) {

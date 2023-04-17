@@ -5,7 +5,7 @@ import com.payman.api.dto.client.response.TraceCreationResponse;
 import com.payman.api.dto.provider.response.PaymanTraceCreationResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.service.payman.TraceCreationService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;

@@ -9,8 +9,8 @@ import java.util.Date;
 public class TransactionsReportStatisticsRequest {
 
     @JsonProperty("start_date")
-    private String startDate;
+    private Long startDateEpochMillis;
 
     @JsonProperty("end_date")
-    private String endDate;
+    private Long endDateEpochMillis;
 }

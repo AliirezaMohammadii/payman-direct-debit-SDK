@@ -6,7 +6,7 @@ import com.payman.api.dto.client.response.CreateResponse;
 import com.payman.api.idk.PaymanCreationTracer;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.service.HttpService;
-import com.payman.api.dto.Response;
+import com.payman.api.dto.provider.response.Response;
 import com.payman.api.dto.provider.request.PaymanCreateRequest;
 import com.payman.api.service.payman.CreateService;
 import com.payman.api.utils.CustomHttpHeaders;

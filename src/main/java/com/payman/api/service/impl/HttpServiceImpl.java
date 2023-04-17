@@ -29,10 +29,10 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public <S> com.payman.api.dto.Response sendRequest(Request request, Class<S> serviceClass) throws IOException {
+    public <S> com.payman.api.dto.provider.response.Response sendRequest(Request request, Class<S> serviceClass) throws IOException {
         OkHttpClient client = buildOkhttpClient();
         okhttp3.Response response = client.newCall(request).execute();
-        com.payman.api.dto.Response internalResponse = mapToInternalResponse(response);
+        com.payman.api.dto.provider.response.Response internalResponse = mapToInternalResponse(response);
 
         checkForErrors(internalResponse, serviceClass);
 
@@ -103,11 +103,11 @@ public class HttpServiceImpl implements HttpService {
                 .build();
     }
 
-    private com.payman.api.dto.Response mapToInternalResponse(okhttp3.Response response) throws IOException {
+    private com.payman.api.dto.provider.response.Response mapToInternalResponse(okhttp3.Response response) throws IOException {
 
         try {
             String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
-            return new com.payman.api.dto.Response(response.headers(), responseBody, response.code(), response.isSuccessful());
+            return new com.payman.api.dto.provider.response.Response(response.headers(), responseBody, response.code(), response.isSuccessful());
 
         } catch (IOException e) {
             throw new IOException("IO exception occurred while reading response body content.");
@@ -116,7 +116,7 @@ public class HttpServiceImpl implements HttpService {
         }
     }
 
-    private <S> void checkForErrors(com.payman.api.dto.Response response, Class<S> serviceClass) {
+    private <S> void checkForErrors(com.payman.api.dto.provider.response.Response response, Class<S> serviceClass) {
 
         boolean errorExists = false;
 
@@ -132,7 +132,7 @@ public class HttpServiceImpl implements HttpService {
         }
     }
 
-    private void printResponse(com.payman.api.dto.Response response) {
+    private void printResponse(com.payman.api.dto.provider.response.Response response) {
         System.out.println("status code: " + response.getStatusCode());
         System.out.println(GeneralUtils.beautifyJson(response.getBody()));
     }

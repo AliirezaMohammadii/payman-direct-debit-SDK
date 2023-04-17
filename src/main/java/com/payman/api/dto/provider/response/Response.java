@@ -1,4 +1,4 @@
-package com.payman.api.dto;
+package com.payman.api.dto.provider.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -16,7 +16,7 @@ public class PayRequest {
     private String description;
 
     @JsonProperty("client_transaction_date")
-    private String clientTransactionDate;
+    private Long clientTransactionDateEpochMillis;
 
     @JsonProperty("trace_id")
     private String traceId;

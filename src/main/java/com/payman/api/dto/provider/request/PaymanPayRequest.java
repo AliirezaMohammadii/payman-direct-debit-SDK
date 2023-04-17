@@ -2,6 +2,7 @@ package com.payman.api.dto.provider.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.request.PayRequest;
+import com.payman.api.utils.DateUtils;
 
 public class PaymanPayRequest {
 
@@ -28,7 +29,7 @@ public class PaymanPayRequest {
         this.paymanId = request.getPaymanId();
         this.amount = request.getAmount();
         this.description = request.getDescription();
-        this.clientTransactionDate = request.getClientTransactionDate();
+        this.clientTransactionDate = DateUtils.epochMillisToPaymanDateTimeFormat(request.getClientTransactionDateEpochMillis());
         this.traceId = request.getTraceId();
         this.payId = request.getPayId();
         this.commissionAmount = request.getCommissionAmount();

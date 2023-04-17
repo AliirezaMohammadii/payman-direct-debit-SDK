@@ -1,7 +1,7 @@
 package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.Contract;
+import com.payman.api.dto.client.Contract;
 import com.payman.api.dto.provider.response.PaymanTraceCreationResponse;
 import lombok.Data;
 
@@ -36,6 +36,6 @@ public class TraceCreationResponse {
         this.status = paymanResponse.getStatus();
         this.internalStatus = paymanResponse.getInternalStatus();
         this.permissionIds = paymanResponse.getPermissionIds();
-        this.contract = paymanResponse.getContract();
+        this.contract = new Contract(paymanResponse.getContract());
     }
 }
