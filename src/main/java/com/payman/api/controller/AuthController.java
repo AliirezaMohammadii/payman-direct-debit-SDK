@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("/v1/auths")
 public class AuthController {
 
     private final AccessTokenService accessTokenService;

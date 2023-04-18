@@ -1,4 +1,4 @@
-package com.payman.api.aspect;
+package com.payman.api.exception;
 
 import com.payman.api.dto.client.response.error.ErrorResponse;
 import com.payman.api.exception.BaseException;
@@ -8,13 +8,23 @@ import com.payman.api.exception.enums.ExceptionCodes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionTranslator extends ResponseEntityExceptionHandler  {
+public class ExceptionTranslator extends ResponseEntityExceptionHandler {
 
+
+    // TODO: 4/18/23 you can implement this method that help you to catch invalid data from controller
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+    }
+
+    // TODO: 4/18/23 don't return object. create BaseException class that includes error code and error message and something like that
     @ExceptionHandler({PaymanException.class})
     public ResponseEntity<Object> handlePaymanException(PaymanException exception) {
         return createExceptionResponse(exception, HttpStatus.valueOf(exception.getStatusCode()));

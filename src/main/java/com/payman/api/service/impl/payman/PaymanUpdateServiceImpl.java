@@ -10,6 +10,7 @@ import com.payman.api.dto.provider.request.PaymanUpdateRequest;
 import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanUpdateService.class);
         Headers headers = paymanCustomizedResponse.getHeaders();
-        return new UpdateResponse(headers.get("Location"));
+        return new UpdateResponse(headers.get(HttpHeaders.LOCATION));
     }
 
     private Headers createHeaders(HttpServletRequest httpServletRequest, UpdateRequest request) {

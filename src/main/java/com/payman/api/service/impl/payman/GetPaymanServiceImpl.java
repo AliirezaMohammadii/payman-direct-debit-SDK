@@ -28,6 +28,7 @@ public class GetPaymanServiceImpl implements GetPaymanService {
 
     @Override
     public GetPaymanResponse get(HttpServletRequest httpServletRequest, String paymanId) throws IOException {
+        // TODO: 4/18/23 use String.format
         String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getReport() + "/" + paymanId;
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));

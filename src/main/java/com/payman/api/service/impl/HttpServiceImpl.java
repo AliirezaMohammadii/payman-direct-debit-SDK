@@ -133,6 +133,7 @@ public class HttpServiceImpl implements HttpService {
         }
     }
 
+    // TODO: 4/18/23 remove it. if you want to print something use Log4j
     private void printResponse(CustomizedResponse customizedResponse) {
         System.out.println("status code: " + customizedResponse.getStatusCode());
         System.out.println(GeneralUtils.beautifyJson(customizedResponse.getBody()));

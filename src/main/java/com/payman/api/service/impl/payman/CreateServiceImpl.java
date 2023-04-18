@@ -12,6 +12,7 @@ import com.payman.api.service.payman.CreateService;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class CreateServiceImpl implements CreateService {
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, CreateService.class);
         Headers headers = paymanCustomizedResponse.getHeaders();
         traceCreationStatus(request);
-        return new CreateResponse(headers.get("Location"));
+        return new CreateResponse(headers.get(HttpHeaders.LOCATION));
     }
 
     private void traceCreationStatus(CreateRequest request) {

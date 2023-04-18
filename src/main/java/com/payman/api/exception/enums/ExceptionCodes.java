@@ -13,7 +13,7 @@ public enum ExceptionCodes {
 
     public final String code;
 
-    private ExceptionCodes(String code) {
+    ExceptionCodes(String code) {
         this.code = code;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class TaskExecutorConfig {
 
+    // TODO: 4/18/23 if you dont want to create multi thread remove it.
     @Bean
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
 

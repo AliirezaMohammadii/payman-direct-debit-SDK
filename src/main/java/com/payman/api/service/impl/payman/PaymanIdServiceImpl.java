@@ -29,6 +29,7 @@ public class PaymanIdServiceImpl implements PaymanIdService {
     @Override
     public GetPaymanIdResponse getPaymanId(HttpServletRequest httpServletRequest, String paymanCode)
             throws IOException {
+        // TODO: 4/18/23 String.format
         String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getPaymanId()
                 + "?payman_code" + "=" + paymanCode;
 

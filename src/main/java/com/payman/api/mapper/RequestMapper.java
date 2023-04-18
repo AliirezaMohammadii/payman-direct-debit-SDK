@@ -7,6 +7,7 @@ import okhttp3.RequestBody;
 
 public final class RequestMapper {
 
+    // TODO: 4/18/23 Excellent. i have a suggestion to implement this method another way. you can use BiFunction java 8
     public static <R, PR> RequestBody map(R request, Class<R> requestClass, Class<PR> paymanRequestClass) {
         Object requestBody;
 

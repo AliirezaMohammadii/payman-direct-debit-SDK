@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/callback")
+@RequestMapping("/v1/callbacks")
 public class CallbackController {
 
     private final PaymanIdService paymanIdService;
@@ -26,7 +26,7 @@ public class CallbackController {
                                @RequestParam(name = "status") String status,
                                // TODO: I'm not sure about "error" keyword
                                @RequestParam(name = "error", required = false) String errorCode) {
-
+        // TODO: 4/18/23 if you are not sure about one thing dont write it !!!!
         // Stop corresponding thread.
         PaymanCreationTracer.ALL_TRACERS.get(userId).cancel(true);
 
