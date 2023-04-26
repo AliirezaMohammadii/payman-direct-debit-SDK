@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.PaymanContract;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class Contract {
 
     @JsonProperty("start_date")
@@ -29,6 +31,9 @@ public class Contract {
     @JsonProperty("daily_max_transaction_amount")
     private Double dailyMaxTransactionAmount;
 
+    // only used in response
+    private String currency;
+
     public Contract(PaymanContract paymanContract) {
         this.startDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanContract.getStartDate());
         this.expirationDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanContract.getExpirationDate());
@@ -36,5 +41,6 @@ public class Contract {
         this.maxMonthlyTransactionCount = paymanContract.getMaxMonthlyTransactionCount();
         this.maxTransactionAmount = paymanContract.getMaxTransactionAmount();
         this.dailyMaxTransactionAmount = paymanContract.getDailyMaxTransactionAmount();
+        this.currency = paymanContract.getCurrency();
     }
 }

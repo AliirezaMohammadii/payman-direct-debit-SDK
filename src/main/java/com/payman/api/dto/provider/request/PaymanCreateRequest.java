@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.PaymanDetails;
 import com.payman.api.dto.client.request.CreateRequest;
 import com.payman.api.dto.provider.PaymanPaymanDetails;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class PaymanCreateRequest {
 
+    @JsonProperty("payman")
     private PaymanPaymanDetails payman;
 
     @JsonProperty("redirect_url")

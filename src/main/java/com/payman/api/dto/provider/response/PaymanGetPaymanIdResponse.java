@@ -11,5 +11,6 @@ public class PaymanGetPaymanIdResponse {
 
     private String status;
 
-    private String deposit;
+    @JsonProperty("deposit_number")
+    private String depositNumber;
 }

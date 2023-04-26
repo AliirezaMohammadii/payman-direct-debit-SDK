@@ -5,10 +5,12 @@ import com.payman.api.dto.client.Contract;
 import com.payman.api.dto.client.GetAllPaymansResponseResult;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class PaymanGetAllPaymansResponseResult {
 
     @JsonProperty("payman_id")

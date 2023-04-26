@@ -6,10 +6,12 @@ import com.payman.api.dto.provider.PaymanContract;
 import com.payman.api.dto.provider.PaymanPaymanDetails;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class PaymanDetails {
 
     @JsonProperty("bank_code")

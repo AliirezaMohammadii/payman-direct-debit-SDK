@@ -1,5 +1,6 @@
 package com.payman.api.controller;
 
+import com.payman.api.dto.client.request.AccessTokenRequest;
 import com.payman.api.dto.client.response.AccessTokenResponse;
 import com.payman.api.service.payman.AccessTokenService;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,8 @@ public class AuthController {
         this.accessTokenService = accessTokenService;
     }
 
-    @GetMapping
-    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest,
-                                              @RequestParam(value = "client_id") String clientId,
-                                              @RequestParam(value = "client_secret") String clientSecret) throws IOException {
-        return accessTokenService.getAccessToken(httpServletRequest, clientId, clientSecret);
+    @PostMapping
+    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest, @RequestBody AccessTokenRequest accessTokenRequest) throws IOException {
+        return accessTokenService.getAccessToken(httpServletRequest, accessTokenRequest);
     }
 }

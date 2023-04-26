@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.response.PaymanTracePayResponse;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class TracePaymentResponse {
 
     private String currency;

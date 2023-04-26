@@ -5,8 +5,10 @@ import com.payman.api.dto.provider.PaymanContract;
 import com.payman.api.dto.provider.PaymanTransactionsReportStatisticsResponseResult;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class TransactionsReportStatisticsResponseResult {
 
     @JsonProperty("bank_code")

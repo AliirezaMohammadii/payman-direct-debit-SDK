@@ -11,6 +11,7 @@ import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.GeneralUtils;
 import com.payman.api.utils.CustomHttpHeaders;
 import com.payman.api.utils.HttpHeaderValues;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class HttpServiceImpl implements HttpService {
 
     private static final String BEARER_PREFIX = "Bearer ";
@@ -37,7 +39,7 @@ public class HttpServiceImpl implements HttpService {
 
         checkForErrors(customizedResponse, serviceClass);
 
-        printResponse(customizedResponse);
+        logResponse(customizedResponse);
         return customizedResponse;
     }
 
@@ -93,6 +95,7 @@ public class HttpServiceImpl implements HttpService {
                 .add(CustomHttpHeaders.CLIENT_DEVICE_ID, HttpHeaderValues.APP_CLIENT_DEVICE_ID)
                 .add(CustomHttpHeaders.CLIENT_USER_ID, HttpHeaderValues.APP_CLIENT_USER_ID)
                 .add(CustomHttpHeaders.CLIENT_USER_AGENT, HttpHeaderValues.APP_CLIENT_USER_AGENT)
+                .add(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .build();
     }
 
@@ -105,7 +108,6 @@ public class HttpServiceImpl implements HttpService {
     }
 
     private CustomizedResponse mapToCustomizedResponse(Response response) throws IOException {
-
         try {
             String responseBody = Optional.ofNullable(response.body()).orElseThrow(NullPointerException::new).string();
             return new CustomizedResponse(response.headers(), responseBody, response.code(), response.isSuccessful());
@@ -118,7 +120,6 @@ public class HttpServiceImpl implements HttpService {
     }
 
     private <S> void checkForErrors(CustomizedResponse customizedResponse, Class<S> serviceClass) {
-
         boolean errorExists = false;
 
         if (serviceClass == CreateService.class || serviceClass == PaymanUpdateService.class) {
@@ -129,13 +130,12 @@ public class HttpServiceImpl implements HttpService {
 
         if (errorExists) {
             PaymanErrorResponse errorResponse = (PaymanErrorResponse) JsonMapper.mapJsonToJavaObject(customizedResponse.getBody(), PaymanErrorResponse.class);
-            throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), customizedResponse.getStatusCode());
+            throw new PaymanException(errorResponse.getCode(), errorResponse.getMessage(), customizedResponse.getStatusCode(), errorResponse.getErrors());
         }
     }
 
-    // TODO: 4/18/23 remove it. if you want to print something use Log4j
-    private void printResponse(CustomizedResponse customizedResponse) {
-        System.out.println("status code: " + customizedResponse.getStatusCode());
-        System.out.println(GeneralUtils.beautifyJson(customizedResponse.getBody()));
+    private void logResponse(CustomizedResponse customizedResponse) {
+        log.info("response status code: {}", customizedResponse.getStatusCode());
+        log.info("response body: {}", GeneralUtils.beautifyJson(customizedResponse.getBody()));
     }
 }

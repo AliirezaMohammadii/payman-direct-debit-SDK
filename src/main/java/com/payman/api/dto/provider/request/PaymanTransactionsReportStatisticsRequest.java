@@ -3,7 +3,9 @@ package com.payman.api.dto.provider.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.request.TransactionsReportStatisticsRequest;
 import com.payman.api.utils.DateUtils;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class PaymanTransactionsReportStatisticsRequest {
 
     @JsonProperty("start_date")

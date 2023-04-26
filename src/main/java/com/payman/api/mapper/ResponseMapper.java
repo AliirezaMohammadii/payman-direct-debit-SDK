@@ -11,7 +11,7 @@ public final class ResponseMapper {
         try {
             return responseClass.getConstructor(paymanResponseClass).newInstance(paymanResponse);
         } catch (Exception e) {
-            throw new InternalException(ExceptionCodes.RESPONSE_MAPPING.code);
+            throw new InternalException(ExceptionCodes.RESPONSE_MAPPING);
         }
     }
 }

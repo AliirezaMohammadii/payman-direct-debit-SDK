@@ -6,6 +6,7 @@ import com.payman.api.dto.client.PayResponseDetails;
 import com.payman.api.dto.provider.response.PaymanPayResponse;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class PayResponse {
 
     @JsonProperty("reference_id")

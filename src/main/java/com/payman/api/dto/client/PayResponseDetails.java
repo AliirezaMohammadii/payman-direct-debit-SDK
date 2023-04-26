@@ -5,10 +5,12 @@ import com.payman.api.dto.provider.PaymanContract;
 import com.payman.api.dto.provider.PaymanPayResponseDetails;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class PayResponseDetails {
 
     @JsonProperty("reference_id")

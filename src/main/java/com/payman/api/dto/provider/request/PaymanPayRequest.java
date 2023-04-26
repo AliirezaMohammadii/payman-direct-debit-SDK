@@ -3,14 +3,18 @@ package com.payman.api.dto.provider.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.request.PayRequest;
 import com.payman.api.utils.DateUtils;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class PaymanPayRequest {
 
     @JsonProperty("payman_id")
     private String paymanId;
 
+    @JsonProperty("amount")
     private Double amount;
 
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("client_transaction_date")

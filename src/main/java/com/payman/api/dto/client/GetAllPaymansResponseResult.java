@@ -6,10 +6,12 @@ import com.payman.api.dto.provider.PaymanGetAllPaymansRequestFilter;
 import com.payman.api.dto.provider.PaymanGetAllPaymansResponseResult;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class GetAllPaymansResponseResult {
 
     @JsonProperty("payman_id")

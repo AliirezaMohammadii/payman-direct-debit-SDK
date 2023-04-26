@@ -14,7 +14,6 @@ public class PaymanAccessTokenResponse {
 
     private String scope;
 
-    // in seconds
     @JsonProperty("expires_in")
     private Long expiresIn;
 }

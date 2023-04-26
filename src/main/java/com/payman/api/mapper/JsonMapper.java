@@ -13,7 +13,7 @@ public final class JsonMapper {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new InternalException(ExceptionCodes.JSON_PROCESSING.code);
+            throw new InternalException(ExceptionCodes.JSON_PROCESSING);
         }
     }
 
@@ -23,7 +23,7 @@ public final class JsonMapper {
         try {
             return mapper.readValue(value, responseClass);
         } catch (JsonProcessingException e) {
-            throw new InternalException(ExceptionCodes.JSON_PROCESSING.code);
+            throw new InternalException(ExceptionCodes.JSON_PROCESSING);
         }
     }
 }

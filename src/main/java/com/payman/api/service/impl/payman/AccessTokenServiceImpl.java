@@ -2,6 +2,7 @@ package com.payman.api.service.impl.payman;
 
 import com.payman.api.config.CredentialsPropertiesConfig;
 import com.payman.api.config.UrlPropertiesConfig;
+import com.payman.api.dto.client.request.AccessTokenRequest;
 import com.payman.api.dto.client.response.AccessTokenResponse;
 import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanAccessTokenResponse;
@@ -36,9 +37,9 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     }
 
     @Override
-    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest, String clientId, String clientSecret)
+    public AccessTokenResponse getAccessToken(HttpServletRequest httpServletRequest, AccessTokenRequest accessTokenRequest)
             throws IOException {
-        FormBody requestBody = getFormBody(clientId, clientSecret);
+        FormBody requestBody = getFormBody(accessTokenRequest.getClientId(), accessTokenRequest.getClientSecret());
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getAccessToken(),
                 httpService.createHeaders(httpServletRequest));

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.TransactionsRequestFilter;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class PaymanTransactionsRequestFilter {
 
     @JsonProperty("payman_ids")

@@ -5,6 +5,8 @@ import com.payman.api.exception.enums.ExceptionCodes;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+import java.util.function.BiFunction;
+
 public final class RequestMapper {
 
     // TODO: 4/18/23 Excellent. i have a suggestion to implement this method another way. you can use BiFunction java 8
@@ -14,7 +16,7 @@ public final class RequestMapper {
         try {
             requestBody = paymanRequestClass.getConstructor(requestClass).newInstance(request);
         } catch (Exception e) {
-            throw new InternalException(ExceptionCodes.REQUEST_MAPPING.code);
+            throw new InternalException(ExceptionCodes.REQUEST_MAPPING);
         }
 
         String json = JsonMapper.mapJavaObjectToJson(requestBody);

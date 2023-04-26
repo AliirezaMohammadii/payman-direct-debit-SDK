@@ -5,11 +5,13 @@ import com.payman.api.dto.provider.PaymanGetAllPaymansRequestFilter;
 import com.payman.api.dto.provider.PaymanTransactionsRequestFilter;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class TransactionsRequestFilter {
 
     @JsonProperty("payman_ids")

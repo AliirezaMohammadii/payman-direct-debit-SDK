@@ -19,8 +19,34 @@ public final class DateUtils {
         return dateTime.format(formatter);
     }
 
+    /**
+     * Classes like 'Contract', are used in both request and response classes;
+     * for request, faraboom accepts yyyy-MM-dd'T'HH:mm:ss'Z' datetime format, and
+     * for response, faraboom provides epochMillis format.
+     * I didn't create two separate instances of Contract class for request and response;
+     * instead, I handled the datetime problem in below method.
+     *
+     * Datatype of epochMillis that faraboom provides, is Long, but App accepts String. This conversion
+     * is done automatically while mapping response.
+     *
+     * The condition is for when faraboom decides to provide datetime in the format it accepts.
+     */
     public static long paymanDateTimeFormatToEpochMillis(String text) {
-        LocalDateTime dateTime = LocalDateTime.parse(text, formatter);
-        return dateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+        if (datetimeIsInEpochMillisFormat(text))
+            return Long.parseLong(text);
+
+        else {
+            LocalDateTime dateTime = LocalDateTime.parse(text, formatter);
+            return dateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+        }
+    }
+
+    private static boolean datetimeIsInEpochMillisFormat(String text) {
+        try {
+            Long.parseLong(text);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }

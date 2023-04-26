@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.provider.PaymanTransactionsResponseResult;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class TransactionsResponseResult {
 
     @JsonProperty("commission_amount")

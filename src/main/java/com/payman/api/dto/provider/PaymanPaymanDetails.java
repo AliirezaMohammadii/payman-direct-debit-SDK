@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.Contract;
 import com.payman.api.dto.client.PaymanDetails;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class PaymanPaymanDetails {
 
     @JsonProperty("bank_code")

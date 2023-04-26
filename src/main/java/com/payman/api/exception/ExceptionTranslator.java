@@ -1,9 +1,6 @@
 package com.payman.api.exception;
 
 import com.payman.api.dto.client.response.error.ErrorResponse;
-import com.payman.api.exception.BaseException;
-import com.payman.api.exception.InternalException;
-import com.payman.api.exception.PaymanException;
 import com.payman.api.exception.enums.ExceptionCodes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,8 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     // TODO: 4/18/23 you can implement this method that help you to catch invalid data from controller
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+        InternalException internalException = new InternalException(ExceptionCodes.INVALID_REQUEST_ARGUMENT);
+        return createExceptionResponse(internalException, HttpStatus.BAD_REQUEST);
     }
 
     // TODO: 4/18/23 don't return object. create BaseException class that includes error code and error message and something like that
@@ -37,16 +35,12 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleException(Exception exception) {
-        return createExceptionResponse(exception);
+        InternalException internalException = new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
+        return createExceptionResponse(internalException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ResponseEntity<Object> createExceptionResponse(BaseException exception, HttpStatus httpStatus) {
-        ErrorResponse response = new ErrorResponse(exception.getCode(), exception.getMessage());
+        ErrorResponse response = new ErrorResponse(exception.getCode(), exception.getMessage(), exception.getInfo());
         return new ResponseEntity<>(response, new HttpHeaders(), httpStatus);
-    }
-
-    private ResponseEntity<Object> createExceptionResponse(Exception exception) {
-        ErrorResponse response = new ErrorResponse(ExceptionCodes.INTERNAL_EXCEPTION.code, exception.getMessage());
-        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

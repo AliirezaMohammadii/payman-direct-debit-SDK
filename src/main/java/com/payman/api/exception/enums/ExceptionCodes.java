@@ -1,19 +1,20 @@
 package com.payman.api.exception.enums;
 
-public enum ExceptionCodes {
+public final class ExceptionCodes {
 
-    INTERNAL_EXCEPTION("0"),
-    RESPONSE_MAPPING("1"),
-    REQUEST_MAPPING("2"),
-    JSON_PROCESSING("3"),
-    READING_RESPONSE_BUFFER("4"),
-    RESPONSE_BODY_IS_NULL("5"),
-    USER_ID_IS_NULL("6"),
-    THREAD_SLEEP_INTERRUPTED("7");
-
-    public final String code;
-
-    ExceptionCodes(String code) {
-        this.code = code;
-    }
+    public static final String UNKNOWN_EXCEPTION = "0";
+    public static final String RESPONSE_MAPPING = "1";
+    public static final String REQUEST_MAPPING = "2";
+    public static final String JSON_PROCESSING = "3";
+    public static final String READING_RESPONSE_BUFFER = "4";
+    public static final String RESPONSE_BODY_IS_NULL = "5";
+    public static final String USER_ID_IS_NULL = "6";
+    public static final String THREAD_SLEEP_INTERRUPTED = "7";
+    public static final String INVALID_REQUEST_ARGUMENT = "8";
+    public static final String USER_CANCELED_PAYMAN_CREATION = "9";
+    public static final String PAYMAN_CREATION_TIMEOUT = "10";
+    public static final String UNKNOWN_ERROR_IN_PAYMAN_CREATION = "11";
+    public static final String USER_CANCELED_UPDATING_PAYMAN = "12";
+    public static final String UPDATING_PAYMAN_TIMEOUT = "13";
+    public static final String UNKNOWN_ERROR_IN_UPDATING_PAYMAN = "14";
 }

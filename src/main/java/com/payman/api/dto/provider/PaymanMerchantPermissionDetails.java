@@ -3,8 +3,10 @@ package com.payman.api.dto.provider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.MerchantPermissionDetails;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class PaymanMerchantPermissionDetails {
 
     private int id;

@@ -58,9 +58,9 @@ public class CreateServiceImpl implements CreateService {
 
     private void traceCreationStatus(CreateRequest request) {
         PaymanCreationTracer tracer = objectProvider.getObject();
-        tracer.setUserId(request.getPayman().getUserId());
+        tracer.setTraceId(request.getTraceId());
         Future<?> future = taskExecutor.submit(tracer);
-        PaymanCreationTracer.ALL_TRACERS.put(request.getPayman().getUserId(), future);
+        PaymanCreationTracer.ALL_TRACERS.put(request.getTraceId(), future);
     }
 
     private Headers createHeaders(HttpServletRequest httpServletRequest, CreateRequest request) {

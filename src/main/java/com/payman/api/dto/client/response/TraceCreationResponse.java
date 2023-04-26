@@ -2,12 +2,15 @@ package com.payman.api.dto.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.Contract;
+import com.payman.api.dto.client.OverDraft;
 import com.payman.api.dto.provider.response.PaymanTraceCreationResponse;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class TraceCreationResponse {
 
     @JsonProperty("bank_code")
@@ -19,6 +22,9 @@ public class TraceCreationResponse {
     @JsonProperty("payman_id")
     private String paymanId;
 
+    @JsonProperty("payman_code")
+    private String paymanCode;
+
     private String status;
 
     @JsonProperty("internal_status")
@@ -29,13 +35,18 @@ public class TraceCreationResponse {
 
     private Contract contract;
 
+    @JsonProperty("over_draft")
+    private OverDraft overDraft;
+
     public TraceCreationResponse(PaymanTraceCreationResponse paymanResponse) {
         this.bankCode = paymanResponse.getBankCode();
         this.userId = paymanResponse.getUserId();
         this.paymanId = paymanResponse.getPaymanId();
+        this.paymanCode = paymanResponse.getPaymanCode();
         this.status = paymanResponse.getStatus();
         this.internalStatus = paymanResponse.getInternalStatus();
         this.permissionIds = paymanResponse.getPermissionIds();
         this.contract = new Contract(paymanResponse.getContract());
+        this.overDraft = new OverDraft(paymanResponse.getOverDraft());
     }
 }

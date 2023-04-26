@@ -10,4 +10,8 @@ public class PaymanSubErrorResponse {
     private String message;
 
     private String code;
+
+    private String reference;
+
+    private String info;
 }

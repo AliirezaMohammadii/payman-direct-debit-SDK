@@ -4,6 +4,7 @@ import com.payman.api.dto.client.GetAllPaymansResponseResult;
 import com.payman.api.dto.client.TransactionsResponseResult;
 import com.payman.api.dto.provider.response.PaymanTransactionsResponse;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class TransactionsResponse {
 
     private List<TransactionsResponseResult> results;

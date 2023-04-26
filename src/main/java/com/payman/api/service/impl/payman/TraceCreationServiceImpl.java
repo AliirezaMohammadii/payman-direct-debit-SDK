@@ -28,6 +28,7 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
     @Override
     public TraceCreationResponse trace(HttpServletRequest httpServletRequest, String traceId) throws IOException {
+        // TODO: String.format
         String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
                 + "?trace-id" + "=" + traceId;
 
@@ -41,6 +42,7 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
     @Override
     public TraceCreationResponse trace(String traceId) throws IOException {
+        // TODO: String.format
         String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
                 + "?trace-id" + "=" + traceId;
 

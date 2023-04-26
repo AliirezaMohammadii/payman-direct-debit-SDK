@@ -29,12 +29,23 @@ public class PaymanIdServiceImpl implements PaymanIdService {
     @Override
     public GetPaymanIdResponse getPaymanId(HttpServletRequest httpServletRequest, String paymanCode)
             throws IOException {
-        // TODO: 4/18/23 String.format
-        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getPaymanId()
-                + "?payman_code" + "=" + paymanCode;
+        String url = String.format("%s%s?payman_code=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getPaymanId(), paymanCode);
 
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
+
+        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
+        return (GetPaymanIdResponse) ResponseMapper
+                .map(paymanCustomizedResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
+    }
+
+    @Override
+    public GetPaymanIdResponse getPaymanId(String paymanCode)
+            throws IOException {
+        String url = String.format("%s%s?payman_code=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getPaymanId(), paymanCode);
+
+        Request paymanRequest = httpService.createRequest(url,
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
         return (GetPaymanIdResponse) ResponseMapper

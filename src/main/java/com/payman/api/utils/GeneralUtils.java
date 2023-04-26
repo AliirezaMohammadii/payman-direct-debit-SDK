@@ -14,7 +14,7 @@ public final class GeneralUtils {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readTree(json));
         } catch (JsonProcessingException e) {
-            throw new InternalException(ExceptionCodes.JSON_PROCESSING.code);
+            throw new InternalException(ExceptionCodes.JSON_PROCESSING);
         }
     }
 
