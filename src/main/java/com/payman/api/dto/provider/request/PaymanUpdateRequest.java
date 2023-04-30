@@ -32,7 +32,7 @@ public class PaymanUpdateRequest {
     private String redirectUrl;
 
     public PaymanUpdateRequest(UpdateRequest request) {
-        this.paymanId = request.getRedirectUrl();
+        this.paymanId = request.getPaymanId();
         this.expirationDate = DateUtils.epochMillisToPaymanDateTimeFormat(request.getExpirationDateEpochMillis());
         this.maxDailyTransactionCount = request.getMaxDailyTransactionCount();
         this.maxMonthlyTransactionCount = request.getMaxMonthlyTransactionCount();

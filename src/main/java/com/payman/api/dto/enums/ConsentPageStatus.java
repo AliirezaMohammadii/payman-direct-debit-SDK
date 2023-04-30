@@ -1,6 +1,6 @@
 package com.payman.api.dto.enums;
 
-public enum RedirectUrlStatus {
+public enum ConsentPageStatus {
 
     CREATED,
     UPDATED,

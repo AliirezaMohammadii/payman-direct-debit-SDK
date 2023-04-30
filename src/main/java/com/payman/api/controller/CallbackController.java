@@ -1,7 +1,7 @@
 package com.payman.api.controller;
 
 import com.payman.api.dto.client.response.GetPaymanIdResponse;
-import com.payman.api.dto.enums.RedirectUrlStatus;
+import com.payman.api.dto.enums.ConsentPageStatus;
 import com.payman.api.exception.InternalException;
 import com.payman.api.exception.PaymanException;
 import com.payman.api.exception.enums.ExceptionCodes;
@@ -28,14 +28,14 @@ public class CallbackController {
         this.paymanIdService = paymanIdService;
     }
 
-    @GetMapping
-    public void handleCallback(@RequestParam(name = "user_id") String userId,
-                               @RequestParam(name = "trace_id") String traceId,
-                               @RequestParam(name = "payman_code") String paymanCode,
-                               @RequestParam(name = "status") String status,
-                               @RequestParam(name = "code", required = false) String errorCode) throws IOException {
+    @GetMapping("/creation")
+    public void handleCreationCallback(@RequestParam(name = "user_id") String userId,
+                                       @RequestParam(name = "trace_id") String traceId,
+                                       @RequestParam(name = "payman_code") String paymanCode,
+                                       @RequestParam(name = "status") String status,
+                                       @RequestParam(name = "code", required = false) String errorCode) throws IOException {
 
-        log.info("callback . function is called");
+        log.info("callback - creation . function is called");
         if (randomReturn())
             return;
 
@@ -44,16 +44,35 @@ public class CallbackController {
         if (errorCode != null)
             handleError(status);
 
-        else if (status.equals(RedirectUrlStatus.CREATED.name())) {
+        else if (status.equals(ConsentPageStatus.CREATED.name())) {
             GetPaymanIdResponse response = paymanIdService.getPaymanId(paymanCode);
             log.info("callback . payman id:{}", response.getPaymanId());
             // find user by "user_id" and save payman id to db.
             /**
-                2023/4/30
-                about storing payman id to db:
-                In an exceptional condition, tracer thread may be stored payman id, a bit before be killed by callback method.
-                So check if payman id is not already stored in db.
+             2023/4/30
+             about storing payman id to db:
+             In an exceptional condition, tracer thread may be stored payman id, a bit before be killed by callback method.
+             So check if payman id is not already stored in db.
              */
+
+        } else
+            throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
+    }
+
+    @GetMapping("/update")
+    public void handleUpdateCallback(@RequestParam(name = "user_id") String userId,
+                                     @RequestParam(name = "payman_code") String paymanCode,
+                                     @RequestParam(name = "status") String status,
+                                     @RequestParam(name = "code", required = false) String errorCode) {
+
+        log.info("callback - update . function is called");
+
+        if (errorCode != null)
+            handleError(status);
+
+        else if (status.equals(ConsentPageStatus.UPDATED.name())) {
+            log.info("callback - update . UPDATED");
+            // find user by "user_id" and update payman.
 
         } else
             throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
@@ -70,13 +89,15 @@ public class CallbackController {
             PaymanCreationTracer.ALL_TRACERS.get(traceId).cancel(true);
     }
 
+    // LAST POINT
+    // TODO: create one more for update?
     private static void handleError(String status) {
 
         log.info("callback . error occurred");
 
         String exceptionCode;
 
-        switch (RedirectUrlStatus.valueOf(status)) {
+        switch (ConsentPageStatus.valueOf(status)) {
             case CANCELED:
                 log.info("callback . CANCELED");
                 exceptionCode = ExceptionCodes.USER_CANCELED_PAYMAN_CREATION;

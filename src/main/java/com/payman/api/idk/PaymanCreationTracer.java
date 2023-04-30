@@ -75,14 +75,12 @@ public class PaymanCreationTracer implements Runnable {
             }
 
             /**
-                2023/4/26
-                If status is "INITIALIZING", exception raises with code: 2014.
-                INITIALIZING status means that user is still on consent page, or left consent page url alone.
-            */
-            catch (PaymanException ex) {
+             2023/4/26
+             If status is "INITIALIZING", exception raises with code: 2014.
+             INITIALIZING status means that user is still on consent page, or left consent page url alone.
+             */ catch (PaymanException ex) {
                 log.info("tracer . status is INITIALIZING . in catcher");
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
             }
         }
@@ -103,7 +101,7 @@ public class PaymanCreationTracer implements Runnable {
 
     private void sleep() {
         try {
-            Thread.sleep(DELAY_IN_SECONDS*1000);
+            Thread.sleep(DELAY_IN_SECONDS * 1000);
         } catch (InterruptedException e) {
             log.error("tracer . interrupt!");
             stop = true;
@@ -111,25 +109,25 @@ public class PaymanCreationTracer implements Runnable {
     }
 
     /**
-        2023/4/30
-        If status is "INITIALIZING", it means that user is still on consent page, or left consent page url alone.
-        Currently, this case is handled by returning error code from faraboom and raising exception by app;
-        but I also handle this case in this way, for future changes.
+     * 2023/4/30
+     * If status is "INITIALIZING", it means that user is still on consent page, or left consent page url alone.
+     * Currently, this case is handled by returning error code from faraboom and raising exception by app;
+     * but I also handle this case in this way, for future changes.
+     * <p>
+     * 2023/4/26
+     * If status is "WAITING FOR CONFIRM", it means that user has passed consent page,
+     * and now "payman code" is present, to use for getting "payman id" by calling "getPaymanIdService".
+     * So in "traceCreationResponse", "payman code" has value, and "payman id" is null.
 
-        2023/4/26
-        If status is "WAITING FOR CONFIRM", it means that user has passed consent page,
-        and now "payman code" is present, to use for getting "payman id" by calling "getPaymanIdService".
-        So in "traceCreationResponse", "payman code" has value, and "payman id" is null.
+     * 2023/4/30
+     * I don't check other statuses. Why?
+     * "ACTIVE": Logically, in this case, callback method is called before, and before calling getPaymanIdService by callback method,
+     * the current thread is killed by callback method.
+     * "EXPIRED", "DEACTIVE": These cases are not related to creating payman, and we won't face them.
 
-        2023/4/30
-        I don't check other statuses. Why?
-        "ACTIVE": Logically, in this case, callback method is called before, and before calling getPaymanIdService by callback method,
-                  the current thread is killed by callback method.
-        "EXPIRED", "DEACTIVE": These cases are not related to creating payman, and we won't face them.
-
-        2023/4/30
-        If tracer reaches to "WAITING_FOR_CONFIRM" or "CANCELED" cases, it means that callback function hasn't worked correctly.
-    */
+     * 2023/4/30
+     * If tracer reaches to "WAITING_FOR_CONFIRM" or "CANCELED" cases, it means that callback function hasn't worked correctly.
+     */
     private void checkPaymanCreationStatus(TraceCreationResponse traceCreationResponse) throws IOException {
         String paymanStatus = traceCreationResponse.getStatus();
 
