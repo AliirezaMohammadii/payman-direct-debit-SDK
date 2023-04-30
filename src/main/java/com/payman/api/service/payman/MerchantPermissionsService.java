@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface MerchantPermissionsService {
 
-    List<Integer> getPermissionIds();
+    List<Integer> getPermissionIds() throws IOException;
 
     MerchantPermissionsResponse getPermissionsDetail(HttpServletRequest httpServletRequest) throws IOException;
+
+    MerchantPermissionsResponse getPermissionsDetail() throws IOException;
 }

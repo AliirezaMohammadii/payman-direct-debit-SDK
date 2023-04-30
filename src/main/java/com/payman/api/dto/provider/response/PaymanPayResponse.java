@@ -31,4 +31,7 @@ public class PaymanPayResponse {
     private String status;
 
     private List<PaymanPayResponseDetails> details;
+
+    @JsonProperty("is_over_draft")
+    private boolean isOverDraft;
 }

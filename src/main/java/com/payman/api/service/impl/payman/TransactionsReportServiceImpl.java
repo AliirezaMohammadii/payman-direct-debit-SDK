@@ -4,26 +4,27 @@ import com.payman.api.config.UrlPropertiesConfig;
 import com.payman.api.dto.client.request.TransactionsReportRequest;
 import com.payman.api.dto.client.response.TransactionsReportResponse;
 import com.payman.api.dto.provider.response.CustomizedResponse;
-import com.payman.api.dto.provider.response.PaymanTransactionsReportResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.request.PaymanTransactionsReportRequest;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.TransactionsReportService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class TransactionsReportServiceImpl implements TransactionsReportService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public TransactionsReportServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public TransactionsReportServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;
@@ -31,8 +32,7 @@ public class TransactionsReportServiceImpl implements TransactionsReportService 
 
     @Override
     public TransactionsReportResponse getReport(HttpServletRequest httpServletRequest, TransactionsReportRequest request) throws IOException {
-        RequestBody requestBody = RequestMapper
-                .map(request, TransactionsReportRequest.class, PaymanTransactionsReportRequest.class);
+        RequestBody requestBody = RequestMapper.map(request, TransactionsReportRequest.class, PaymanTransactionsReportRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
                 urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
@@ -40,6 +40,6 @@ public class TransactionsReportServiceImpl implements TransactionsReportService 
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);
         return (TransactionsReportResponse) ResponseMapper
-                .map(paymanCustomizedResponse.getBody(), PaymanTransactionsReportResponse.class, TransactionsReportResponse.class);
+                .map(paymanCustomizedResponse.getBody(), List.class, TransactionsReportResponse.class);
     }
 }

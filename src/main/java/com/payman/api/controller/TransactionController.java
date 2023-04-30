@@ -1,13 +1,13 @@
 package com.payman.api.controller;
 
 import com.payman.api.dto.client.request.TransactionsReportRequest;
-import com.payman.api.dto.client.request.TransactionsReportStatisticsRequest;
+import com.payman.api.dto.client.request.TransactionsStatisticReportRequest;
 import com.payman.api.dto.client.request.TransactionsRequest;
 import com.payman.api.service.payman.TransactionsReportService;
-import com.payman.api.service.payman.TransactionsReportStatisticsService;
+import com.payman.api.service.payman.TransactionsStatisticReportService;
 import com.payman.api.service.payman.TransactionsService;
 import com.payman.api.dto.client.response.TransactionsReportResponse;
-import com.payman.api.dto.client.response.TransactionsReportStatisticsResponse;
+import com.payman.api.dto.client.response.TransactionsStatisticReportResponse;
 import com.payman.api.dto.client.response.TransactionsResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +20,15 @@ public class TransactionController {
 
     private final TransactionsService transactionsService;
     private final TransactionsReportService transactionsReportService;
-    private final TransactionsReportStatisticsService transactionsReportStatisticsService;
+    private final TransactionsStatisticReportService transactionsStatisticReportService;
 
     public TransactionController(TransactionsService transactionsService,
                                  TransactionsReportService transactionsReportService,
-                                 TransactionsReportStatisticsService transactionsReportStatisticsService) {
+                                 TransactionsStatisticReportService transactionsStatisticReportService) {
 
         this.transactionsService = transactionsService;
         this.transactionsReportService = transactionsReportService;
-        this.transactionsReportStatisticsService = transactionsReportStatisticsService;
+        this.transactionsStatisticReportService = transactionsStatisticReportService;
     }
 
     @PostMapping
@@ -43,10 +43,10 @@ public class TransactionController {
         return transactionsReportService.getReport(httpServletRequest, request);
     }
 
-    @PostMapping("/report/statistics")
-    public TransactionsReportStatisticsResponse getTransactionsReportStatistics(HttpServletRequest httpServletRequest,
-                                                                                @RequestBody TransactionsReportStatisticsRequest request)
+    @PostMapping("/report/statistic")
+    public TransactionsStatisticReportResponse getTransactionsStatisticReport(HttpServletRequest httpServletRequest,
+                                                                               @RequestBody TransactionsStatisticReportRequest request)
             throws IOException {
-        return transactionsReportStatisticsService.getReportStatistics(httpServletRequest, request);
+        return transactionsStatisticReportService.getReport(httpServletRequest, request);
     }
 }

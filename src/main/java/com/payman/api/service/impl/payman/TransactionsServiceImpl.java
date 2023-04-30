@@ -9,6 +9,7 @@ import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.request.PaymanTransactionsRequest;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.TransactionsService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public TransactionsServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public TransactionsServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;
@@ -31,11 +32,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     @Override
     public TransactionsResponse getTransactions(HttpServletRequest httpServletRequest, TransactionsRequest request) throws IOException {
-        RequestBody requestBody = RequestMapper
-                .map(request, TransactionsRequest.class, PaymanTransactionsRequest.class);
+        RequestBody requestBody = RequestMapper.map(request, TransactionsRequest.class, PaymanTransactionsRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
-                urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactionsReport(),
+                urlPropertiesConfig.getBase() + urlPropertiesConfig.getTransactions(),
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TransactionsReportServiceImpl.class);

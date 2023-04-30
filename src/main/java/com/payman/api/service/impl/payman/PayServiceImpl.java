@@ -9,6 +9,7 @@ import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.request.PaymanPayRequest;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.PayService;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class PayServiceImpl implements PayService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public PayServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public PayServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;

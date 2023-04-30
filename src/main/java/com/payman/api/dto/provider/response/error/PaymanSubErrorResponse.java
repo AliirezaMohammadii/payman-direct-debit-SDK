@@ -14,4 +14,6 @@ public class PaymanSubErrorResponse {
     private String reference;
 
     private String info;
+
+    private String value;
 }

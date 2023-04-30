@@ -37,8 +37,16 @@ public class GetPaymanResponse {
     @JsonProperty("remaining_days")
     private String remainingDays;
 
-    @JsonProperty("remaining_daily_transactions_amount")
-    private String remainingDailyTransactionsAmount;
+    @JsonProperty("remaining_daily_transaction_amount")
+    private String remainingDailyTransactionAmount;
+
+    private String status;
+
+    @JsonProperty("deposit_number")
+    private String depositNumber;
+
+    @JsonProperty("daily_transaction_max_amount")
+    private String dailyTransactionMaxAmount;
 
     public GetPaymanResponse(PaymanGetPaymanResponse paymanResponse) {
         this.paymanId = paymanResponse.getPaymanId();
@@ -50,6 +58,9 @@ public class GetPaymanResponse {
         this.maxDailyTransactionsCount = paymanResponse.getMaxDailyTransactionsCount();
         this.maxMonthlyTransactionsCount = paymanResponse.getMaxMonthlyTransactionsCount();
         this.remainingDays = paymanResponse.getRemainingDays();
-        this.remainingDailyTransactionsAmount = paymanResponse.getRemainingDailyTransactionsAmount();
+        this.remainingDailyTransactionAmount = paymanResponse.getRemainingDailyTransactionAmount();
+        this.status = paymanResponse.getStatus();
+        this.depositNumber = paymanResponse.getDepositNumber();
+        this.dailyTransactionMaxAmount = paymanResponse.getDailyTransactionMaxAmount();
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payman.api.dto.client.Contract;
 import com.payman.api.dto.provider.PaymanGetAllPaymansRequestFilter;
 import com.payman.api.dto.provider.PaymanGetAllPaymansResponseResult;
+import com.payman.api.dto.provider.PaymanOverDraft;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,9 @@ public class GetAllPaymansResponseResult {
 
     private Contract contract;
 
+    @JsonProperty("over_draft")
+    private PaymanOverDraft overDraft;
+
     public GetAllPaymansResponseResult(PaymanGetAllPaymansResponseResult paymanGetAllPaymansResponseResult) {
         this.paymanId = paymanGetAllPaymansResponseResult.getPaymanId();
         this.bankCode = paymanGetAllPaymansResponseResult.getBankCode();
@@ -53,5 +57,6 @@ public class GetAllPaymansResponseResult {
         this.permissionIds = paymanGetAllPaymansResponseResult.getPermissionIds();
         this.registrationDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanGetAllPaymansResponseResult.getRegistrationDate());
         this.contract = new Contract(paymanGetAllPaymansResponseResult.getContract());
+        this.overDraft = paymanGetAllPaymansResponseResult.getOverDraft();
     }
 }

@@ -8,6 +8,7 @@ import com.payman.api.mapper.RequestMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.request.PaymanCreateRequest;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.CreateService;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
@@ -25,13 +26,13 @@ public class CreateServiceImpl implements CreateService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
     private final ThreadPoolTaskExecutor taskExecutor;
     private final ObjectProvider<PaymanCreationTracer> objectProvider;
 
     public CreateServiceImpl(HttpService httpService,
                              UrlPropertiesConfig urlPropertiesConfig,
-                             AccessTokenServiceImpl accessTokenService,
+                             AccessTokenService accessTokenService,
                              ThreadPoolTaskExecutor taskExecutor,
                              ObjectProvider<PaymanCreationTracer> objectProvider) {
 
@@ -44,6 +45,7 @@ public class CreateServiceImpl implements CreateService {
 
     @Override
     public CreateResponse create(HttpServletRequest httpServletRequest, CreateRequest request) throws IOException {
+        appendUserIdAndTraceIdToRedirectUrlAsQueryParam(request);
         RequestBody requestBody = RequestMapper.map(request, CreateRequest.class, PaymanCreateRequest.class);
 
         Request paymanRequest = httpService.createRequest(requestBody,
@@ -56,9 +58,16 @@ public class CreateServiceImpl implements CreateService {
         return new CreateResponse(headers.get(HttpHeaders.LOCATION));
     }
 
+    private void appendUserIdAndTraceIdToRedirectUrlAsQueryParam(CreateRequest request) {
+        String redirectUrl = request.getRedirectUrl();
+        redirectUrl = String.format("%s?user_id=%s&trace_id=%s", redirectUrl, request.getPayman().getUserId(), request.getTraceId());
+        request.setRedirectUrl(redirectUrl);
+    }
+
     private void traceCreationStatus(CreateRequest request) {
         PaymanCreationTracer tracer = objectProvider.getObject();
         tracer.setTraceId(request.getTraceId());
+        tracer.setUserId(request.getPayman().getUserId());
         Future<?> future = taskExecutor.submit(tracer);
         PaymanCreationTracer.ALL_TRACERS.put(request.getTraceId(), future);
     }

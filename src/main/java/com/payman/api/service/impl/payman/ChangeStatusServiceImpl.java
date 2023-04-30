@@ -6,6 +6,7 @@ import com.payman.api.dto.client.response.ChangeStatusResponse;
 import com.payman.api.dto.provider.response.PaymanChangeStatusResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.mapper.ResponseMapper;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.ChangeStatusService;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.response.CustomizedResponse;
@@ -21,9 +22,9 @@ public class ChangeStatusServiceImpl implements ChangeStatusService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public ChangeStatusServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public ChangeStatusServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;

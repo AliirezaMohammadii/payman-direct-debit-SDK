@@ -1,12 +1,12 @@
-package com.payman.api.dto.provider.response;
+package com.payman.api.dto.provider;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 @Data
-public class PaymanTransactionsReportResponse {
+@NoArgsConstructor
+public class PaymanTransactionsReportResponseResult {
 
     @JsonProperty("commission_amount")
     private Double commissionAmount;

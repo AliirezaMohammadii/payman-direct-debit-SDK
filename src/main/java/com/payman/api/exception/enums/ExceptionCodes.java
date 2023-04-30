@@ -17,4 +17,5 @@ public final class ExceptionCodes {
     public static final String USER_CANCELED_UPDATING_PAYMAN = "12";
     public static final String UPDATING_PAYMAN_TIMEOUT = "13";
     public static final String UNKNOWN_ERROR_IN_UPDATING_PAYMAN = "14";
+    public static final String TRACE_ID_IS_NULL = "15";
 }

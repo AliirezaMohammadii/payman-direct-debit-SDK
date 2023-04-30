@@ -24,5 +24,5 @@ public class UrlPropertiesConfig {
     private String merchantPermissions;
     private String transactions;
     private String transactionsReport;
-    private String transactionsReportStatistics;
+    private String transactionsStatisticReport;
 }

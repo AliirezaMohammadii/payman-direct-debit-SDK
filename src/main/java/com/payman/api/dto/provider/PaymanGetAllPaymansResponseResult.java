@@ -41,16 +41,6 @@ public class PaymanGetAllPaymansResponseResult {
 
     private PaymanContract contract;
 
-    public PaymanGetAllPaymansResponseResult(GetAllPaymansResponseResult getAllPaymansResponseResult) {
-        this.paymanId = getAllPaymansResponseResult.getPaymanId();
-        this.bankCode = getAllPaymansResponseResult.getBankCode();
-        this.userId = getAllPaymansResponseResult.getUserId();
-        this.status = getAllPaymansResponseResult.getStatus();
-        this.creditorTitle = getAllPaymansResponseResult.getCreditorTitle();
-        this.traceId = getAllPaymansResponseResult.getTraceId();
-        this.creditorId = getAllPaymansResponseResult.getCreditorId();
-        this.permissionIds = getAllPaymansResponseResult.getPermissionIds();
-        this.registrationDate = DateUtils.epochMillisToPaymanDateTimeFormat(getAllPaymansResponseResult.getRegistrationDateEpochMillis());
-        this.contract = new PaymanContract(getAllPaymansResponseResult.getContract());
-    }
+    @JsonProperty("over_draft")
+    private PaymanOverDraft overDraft;
 }

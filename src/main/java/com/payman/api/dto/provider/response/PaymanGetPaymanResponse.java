@@ -33,6 +33,14 @@ public class PaymanGetPaymanResponse {
     @JsonProperty("remaining_days")
     private String remainingDays;
 
-    @JsonProperty("remaining_daily_transactions_amount")
-    private String remainingDailyTransactionsAmount;
+    @JsonProperty("remaining_daily_transaction_amount")
+    private String remainingDailyTransactionAmount;
+
+    private String status;
+
+    @JsonProperty("deposit_number")
+    private String depositNumber;
+
+    @JsonProperty("daily_transaction_max_amount")
+    private String dailyTransactionMaxAmount;
 }

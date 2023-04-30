@@ -1,64 +1,27 @@
 package com.payman.api.dto.client.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payman.api.dto.provider.response.PaymanTransactionsReportResponse;
-import com.payman.api.utils.DateUtils;
+import com.payman.api.dto.client.TransactionsReportResponseResult;
+import com.payman.api.dto.provider.PaymanTransactionsReportResponseResult;
+import com.payman.api.mapper.JsonMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 public class TransactionsReportResponse {
 
-    @JsonProperty("commission_amount")
-    private Double commissionAmount;
+    private List<TransactionsReportResponseResult> results;
 
-    private String currency;
+    public TransactionsReportResponse(List<HashMap<String, Object>> paymanResponse) {
+        this.results = Optional.ofNullable(paymanResponse).orElse(Collections.emptyList())
+                .stream().map(this::mapHashMapItemToResponseResult).map(TransactionsReportResponseResult::new).collect(Collectors.toList());
+    }
 
-    private String description;
-
-    @JsonProperty("destination_bank")
-    private String destinationBank;
-
-    @JsonProperty("reference_id")
-    private String referenceId;
-
-    @JsonProperty("source_bank")
-    private String sourceBank;
-
-    private String status;
-
-    @JsonProperty("trace_id")
-    private String traceId;
-
-    @JsonProperty("transaction_amount")
-    private Double transactionAmount;
-
-    @JsonProperty("payman_id")
-    private String paymanId;
-
-    @JsonProperty("transaction_type")
-    private String transactionType;
-
-    @JsonProperty("server_date")
-    private Long serverDateEpochMillis;
-
-    @JsonProperty("client_date")
-    private Long clientDateEpochMillis;
-
-    public TransactionsReportResponse(PaymanTransactionsReportResponse paymanResponse) {
-        this.commissionAmount = paymanResponse.getCommissionAmount();
-        this.currency = paymanResponse.getCurrency();
-        this.description = paymanResponse.getDescription();
-        this.destinationBank = paymanResponse.getDestinationBank();
-        this.referenceId = paymanResponse.getReferenceId();
-        this.sourceBank = paymanResponse.getSourceBank();
-        this.status = paymanResponse.getStatus();
-        this.traceId = paymanResponse.getTraceId();
-        this.transactionAmount = paymanResponse.getTransactionAmount();
-        this.paymanId = paymanResponse.getPaymanId();
-        this.transactionType = paymanResponse.getTransactionType();
-        this.clientDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getServerDate());
-        this.clientDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanResponse.getClientDate());
+    private PaymanTransactionsReportResponseResult mapHashMapItemToResponseResult(HashMap<String, Object> item) {
+        String json = JsonMapper.mapJavaObjectToJson(item);
+        return (PaymanTransactionsReportResponseResult) JsonMapper.mapJsonToJavaObject(json, PaymanTransactionsReportResponseResult.class);
     }
 }

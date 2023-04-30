@@ -55,6 +55,9 @@ public class PaymanTransactionsRequestFilter {
     private List<String> transactionStatuses;
 
     public PaymanTransactionsRequestFilter(TransactionsRequestFilter transactionsRequestFilter) {
+        if (transactionsRequestFilter == null)
+            return;
+
         this.paymanIds = transactionsRequestFilter.getPaymanIds();
         this.userIds = transactionsRequestFilter.getUserIds();
         this.traceId = transactionsRequestFilter.getTraceId();

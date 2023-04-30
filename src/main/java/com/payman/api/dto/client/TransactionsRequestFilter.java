@@ -6,6 +6,7 @@ import com.payman.api.dto.provider.PaymanTransactionsRequestFilter;
 import com.payman.api.utils.DateUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import java.util.Date;
 import java.util.List;
@@ -55,21 +56,4 @@ public class TransactionsRequestFilter {
 
     @JsonProperty("transaction_statuses")
     private List<String> transactionStatuses;
-
-    public TransactionsRequestFilter(PaymanTransactionsRequestFilter paymanTransactionsRequestFilter) {
-        this.paymanIds = paymanTransactionsRequestFilter.getPaymanIds();
-        this.userIds = paymanTransactionsRequestFilter.getUserIds();
-        this.traceId = paymanTransactionsRequestFilter.getTraceId();
-        this.referenceId = paymanTransactionsRequestFilter.getReferenceId();
-        this.transactionType = paymanTransactionsRequestFilter.getTransactionType();
-        this.fromTransactionAmount = paymanTransactionsRequestFilter.getFromTransactionAmount();
-        this.toTransactionAmount = paymanTransactionsRequestFilter.getToTransactionAmount();
-        this.fromTransactionDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanTransactionsRequestFilter.getFromTransactionDate());
-        this.toTransactionDateEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanTransactionsRequestFilter.getToTransactionDate());
-        this.note = paymanTransactionsRequestFilter.getNote();
-        this.sourceBankCode = paymanTransactionsRequestFilter.getSourceBankCode();
-        this.destinationBankCode = paymanTransactionsRequestFilter.getDestinationBankCode();
-        this.paymanStatuses = paymanTransactionsRequestFilter.getPaymanStatuses();
-        this.transactionStatuses = paymanTransactionsRequestFilter.getTransactionStatuses();
-    }
 }

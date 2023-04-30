@@ -15,10 +15,4 @@ public class MerchantPermissionDetails {
 
     @JsonProperty("display_name")
     private String displayName;
-
-    public MerchantPermissionDetails(PaymanMerchantPermissionDetails paymanMerchantPermissionDetails) {
-        this.id = paymanMerchantPermissionDetails.getId();
-        this.name = paymanMerchantPermissionDetails.getName();
-        this.displayName = paymanMerchantPermissionDetails.getDisplayName();
-    }
 }

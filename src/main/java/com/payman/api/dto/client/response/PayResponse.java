@@ -39,6 +39,9 @@ public class PayResponse {
 
     private List<PayResponseDetails> details;
 
+    @JsonProperty("is_over_draft")
+    private boolean isOverDraft;
+
     public PayResponse(PaymanPayResponse paymanResponse) {
         this.referenceId = paymanResponse.getReferenceId();
         this.traceId = paymanResponse.getTraceId();
@@ -48,6 +51,7 @@ public class PayResponse {
         this.commissionAmount = paymanResponse.getCommissionAmount();
         this.status = paymanResponse.getStatus();
         this.details = Optional.ofNullable(paymanResponse.getDetails()).orElse(Collections.emptyList())
-                .stream().map(PayResponseDetails::new).collect(Collectors.toList());;
+                .stream().map(PayResponseDetails::new).collect(Collectors.toList());
+        this.isOverDraft = paymanResponse.isOverDraft();
     }
 }

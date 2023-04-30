@@ -30,7 +30,7 @@ public class PaymanTraceController {
     @GetMapping("/payment/{traceId}")
     public TracePaymentResponse tracePay(HttpServletRequest httpServletRequest,
                                          @PathVariable String traceId,
-                                         @RequestParam(required = false) String date) throws IOException {
+                                         @RequestParam(name = "date", required = false) String date) throws IOException {
         return tracePaymentService.trace(httpServletRequest, traceId, date);
     }
 }

@@ -6,6 +6,7 @@ import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanGetPaymanResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.GetPaymanService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class GetPaymanServiceImpl implements GetPaymanService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public GetPaymanServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public GetPaymanServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;

@@ -1,7 +1,6 @@
 package com.payman.api.config;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class GeneralPropertiesConfig {
 
-    private String onlyNormalPay;
+    private String onlyDirectDebit;
 
-    public String hasOnlyNormalPay() {
-        return onlyNormalPay;
+    public String hasOnlyDirectDebit() {
+        return onlyDirectDebit;
     }
 }

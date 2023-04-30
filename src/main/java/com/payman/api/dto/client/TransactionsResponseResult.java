@@ -43,6 +43,8 @@ public class TransactionsResponseResult {
     @JsonProperty("transaction_type")
     private String transactionType;
 
+    private String description;
+
     public TransactionsResponseResult(PaymanTransactionsResponseResult paymanTransactionsResponseResult) {
         this.commissionAmount = paymanTransactionsResponseResult.getCommissionAmount();
         this.currency = paymanTransactionsResponseResult.getCurrency();
@@ -55,5 +57,6 @@ public class TransactionsResponseResult {
         this.transactionTimeEpochMillis = DateUtils.paymanDateTimeFormatToEpochMillis(paymanTransactionsResponseResult.getTransactionTime());
         this.paymanId = paymanTransactionsResponseResult.getPaymanId();
         this.transactionType = paymanTransactionsResponseResult.getTransactionType();
+        this.description = paymanTransactionsResponseResult.getDescription();
     }
 }

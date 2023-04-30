@@ -41,17 +41,5 @@ public class PaymanTransactionsResponseResult {
     @JsonProperty("transaction_type")
     private String transactionType;
 
-    public PaymanTransactionsResponseResult(TransactionsResponseResult transactionsResponseResult) {
-        this.commissionAmount = transactionsResponseResult.getCommissionAmount();
-        this.currency = transactionsResponseResult.getCurrency();
-        this.destinationBankCode = transactionsResponseResult.getDestinationBankCode();
-        this.referenceId = transactionsResponseResult.getReferenceId();
-        this.sourceBankCode = transactionsResponseResult.getSourceBankCode();
-        this.status = transactionsResponseResult.getStatus();
-        this.traceId = transactionsResponseResult.getTraceId();
-        this.transactionAmount = transactionsResponseResult.getTransactionAmount();
-        this.transactionTime = DateUtils.epochMillisToPaymanDateTimeFormat(transactionsResponseResult.getTransactionTimeEpochMillis());
-        this.paymanId = transactionsResponseResult.getPaymanId();
-        this.transactionType = transactionsResponseResult.getTransactionType();
-    }
+    private String description;
 }

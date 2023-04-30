@@ -6,6 +6,7 @@ import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.PaymanTraceCreationResponse;
 import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.TraceCreationService;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public TraceCreationServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public TraceCreationServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;

@@ -7,6 +7,7 @@ import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.mapper.RequestMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.dto.provider.request.PaymanUpdateRequest;
+import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.CustomHttpHeaders;
 import okhttp3.*;
@@ -21,9 +22,9 @@ public class PaymanUpdateServiceImpl implements PaymanUpdateService {
 
     private final HttpService httpService;
     private final UrlPropertiesConfig urlPropertiesConfig;
-    private final AccessTokenServiceImpl accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    public PaymanUpdateServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenServiceImpl accessTokenService) {
+    public PaymanUpdateServiceImpl(HttpService httpService, UrlPropertiesConfig urlPropertiesConfig, AccessTokenService accessTokenService) {
         this.httpService = httpService;
         this.urlPropertiesConfig = urlPropertiesConfig;
         this.accessTokenService = accessTokenService;

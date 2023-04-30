@@ -57,6 +57,9 @@ public class PaymanGetAllPaymansRequestFilter {
     private List<Integer> permissionIds;
 
     public PaymanGetAllPaymansRequestFilter(GetAllPaymansRequestFilter getAllPaymansRequestFilter) {
+        if (getAllPaymansRequestFilter == null)
+            return;
+
         this.bankCode = getAllPaymansRequestFilter.getBankCode();
         this.expirationDateFrom = DateUtils.epochMillisToPaymanDateTimeFormat(getAllPaymansRequestFilter.getExpirationDateFromEpochMillis());
         this.expirationDateTo = DateUtils.epochMillisToPaymanDateTimeFormat(getAllPaymansRequestFilter.getExpirationDateToEpochMillis());
