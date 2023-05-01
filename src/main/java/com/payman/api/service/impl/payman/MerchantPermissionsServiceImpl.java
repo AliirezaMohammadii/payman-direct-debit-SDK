@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,25 +40,17 @@ public class MerchantPermissionsServiceImpl implements MerchantPermissionsServic
     public List<Integer> getPermissionIds() throws IOException {
         if (Boolean.parseBoolean(generalPropertiesConfig.hasOnlyDirectDebit()))
             return Collections.singletonList(MerchantPermission.DIRECT_DEBIT.code);
-        return getPermissionsDetail().getPermissions().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
+        return getPermissionsDetail(null).getPermissions().stream().map(MerchantPermissionDetails::getId).collect(Collectors.toList());
     }
 
     @Override
     public MerchantPermissionsResponse getPermissionsDetail(HttpServletRequest httpServletRequest) throws IOException {
-        Request paymanRequest = httpService.createRequest(
-                urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(),
-                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
+        Headers headers = Objects.isNull(httpServletRequest) ?
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()) :
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
 
-        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
-        return (MerchantPermissionsResponse) ResponseMapper
-                .map(paymanCustomizedResponse.getBody(), List.class, MerchantPermissionsResponse.class);
-    }
-
-    @Override
-    public MerchantPermissionsResponse getPermissionsDetail() throws IOException {
         Request paymanRequest = httpService.createRequest(
-                urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(),
-                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
+                urlPropertiesConfig.getBase() + urlPropertiesConfig.getMerchantPermissions(), headers);
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, MerchantPermissionsServiceImpl.class);
         return (MerchantPermissionsResponse) ResponseMapper

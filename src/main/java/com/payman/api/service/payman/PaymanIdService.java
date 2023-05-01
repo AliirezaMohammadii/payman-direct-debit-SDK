@@ -8,6 +8,4 @@ import java.io.IOException;
 public interface PaymanIdService {
 
     GetPaymanIdResponse getPaymanId(HttpServletRequest httpServletRequest, String paymanCode) throws IOException;
-
-    GetPaymanIdResponse getPaymanId(String paymanCode) throws IOException;
 }

@@ -31,7 +31,7 @@ public class Contract {
     @JsonProperty("daily_max_transaction_amount")
     private Double dailyMaxTransactionAmount;
 
-    // only used in response
+    /* only used in response */
     private String currency;
 
     public Contract(PaymanContract paymanContract) {

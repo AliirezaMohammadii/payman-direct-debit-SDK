@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 public class PaymanIdServiceImpl implements PaymanIdService {
@@ -28,25 +29,14 @@ public class PaymanIdServiceImpl implements PaymanIdService {
     }
 
     @Override
-    public GetPaymanIdResponse getPaymanId(HttpServletRequest httpServletRequest, String paymanCode)
-            throws IOException {
+    public GetPaymanIdResponse getPaymanId(HttpServletRequest httpServletRequest, String paymanCode) throws IOException {
         String url = String.format("%s%s?payman_code=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getPaymanId(), paymanCode);
 
-        Request paymanRequest = httpService.createRequest(url,
-                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
+        Headers headers = Objects.isNull(httpServletRequest) ?
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()) :
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
 
-        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
-        return (GetPaymanIdResponse) ResponseMapper
-                .map(paymanCustomizedResponse.getBody(), PaymanGetPaymanIdResponse.class, GetPaymanIdResponse.class);
-    }
-
-    @Override
-    public GetPaymanIdResponse getPaymanId(String paymanCode)
-            throws IOException {
-        String url = String.format("%s%s?payman_code=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getPaymanId(), paymanCode);
-
-        Request paymanRequest = httpService.createRequest(url,
-                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
+        Request paymanRequest = httpService.createRequest(url, headers);
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, PaymanIdServiceImpl.class);
         return (GetPaymanIdResponse) ResponseMapper

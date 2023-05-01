@@ -35,9 +35,6 @@ public class CallbackController {
                                        @RequestParam(name = "status") String status,
                                        @RequestParam(name = "code", required = false) String errorCode) throws IOException {
 
-//        if (randomReturn())
-//            return;
-
         killPaymanCreationTracerThread(traceId);
 
         if (errorCode != null)
@@ -49,7 +46,7 @@ public class CallbackController {
             /**
              2023/4/30
              about storing payman id to db:
-             In an exceptional condition, tracer thread may be stored payman id, a bit before be killed by callback method.
+             In an exceptional condition, tracer thread may store payman id, a bit before be killed by callback method.
              So check if payman id is not already stored in db.
              */
 

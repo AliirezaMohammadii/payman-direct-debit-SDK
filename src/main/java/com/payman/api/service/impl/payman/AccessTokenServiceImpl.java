@@ -54,7 +54,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                 .addEncoded("client_id", clientId)
                 .addEncoded("client_secret", clientSecret)
 
-                // Value of this property must always be equal to "client_credentials".
+                /* Value of this property must always be equal to "client_credentials". */
                 .addEncoded("grant_type", "client_credentials")
                 .build();
     }

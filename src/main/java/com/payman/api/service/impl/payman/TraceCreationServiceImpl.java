@@ -8,11 +8,13 @@ import com.payman.api.mapper.ResponseMapper;
 import com.payman.api.service.HttpService;
 import com.payman.api.service.payman.AccessTokenService;
 import com.payman.api.service.payman.TraceCreationService;
+import okhttp3.Headers;
 import okhttp3.Request;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 public class TraceCreationServiceImpl implements TraceCreationService {
@@ -29,26 +31,13 @@ public class TraceCreationServiceImpl implements TraceCreationService {
 
     @Override
     public TraceCreationResponse trace(HttpServletRequest httpServletRequest, String traceId) throws IOException {
-        // TODO: String.format
-        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
-                + "?trace-id" + "=" + traceId;
+        String url = String.format("%s%s?trace-id=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getTraceCreation(), traceId);
 
-        Request paymanRequest = httpService.createRequest(url,
-                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));
+        Headers headers = Objects.isNull(httpServletRequest) ?
+                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()) :
+                httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken());
 
-        CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
-        return (TraceCreationResponse) ResponseMapper
-                .map(paymanCustomizedResponse.getBody(), PaymanTraceCreationResponse.class, TraceCreationResponse.class);
-    }
-
-    @Override
-    public TraceCreationResponse trace(String traceId) throws IOException {
-        // TODO: String.format
-        String url = urlPropertiesConfig.getBase() + urlPropertiesConfig.getTraceCreation()
-                + "?trace-id" + "=" + traceId;
-
-        Request paymanRequest = httpService.createRequest(url,
-                httpService.createInternalRequestHeaders(accessTokenService.getAccessToken()));
+        Request paymanRequest = httpService.createRequest(url, headers);
 
         CustomizedResponse paymanCustomizedResponse = httpService.sendRequest(paymanRequest, TraceCreationServiceImpl.class);
         return (TraceCreationResponse) ResponseMapper

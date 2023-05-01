@@ -1,6 +1,7 @@
 package com.payman.api.service.impl;
 
 import com.payman.api.config.CredentialsPropertiesConfig;
+import com.payman.api.config.InternalRequestHeaderValuesPropertiesConfig;
 import com.payman.api.dto.provider.response.CustomizedResponse;
 import com.payman.api.dto.provider.response.error.PaymanErrorResponse;
 import com.payman.api.exception.PaymanException;
@@ -26,9 +27,12 @@ public class HttpServiceImpl implements HttpService {
 
     private static final String BEARER_PREFIX = "Bearer ";
     private final CredentialsPropertiesConfig credentialsPropertiesConfig;
+    private final InternalRequestHeaderValuesPropertiesConfig internalRequestHeaderValuesPropertiesConfig;
 
-    public HttpServiceImpl(CredentialsPropertiesConfig credentialsPropertiesConfig) {
+    public HttpServiceImpl(CredentialsPropertiesConfig credentialsPropertiesConfig,
+                           InternalRequestHeaderValuesPropertiesConfig internalRequestHeaderValuesPropertiesConfig) {
         this.credentialsPropertiesConfig = credentialsPropertiesConfig;
+        this.internalRequestHeaderValuesPropertiesConfig = internalRequestHeaderValuesPropertiesConfig;
     }
 
     @Override
@@ -36,10 +40,8 @@ public class HttpServiceImpl implements HttpService {
         OkHttpClient client = buildOkhttpClient();
         Response response = client.newCall(request).execute();
         CustomizedResponse customizedResponse = mapToCustomizedResponse(response);
-
         checkForErrors(customizedResponse, serviceClass);
-
-        logResponse(customizedResponse);
+//        logResponse(customizedResponse);
         return customizedResponse;
     }
 
@@ -63,9 +65,9 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public Headers createHeaders(HttpServletRequest httpServletRequest) {
         return new Headers.Builder()
+                .add(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+                .add(HttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
-                .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
-                .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
                 .add(CustomHttpHeaders.DEVICE_ID, httpServletRequest.getHeader(CustomHttpHeaders.DEVICE_ID))
                 .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_IP_ADDRESS))
                 .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_PLATFORM_TYPE))
@@ -86,16 +88,16 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public Headers createInternalRequestHeaders(String accessToken) {
         return new Headers.Builder()
-                .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
-                .add(CustomHttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
-                .add(CustomHttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
-                .add(CustomHttpHeaders.DEVICE_ID, HttpHeaderValues.APP_DEVICE_ID)
-                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, HttpHeaderValues.APP_CLIENT_IP_ADDRESS)
-                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, HttpHeaderValues.APP_CLIENT_PLATFORM_TYPE)
-                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, HttpHeaderValues.APP_CLIENT_DEVICE_ID)
-                .add(CustomHttpHeaders.CLIENT_USER_ID, HttpHeaderValues.APP_CLIENT_USER_ID)
-                .add(CustomHttpHeaders.CLIENT_USER_AGENT, HttpHeaderValues.APP_CLIENT_USER_AGENT)
+                .add(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+                .add(HttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
                 .add(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + accessToken)
+                .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
+                .add(CustomHttpHeaders.DEVICE_ID, internalRequestHeaderValuesPropertiesConfig.getAppDeviceId())
+                .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, internalRequestHeaderValuesPropertiesConfig.getAppClientIpAddress())
+                .add(CustomHttpHeaders.CLIENT_PLATFORM_TYPE, internalRequestHeaderValuesPropertiesConfig.getAppClientPlatformType())
+                .add(CustomHttpHeaders.CLIENT_DEVICE_ID, internalRequestHeaderValuesPropertiesConfig.getAppClientDeviceId())
+                .add(CustomHttpHeaders.CLIENT_USER_ID, internalRequestHeaderValuesPropertiesConfig.getAppClientUserId())
+                .add(CustomHttpHeaders.CLIENT_USER_AGENT, internalRequestHeaderValuesPropertiesConfig.getAppClientUserAgent())
                 .build();
     }
 

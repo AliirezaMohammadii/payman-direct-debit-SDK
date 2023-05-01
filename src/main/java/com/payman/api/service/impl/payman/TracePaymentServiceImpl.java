@@ -31,8 +31,7 @@ public class TracePaymentServiceImpl implements TracePaymentService {
     @Override
     public TracePaymentResponse trace(HttpServletRequest httpServletRequest, String traceId, String date) throws IOException {
         String url = String.format("%s%s?trace-id=%s", urlPropertiesConfig.getBase(), urlPropertiesConfig.getTracePayment(), traceId);
-        if (!Objects.isNull(date))
-            url += String.format("&date=%s", date);
+        url += Objects.isNull(date) ? "" : String.format("&date=%s", date);
 
         Request paymanRequest = httpService.createRequest(url,
                 httpService.createHeaders(httpServletRequest, accessTokenService.getAccessToken()));

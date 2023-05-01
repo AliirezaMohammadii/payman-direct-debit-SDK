@@ -52,15 +52,9 @@ public class PaymanCreationTracer implements Runnable {
     public void run() {
 
         startTime = LocalDateTime.now();
-
-        log.info("tracer . thread started to work; with trace id: {}", this.traceId);
-
         checkNeededParametersNullability();
 
-        int ctr = 0;
         while (!Thread.currentThread().isInterrupted() && !stop) {
-
-            log.info("tracer . counting . trace id:{}, counter:{}", this.traceId, ctr++);
 
             if (timeLimitIsPassed())
                 break;
@@ -79,7 +73,7 @@ public class PaymanCreationTracer implements Runnable {
              If status is "INITIALIZING", exception raises with code: 2014.
              INITIALIZING status means that user is still on consent page, or left consent page url alone.
              */ catch (PaymanException ex) {
-                log.info("tracer . status is INITIALIZING . in catcher");
+                 /* Do nothing and continue. */
             } catch (IOException ex) {
                 throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
             }
@@ -103,7 +97,6 @@ public class PaymanCreationTracer implements Runnable {
         try {
             Thread.sleep(DELAY_IN_SECONDS * 1000);
         } catch (InterruptedException e) {
-            log.error("tracer . interrupt!");
             stop = true;
         }
     }
@@ -133,27 +126,20 @@ public class PaymanCreationTracer implements Runnable {
 
         switch (PaymanStatus.valueOf(paymanStatus)) {
             case INITIALIZING:
-                log.info("tracer . status is INITIALIZING");
                 break;
 
             case WAITING_FOR_CONFIRM:
-                log.info("tracer . status is WAITING_FOR_CONFIRM");
-                log.info("tracer . payman code:{}", traceCreationResponse.getPaymanCode());
                 GetPaymanIdResponse response = paymanIdService.getPaymanId(traceCreationResponse.getPaymanCode());
                 String paymanId = response.getPaymanId();
-                log.info("tracer . payman id : {}", paymanId);
-                log.info("tracer . thread is stopping...");
-                // Find user by "user_id" and save payman id to db.
+                /* Find user by "user_id" and save payman id to db. */
                 stop = true;
                 break;
 
             case CANCELLED:
-                log.info("tracer . status is CANCELED");
                 stop = true;
                 break;
 
             default:
-                log.info("tracer . status is UNKNOWN . status : {}", traceCreationResponse.getStatus());
                 throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
         }
     }
