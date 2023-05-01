@@ -11,10 +11,10 @@ import com.payman.api.service.payman.CreateService;
 import com.payman.api.service.payman.PaymanUpdateService;
 import com.payman.api.utils.GeneralUtils;
 import com.payman.api.utils.CustomHttpHeaders;
-import com.payman.api.utils.HttpHeaderValues;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +65,8 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public Headers createHeaders(HttpServletRequest httpServletRequest) {
         return new Headers.Builder()
-                .add(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
-                .add(HttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
+                .add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
                 .add(CustomHttpHeaders.DEVICE_ID, httpServletRequest.getHeader(CustomHttpHeaders.DEVICE_ID))
                 .add(CustomHttpHeaders.CLIENT_IP_ADDRESS, httpServletRequest.getHeader(CustomHttpHeaders.CLIENT_IP_ADDRESS))
@@ -88,8 +88,8 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public Headers createInternalRequestHeaders(String accessToken) {
         return new Headers.Builder()
-                .add(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
-                .add(HttpHeaders.ACCEPT, HttpHeaderValues.APPLICATION_JSON)
+                .add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .add(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .add(CustomHttpHeaders.APP_KEY, credentialsPropertiesConfig.getAppKey())
                 .add(CustomHttpHeaders.DEVICE_ID, internalRequestHeaderValuesPropertiesConfig.getAppDeviceId())
