@@ -5,6 +5,6 @@ import com.payman.api.utils.GeneralUtils;
 public class InternalException extends BaseException {
 
     public InternalException(String code) {
-        super(code, GeneralUtils.getExceptionMessageFromCode(code), null);
+        super(code, GeneralUtils.getExceptionMessageByCode(code), null);
     }
 }

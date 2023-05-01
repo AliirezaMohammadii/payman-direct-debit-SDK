@@ -17,7 +17,7 @@ public class PaymanException extends BaseException {
     }
 
     public PaymanException(String code, int statusCode, List<PaymanSubErrorResponse> errors) {
-        this(code, GeneralUtils.getExceptionMessageFromCode(code), statusCode, errors);
+        this(code, GeneralUtils.getExceptionMessageByCode(code), statusCode, errors);
     }
 
     public int getStatusCode() {

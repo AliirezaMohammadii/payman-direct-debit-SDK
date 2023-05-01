@@ -32,7 +32,7 @@ public final class DateUtils {
      * for response, in some cases, faraboom provides epochMillis format, and in some cases yyyy-MM-dd'T'HH:mm:ss'Z'.
      * I didn't create two separate instances of Contract class for request and response;
      * Instead, I handled it by a condition.
-     *
+
      * Datatype of epochMillis that faraboom provides, is Long, but App accepts String. This conversion
      * is done automatically while mapping response.
      */

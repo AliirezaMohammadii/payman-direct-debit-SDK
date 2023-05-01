@@ -18,19 +18,11 @@ public final class GeneralUtils {
         }
     }
 
-    public static String getMessageByCode(String code) {
-        return getMessageByCode(code, null);
+    public static String getExceptionMessageByCode(String code) {
+        return getExceptionMessageByCode(code, null);
     }
 
-    public static String getMessageByCode(String code, Object[] args) {
-        return MessageSourceConfig.EXCEPTION_MESSAGES_INSTANCE.getMessage(code, args, LocaleContextHolder.getLocale());
-    }
-
-    public static String getExceptionMessageFromCode(String code) {
-        return getExceptionMessageFromCode(code, null);
-    }
-
-    public static String getExceptionMessageFromCode(String code, Object[] args) {
+    public static String getExceptionMessageByCode(String code, Object[] args) {
         return MessageSourceConfig.EXCEPTION_MESSAGES_INSTANCE.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }
