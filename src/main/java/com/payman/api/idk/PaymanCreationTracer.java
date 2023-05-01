@@ -88,10 +88,10 @@ public class PaymanCreationTracer implements Runnable {
 
     private void checkNeededParametersNullability() {
         if (userId == null)
-            throw new InternalException(ExceptionCodes.USER_ID_IS_NULL);
+            throw new InternalException(ExceptionCodes.USER_ID_IS_NULL_WHILE_CREATING_TRACER);
 
         if (traceId == null)
-            throw new InternalException(ExceptionCodes.TRACE_ID_IS_NULL);
+            throw new InternalException(ExceptionCodes.TRACE_ID_IS_NULL_WHILE_CREATING_TRACER);
     }
 
     private boolean timeLimitIsPassed() {

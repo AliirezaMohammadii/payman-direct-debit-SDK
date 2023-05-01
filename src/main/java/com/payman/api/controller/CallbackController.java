@@ -35,9 +35,8 @@ public class CallbackController {
                                        @RequestParam(name = "status") String status,
                                        @RequestParam(name = "code", required = false) String errorCode) throws IOException {
 
-        log.info("callback - creation . function is called");
-        if (randomReturn())
-            return;
+//        if (randomReturn())
+//            return;
 
         killPaymanCreationTracerThread(traceId);
 
@@ -46,7 +45,6 @@ public class CallbackController {
 
         else if (status.equals(ConsentPageStatus.CREATED.name())) {
             GetPaymanIdResponse response = paymanIdService.getPaymanId(paymanCode);
-            log.info("callback . payman id:{}", response.getPaymanId());
             // find user by "user_id" and save payman id to db.
             /**
              2023/4/30
@@ -65,54 +63,43 @@ public class CallbackController {
                                      @RequestParam(name = "status") String status,
                                      @RequestParam(name = "code", required = false) String errorCode) {
 
-        log.info("callback - update . function is called");
-
         if (errorCode != null)
             handleError(status);
 
         else if (status.equals(ConsentPageStatus.UPDATED.name())) {
-            log.info("callback - update . UPDATED");
             // find user by "user_id" and update payman.
 
         } else
             throw new InternalException(ExceptionCodes.UNKNOWN_EXCEPTION);
     }
 
-    private boolean randomReturn() {
-        Random random = new Random();
-        return random.nextInt(100) != 0;
-    }
-
     private static void killPaymanCreationTracerThread(String traceId) {
-        log.info("callback . stopping tracer");
         if (PaymanCreationTracer.ALL_TRACERS.containsKey(traceId))
             PaymanCreationTracer.ALL_TRACERS.get(traceId).cancel(true);
     }
 
-    // LAST POINT
-    // TODO: create one more for update?
     private static void handleError(String status) {
-
-        log.info("callback . error occurred");
-
         String exceptionCode;
 
         switch (ConsentPageStatus.valueOf(status)) {
             case CANCELED:
-                log.info("callback . CANCELED");
-                exceptionCode = ExceptionCodes.USER_CANCELED_PAYMAN_CREATION;
+                exceptionCode = ExceptionCodes.USER_CANCELED_CONSENT;
                 break;
             case TIMEOUT:
-                log.info("callback . TIMEOUT");
-                exceptionCode = ExceptionCodes.PAYMAN_CREATION_TIMEOUT;
+                exceptionCode = ExceptionCodes.CONSENT_TIMEOUT;
                 break;
             case INTERNAL_ERROR:
             default:
-                log.info("callback . INTERNAL_ERROR . {}", status);
-                exceptionCode = ExceptionCodes.UNKNOWN_ERROR_IN_PAYMAN_CREATION;
+                exceptionCode = ExceptionCodes.CONSENT_UNKNOWN_ERROR;
                 break;
         }
 
         throw new PaymanException(exceptionCode, HttpStatus.OK.value(), null);
+    }
+
+    // FOR TEST
+    private boolean randomReturn() {
+        Random random = new Random();
+        return random.nextInt(100) != 0;
     }
 }
