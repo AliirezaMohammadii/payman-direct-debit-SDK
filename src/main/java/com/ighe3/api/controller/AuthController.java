@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/auth")
 public class AuthController {
-
     private final AccessTokenService accessTokenService;
 
     public AuthController(AccessTokenService accessTokenService) {

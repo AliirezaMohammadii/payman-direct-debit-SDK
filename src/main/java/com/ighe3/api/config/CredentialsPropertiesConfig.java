@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties
 @Data
 public class CredentialsPropertiesConfig {
-
     private String appKey;
     private String accessToken;
 }

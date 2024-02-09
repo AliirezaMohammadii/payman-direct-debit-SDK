@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 public abstract class BaseException extends RuntimeException {
-
     private final String code;
     private final String message;
 

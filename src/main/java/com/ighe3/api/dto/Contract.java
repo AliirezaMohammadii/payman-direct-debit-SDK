@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Data
 public class Contract {
-
     @JsonProperty("start_date")
     private String startDate;
 
